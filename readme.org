@@ -25,5 +25,8 @@ If you run into issues or want to request a new feature, you are encouraged to m
 | [[https://database.gdriveplayer.us/player.php][gdriveplayer]] | 360p, 480p, 720p, 1080p | [[https://github.com/justfoolingaround/animdl-provider-benchmarks/raw/master/api/providers/animixplay.png]] | MP4               | 
 
 
+* How To Get Imdb Tag?
+[[https://github.com/DemonKingSwarn/flix-cli/raw/master/.assets/imdb.png]]
+
 * Project Disclaimer
 The disclaimer of the project  can be found [[https://github.com/demonkingswarn/flix-cli/blob/master/disclaimer.org][here]].
