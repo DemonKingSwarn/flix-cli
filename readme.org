@@ -15,6 +15,9 @@ Given that you have =git= installed, you can clone the repository from GitHub. I
 
 *Additional information*: You *must* have Python installed *and* in PATH to use this project properly. Your Python executable may be =py= or =python= or =python3=. *Only Python 3.6 and higher versions are supported by the project.*
 
+* Supported Player
+Currently supported player:- [[https://mpv.io][mpv]]
+
 * Support
 You can contact the developer directly via this [[mailto:demonkingswarn@protonmail.com][email]]. However, the most recommended way is to head to the discord server.
 [[https://discord.gg/JF85vTkDyC][discord]]
