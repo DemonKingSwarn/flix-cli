@@ -22,7 +22,7 @@ If you run into issues or want to request a new feature, you are encouraged to m
 
 * Provider
 | Website      | Available Qualities     | Status / Elapsed Time                                                                                   | Content Extension |
-| [[https://database.gdriveplayer.us][gdriveplayer]] | 360p, 480p, 720p, 1080p | [[https://github.com/justfoolingaround/animdl-provider-benchmarks/raw/master/api/providers/animixplay.png]] | MP4               | 
+| [[https://database.gdriveplayer.us/player.php][gdriveplayer]] | 360p, 480p, 720p, 1080p | [[https://github.com/justfoolingaround/animdl-provider-benchmarks/raw/master/api/providers/animixplay.png]] | MP4               | 
 
 
 * Project Disclaimer
