@@ -88,7 +88,7 @@ if len(media) > 1:
             (user_selection := input("Take it or leave it, index: ")).isdigit()
         and (parsed_us := int(user_selection)) in range(content_index)
     ):
-        print("e")
+        print("Nice joke. Now you have to TRY AGAIN!!!")
     selected = media[parsed_us]
 else:
     selected = media[0]
