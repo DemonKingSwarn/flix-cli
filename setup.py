@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-from animdl.core.__version__ import __core__
+from flix-cli.core.__version__ import __core__
 
 setup(
     name="flix-cli",
