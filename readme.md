@@ -1,11 +1,18 @@
 <p align="center">
-  <b>FLIX-CLI</b>
+<br>
+<a href="http://makeapullrequest.com"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg"></a>
+<img src="https://img.shields.io/badge/os-linux-brightgreen">
+<img src="https://img.shields.io/badge/os-mac-brightgreen">
+<img src="https://img.shields.io/badge/os-windows-brightgreen">
+<br>
 </p>
-<p align="center">
-<b>
-A high efficient, powerful and fast movie scraper.
-</b>
-</p>
+<h1 align="center">
+  FLIX-CLI
+</h1>
+<br>
+<h3 align="center">
+  A high efficient, powerful and fast movie scraper.
+</h3>
 
 <img src="https://github.com/DemonKingSwarn/flix-cli/raw/master/.assets/showcase.gif">
 
