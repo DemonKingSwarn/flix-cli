@@ -10,6 +10,7 @@ A high efficient, powerful and fast movie scraper.
 <img src="https://github.com/DemonKingSwarn/flix-cli/raw/master/.assets/showcase.gif">
 
 <hr>
+
 # Installation
 
 ## Source Code Download
