@@ -1,8 +1,14 @@
 <p align="center">
-flix-cli
-<hr>
-A high efficient, powerful and fast movie scraper.
+# flix-cli
 </p>
+<hr>
+<p align="center">
+<b>
+A high efficient, powerful and fast movie scraper.
+</b>
+</p>
+
+https://github.com/DemonKingSwarn/flix-cli/raw/master/.assets/showcase.mp4
 
 # Installation
 
@@ -28,9 +34,9 @@ You can contact the developer directly via this <a href="mailto:demonkingswarn@p
 If you run into issues or want to request a new feature, you are encouraged to make a GitHub issue, won't bite you, trust me.
 
 # Provider
-| Website      | Available Qualities     | Status / Elapsed Time                                                                                   | Content Extension |
-| <a href="https://database.gdriveplayer.us/player.php">gdriveplayer</a> | 360p, 480p, 720p, 1080p | <img src="https://github.com/justfoolingaround/animdl-provider-benchmarks/raw/master/api/providers/animixplay.png"> | MP4               | 
-
+| Website                                      | Available Qualities | Status / Elapsed Time | Content Extension |
+| :------------------------------------------: | :-----------------:  | :----: | :-----------------: |
+| [gdriveplayer](https://database.gdriveplayer.us/player.php)         | 720p, 1080p | <img height="25" src="https://github.com/justfoolingaround/animdl-provider-benchmarks/raw/master/api/providers/nineanime.png">  | MP4 |
 
 # How To Get Imdb Tag?
 <img src="https://github.com/DemonKingSwarn/flix-cli/raw/master/.assets/imdb.png">
