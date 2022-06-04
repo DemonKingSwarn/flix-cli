@@ -1,5 +1,5 @@
 <p align="center">
-# flix-cli
+  <b>flix-cli</b>
 </p>
 <hr>
 <p align="center">
@@ -8,7 +8,7 @@ A high efficient, powerful and fast movie scraper.
 </b>
 </p>
 
-https://raw.githubusercontent.com/DemonKingSwarn/flix-cli/master/.assets/showcase.mp4
+[![here's the demo]](./.assets/showcase.gif)
 
 # Installation
 
