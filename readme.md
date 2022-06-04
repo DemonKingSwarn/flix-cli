@@ -13,7 +13,7 @@
 <h3 align="center">
   A high efficient, powerful and fast movie scraper.
 </h3>
-
+<br>
 <img src="https://github.com/DemonKingSwarn/flix-cli/raw/master/.assets/showcase.gif">
 
 <hr>
