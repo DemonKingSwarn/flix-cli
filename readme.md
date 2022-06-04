@@ -8,7 +8,7 @@ A high efficient, powerful and fast movie scraper.
 </b>
 </p>
 
-[![Watch]](./.assets/showcase.mp4)
+<video src='./.assets/showcase.mp4' width=180/>
 
 # Installation
 
