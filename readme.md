@@ -1,15 +1,16 @@
 <p align="center">
   <b>flix-cli</b>
 </p>
-<hr>
 <p align="center">
 <b>
 A high efficient, powerful and fast movie scraper.
 </b>
 </p>
 
-[![here's the demo]](./.assets/showcase.gif)
-
+<p align="center">
+[![here's the demo]](https://github.com/DemonKingSwarn/flix-cli/raw/master/.assets/showcase.gif)
+</p>
+<ht>
 # Installation
 
 ## Source Code Download
