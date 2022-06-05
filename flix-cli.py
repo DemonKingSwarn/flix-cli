@@ -60,7 +60,7 @@ def map_shows(query: str) -> dict:
         res = client.get(URL, headers=headers)
     
     scode = res.status_code
-    if(scode == 200):
+    if scode == 200:
         pass
     elif scode == 404:
         print("QueryError: show not found")
@@ -73,9 +73,19 @@ def map_shows(query: str) -> dict:
     shows = dict()
     idx = 0
     for instance in list(td):
-        show = re.search(r'<td class="result_text"> <a href="/title/([a-z0-9]{8,})/\?ref_=fn_al_tt_[0-9]{1,}"(.*)</td>', str(instance))
+
+        show = re.search(
+            r'<td class="result_text"> <a href="/title/([a-z0-9]{8,})/\?ref_=fn_al_tt_[0-9]{1,}"(.*)</td>',
+            str(instance)
+            )
+
         if show is not None:
-            title_ = re.sub(r'(<(|/)small>|<(|/)br(|/)>|<(|/)a>|<(|/)span>|<(|/)i>|<|>)', "", str(show.group(2)))
+            title_ = re.sub(
+                r'(<(|/)small>|<(|/)br(|/)>|<(|/)a>|<(|/)span>|<(|/)i>|<|>)', 
+                "", 
+                str(show.group(2))
+                )
+            
             title_ = re.sub(r' - .*', "", title_)
             maplist = [title_, str(show.group(1))]
             shows[idx] = maplist 
@@ -97,6 +107,8 @@ def get_id() -> str:
         if(ask >= len(shows)):
             print("IndexError: index out of range.")
             exit(1)
+    except ValueError:
+        return shows[0][1]
     except KeyboardInterrupt:
         exit(0)
 
@@ -154,12 +166,15 @@ if not media:
     raise RuntimeError("Could not find any media for playback.")
 
 if len(media) > 1:
-    while not (
-            (user_selection := input("Take it or leave it, index: ")).isdigit()
-        and (parsed_us := int(user_selection)) in range(content_index)
-    ):
-        print("Nice joke. Now you have to TRY AGAIN!!!")
-    selected = media[parsed_us]
+    try:
+        while not (
+                (user_selection := input("Take it or leave it, index: ")).isdigit()
+            and (parsed_us := int(user_selection)) in range(content_index)
+        ):
+            print("Nice joke. Now you have to TRY AGAIN!!!")
+        selected = media[parsed_us]
+    except KeyboardInterrupt:
+        exit(0)
 else:
     selected = media[0]
 
