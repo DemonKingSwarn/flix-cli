@@ -95,8 +95,12 @@ def map_shows(query: str) -> dict:
 
 def get_id() -> str:
     
-    query = "".join(sys.argv[1:]).replace(" ", "+")
-    shows = map_shows(query=query)
+    if len(sys.argv) == 1:
+        query = input("Search: ")
+    else:
+        query = "".join(sys.argv[1:])
+
+    shows = map_shows(query=query.replace(" ", "+"))
     
     for idx, info in shows.items():
         color_idx = random.randint(0, len(color)-1) if idx >= len(color) else idx
