@@ -1,5 +1,6 @@
 <p align="center">
 <br>
+<a href="https://github.com/demonkingswarn/flix-cli"><img src="https://img.shields.io/github/stars/demonkingswarn/flix-cli?color=orange&logo=github&style=flat-square"></a>
 <a href="http://makeapullrequest.com"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg"></a>
 <img src="https://img.shields.io/badge/os-linux-brightgreen">
 <img src="https://img.shields.io/badge/os-mac-brightgreen">
