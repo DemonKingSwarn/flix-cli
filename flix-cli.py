@@ -53,7 +53,7 @@ def map_shows(query: str) -> dict:
     URL = f"https://imdb.com/find?q={query}&ref_=nv_sr_sm"
     
     headers = {
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36'
+        "user-agent": "Mozilla/5.0 (X11; Linux x86_64; rv:100.0) Gecko/20100101 Firefox/100.0"
         }
 
     with httpx.Client(follow_redirects=True) as client:
