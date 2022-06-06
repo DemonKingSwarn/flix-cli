@@ -15,7 +15,6 @@ try:
 except ImportError:
     import json
 
-
 MPV_EXECUTABLE = "mpv"
 
 DEFAULT_MEDIA_REFERER = "https://membed.net"
