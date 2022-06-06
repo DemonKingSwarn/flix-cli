@@ -38,7 +38,7 @@ if ($LASTEXITCODE -ne 0) {
 
 
 Write-Output "Fetching $getPip..."
-Set-Location -Path $InstallDir
+Set-Location -Path "$InstallDir"
 Invoke-WebRequest -Uri $pipUrl -OutFile "$getPip"
 Write-Output "Running [py $getPip]..."
 py "$getPip" --no-warn-script-location

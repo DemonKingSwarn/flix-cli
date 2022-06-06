@@ -34,7 +34,7 @@ Given that you have `git` installed, you can clone the repository from GitHub. I
 ## Python Installation For Windows
 <br>
 
->Open command prompt in flix-cli folder and run:
+>Open powershell and run:
 
 ```cmd
 start-process PowerShell -verb runas
@@ -43,6 +43,8 @@ start-process PowerShell -verb runas
 >A new powershell prompt will open, then run the following commands in powershell:
 
 ```powershell
+
+cd "your_path_to_flix-cli"
 powershell.exe -ExecutionPolicy bypass -File .\setup\install\winstaller.ps1
 pip install requirements.txt
 shutdown -r -t 5
