@@ -31,28 +31,6 @@ Given that you have `git` installed, you can clone the repository from GitHub. I
 
 <b>Additional information</b>: You <b>must</b> have Python installed <b>and</b> in PATH to use this project properly. Your Python executable may be `py` or `python` or `python3`. <b>Only Python 3.6 and higher versions are supported by the project.</b>
 
-## Python Installation For Windows
-<br>
-
->Open powershell and run:
-
-```cmd
-start-process PowerShell -verb runas
-```
-
->A new powershell prompt will open, then run the following commands in powershell:
-
-```powershell
-
-cd "your_path_to_flix-cli"
-powershell.exe -ExecutionPolicy bypass -File .\setup\install\winstaller.ps1
-pip install requirements.txt
-shutdown -r -t 5
-```
-
->Although restarting is not always required, but it's better to restart the system for the changes to take effect.
-
-
 
 # Supported Player
 Currently supported player:- <a href="https://mpv.io">mpv</a>
