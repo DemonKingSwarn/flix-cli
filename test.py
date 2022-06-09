@@ -51,3 +51,5 @@ def get_tv():
     mpv_process = subprocess.Popen(args)
 
     mpv_process.wait()
+
+get_tv()
