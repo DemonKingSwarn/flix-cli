@@ -1,26 +1,40 @@
 #!/usr/bin/env python3
 
 from bs4 import BeautifulSoup as bs
-import re
 import httpx
+
+import sys
+import re
 import subprocess
 import time
+import argparse
 
-def get_tv():
-    client = httpx.Client(headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'})
+headers = {
 
-    MPV_EXECUTABLE = "mpv"
-    DEFAULT_REFFERER = "https://dood.to"
-    md5_regex = r"/(pass_md5/.+?)'"
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'
 
-    base_url = "https://allmoviesforyou.net/episode"
+}
 
-    series = input("Search: ")
+client = httpx.Client(headers=headers)
+
+MPV_EXECUTABLE = "mpv"
+DEFAULT_REFFERER = "https://dood.to"
+md5_regex = r"/(pass_md5/.+?)'"
+base_url = "https://allmoviesforyou.net"
+
+def get_tv(query):
+
+    series = query
     series = series.replace(" ", "-")
+    
     season = input("Enter season: ")
     episode = input("Enter episode: ")
 
-    url = f"{base_url}/{series}-{season}x{episode}"
+    url = f"{base_url}/episode/{series}-{season}x{episode}"
+
+    get_data(url)
+
+def get_data(url):
 
     r=client.get("https://check.ddos-guard.net/check.js").text
     r=client.get(url)
@@ -37,14 +51,28 @@ def get_tv():
 
     r=client.get(f"https://dood.to/{hash}",headers={"Referer":"https://dood.to"})
 
-    link = f"{r.text}doodstream?token={token}&expiry={int(time.time() * 1000)}"
+    get_data.link = f"{r.text}doodstream?token={token}&expiry={int(time.time() * 1000)}"
 
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-t", "--tv", help="Play TV series")
+
+arg = parser.parse_args()
+
+if arg.tv:
+    query = "".join(sys.argv[2:])
+    get_tv(query)
+else:
+    print("No argument specified.")
+    exit(0)
+
+def play(link):
     args = [
         MPV_EXECUTABLE,
         f"{link}",
         f"--referrer={DEFAULT_REFFERER}",
         "--force-media-title={}".format(
-            "Rise and live again. As my fist of vengeance. As my Moon Knight."
+        "Rise and live again. As my fist of vengeance. As my Moon Knight."
         ),
     ]
 
@@ -52,4 +80,4 @@ def get_tv():
 
     mpv_process.wait()
 
-get_tv()
+play(get_data.link)
