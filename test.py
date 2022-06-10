@@ -27,10 +27,10 @@ def get_tv(query):
     series = query
     series = series.replace(" ", "-")
     
-    season = input("Enter season: ")
-    episode = input("Enter episode: ")
+    get_tv.season = input("Enter season: ")
+    get_tv.episode = input("Enter episode: ")
 
-    url = f"{base_url}/episode/{series}-{season}x{episode}"
+    url = f"{base_url}/episode/{series}-{get_tv.season}x{get_tv.episode}"
 
     get_data(url)
 
@@ -72,7 +72,7 @@ def play(link):
         f"{link}",
         f"--referrer={DEFAULT_REFFERER}",
         "--force-media-title={}".format(
-        "Rise and live again. As my fist of vengeance. As my Moon Knight."
+        f"{query} S{get_tv.season} E{get_tv.episode}"
         ),
     ]
 
