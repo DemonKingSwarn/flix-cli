@@ -24,7 +24,7 @@ This project can be installed on to your device via different mechanisms, these 
 
 ## 1. PIP Installs Packages aka PIP Installation
 ```sh
-pip install git+https://github.com/demonkingswarn/flix-cli
+pip install flix-cli
 ```
 
 ## 2. Source Code Download
