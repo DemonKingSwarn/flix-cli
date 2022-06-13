@@ -1,4 +1,3 @@
-from flix_cli.__main__ import __flix_cli__
 from setuptools import setup, find_packages
 
 with open("requirements.txt") as requirements_txt:
@@ -25,7 +24,7 @@ setup(
     install_requires=requirements,
     entry_points="""
         [console_scripts]
-        flix-cli=__flix_cli__
+        flix-cli=flix_cli.__main__:__flix_cli__
     """,
     include_package_data=True,
 )
