@@ -24,7 +24,7 @@ setup(
     install_requires=requirements,
     entry_points="""
         [console_scripts]
-        flix-cli=flix_cli:__main__.__flixcli__
+        flix-cli=flix_cli.__main__:__flix_cli__
     """,
     include_package_data=True,
     )
