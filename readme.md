@@ -20,8 +20,14 @@
 <hr>
 
 # Installation
+This project can be installed on to your device via different mechanisms, these mechanisms are listed below in the order of ease.
 
-## Source Code Download
+## 1. PIP Installs Packages aka PIP Installation
+```sh
+pip install git+https://github.com/demonkingswarn/flix-cli
+```
+
+## 2. Source Code Download
 ``` sh
 git clone https://github.com/demonkingswarn/flix-cli
 ```
