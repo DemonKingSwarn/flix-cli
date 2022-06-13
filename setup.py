@@ -19,7 +19,7 @@ setup(
         "movies",
         "flix-cli",
         "movie-streamer",
-        "gdriveplayerr"
+        "gdriveplayer"
     ],
     install_requires=requirements,
     entry_points="""
@@ -27,4 +27,4 @@ setup(
         flix-cli=flix_cli:__main__.__flix_cli__
     """,
     include_package_data=True,
-)
+    )
