@@ -24,6 +24,6 @@ setup(
     install_requires=requirements,
     entry_points="""
         [console_scripts]
-        flix-cli=flix_cli:main.get_id
+        flix-cli=flix_cli:main:get_id
     """,
 )
