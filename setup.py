@@ -1,11 +1,13 @@
 from setuptools import setup, find_packages
+from flix_cli.core.__version__ import __core__
+
 
 with open("requirements.txt") as requirements_txt:
     requirements = requirements_txt.read().splitlines()
 
 setup(
     name="flix-cli",
-    version='0.0.1a',
+    version=__core__,
     author="d3m0n@demonkingswarn",
     author_email="demonkingswarn@protonmail.com",
     description="A module to stream your favorite movies.",
@@ -24,7 +26,7 @@ setup(
     install_requires=requirements,
     entry_points="""
         [console_scripts]
-        flix-cli=runner
+        flix-cli=flix_cli.__main__:__flix_cli__
     """,
     include_package_data=True,
     )
