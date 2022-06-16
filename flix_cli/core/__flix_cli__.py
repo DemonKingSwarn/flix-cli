@@ -193,8 +193,11 @@ def determine_path() -> str:
     if plt == "Windows":
         return f"C://Users//{os.getenv('username')}//Downloads"
     
-    elif (plt == "Linux") or (plt == "Darwin"):
-        return r"~/Downloads"
+    elif (plt == "Linux"):
+        return f"/home/{os.getlogin()}/Downloads"
+    
+    elif (plt == "Darwin"):
+        return f"/Users/{os.getlogin()}/Downloads"
 
     else:
         print("[!] Make an issue for your OS.")
