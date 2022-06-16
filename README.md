@@ -37,9 +37,9 @@ Given that you have `git` installed, you can clone the repository from GitHub. I
 
 <b>Additional information</b>: You <b>must</b> have Python installed <b>and</b> in PATH to use this project properly. Your Python executable may be `py` or `python` or `python3`. <b>Only Python 3.6 and higher versions are supported by the project.</b>
 
-
-# Supported Player
-Currently supported player:- <a href="https://mpv.io">mpv</a>
+# Dependencies
+- mpv - Video Player
+- aria2 - Download manager
 
 # Support
 You can contact the developer directly via this <a href="mailto:demonkingswarn@protonmail.com">email</a>. However, the most recommended way is to head to the discord server.
