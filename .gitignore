@@ -1,2 +1,3 @@
 dist/*
 flix_cli.egg-info/*
+__pycache__

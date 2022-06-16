@@ -47,7 +47,7 @@ color = [
     "\u001b[37m"
 ]
 
-def map_shows(query: str) -> dict:
+def map_shows(query: str) -> list:
 
     URL = f"https://imdb.com/find?q={query}&ref_=nv_sr_sm"
 
@@ -69,8 +69,7 @@ def map_shows(query: str) -> dict:
     soup = BeautifulSoup(res.text, "html.parser")
     td = soup.find_all('td', attrs={'class': "result_text"})
 
-    shows = dict()
-    idx = 0
+    shows = list()
     for instance in list(td):
 
         show = re.search(
@@ -86,13 +85,13 @@ def map_shows(query: str) -> dict:
                 )
             
             title_ = re.sub(r' - .*', "", title_)
-            maplist = [title_, str(show.group(1))]
-            shows[idx] = maplist 
-            idx = idx+1
+            instance  = {'id': str(show.group(1)), 'name': title_}
+            shows.append(instance)
     
     return shows
 
-def get_id() -> str:
+
+def show_info() -> dict:
     
     try:
         if len(sys.argv) == 1:
@@ -105,20 +104,21 @@ def get_id() -> str:
 
         shows = map_shows(query=query.replace(" ", "+"))
         
-        for idx, info in shows.items():
+        for idx, info in enumerate(shows):
             color_idx = random.randint(0, len(color)-1) if idx >= len(color) else idx
-            print(f'[{idx+1}] {color[color_idx]}{info[0]}\u001b[0m')
+            print(f'[{idx+1}] {color[color_idx]}{info["name"]}\u001b[0m')
 
         ask = int(input(": "))-1
         if(ask >= len(shows)):
             print("IndexError: index out of range.")
             exit(1)
+            
     except ValueError:
-        return shows[0][1]
+        return shows[0]
     except KeyboardInterrupt:
         exit(0)
 
-    return shows[ask][1] 
+    return shows[ask] 
 
 
 CONTENT_ID_REGEX = re.compile(r"streaming\.php\?id=([^&?/#]+)")
@@ -130,7 +130,7 @@ IV = b"9225679083961858"
 ENCRYPT_AJAX_ENDPOINT = "https://membed.net/encrypt-ajax.php"
 GDRIVE_PLAYER_ENDPOINT = "https://database.gdriveplayer.us/player.php"
 
-
+show = show_info()
 with httpx.Client() as client:
 
     try:
@@ -138,7 +138,7 @@ with httpx.Client() as client:
             client.get(
                 GDRIVE_PLAYER_ENDPOINT,
                 params={
-                    "imdb": get_id(),
+                    "imdb": show['id'],
                 },
             ).text
         ).group(1)
@@ -188,9 +188,7 @@ args = [
     MPV_EXECUTABLE,
     selected["file"],
     f"--referrer={DEFAULT_MEDIA_REFERER}",
-    "--force-media-title={}".format(
-        "Rise and live again. As my fist of vengeance. As my Moon Knight."
-    ),
+    f"--force-media-title=Playing {show['name']}",
 ]
 args.extend(f"--sub-file={_}" for _ in subtitles)
 
