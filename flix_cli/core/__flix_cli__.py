@@ -5,6 +5,8 @@ import random
 import re
 import sys
 import subprocess
+import platform
+import os
 
 import httpx
 from bs4 import BeautifulSoup 
@@ -184,15 +186,71 @@ if len(media) > 1:
 else:
     selected = media[0]
 
-args = [
-    MPV_EXECUTABLE,
-    selected["file"],
-    f"--referrer={DEFAULT_MEDIA_REFERER}",
-    f"--force-media-title=Playing {show['name']}",
-]
-args.extend(f"--sub-file={_}" for _ in subtitles)
+def determine_path() -> str:
+    
+    plt = platform.system()
+
+    if plt == "Windows":
+        return f"C://Users//{os.getenv('username')}//Downloads"
+    
+    elif (plt == "Linux") or (plt == "Darwin"):
+        return r"~/Downloads"
+
+    else:
+        print("[!] Make an issue for your OS.")
 
 
-mpv_process = subprocess.Popen(args)
+def download(path: str = determine_path()):
+    
+    name = show['name']
+    name = name.replace(" ", "-")
+    name = name.replace("\"", "")
+    
+    args = [
+        "aria2c",
+        f"--referer={DEFAULT_MEDIA_REFERER}",
+        f"--dir={path}",
+        selected["file"]
+    ]
+    
+    aria2c_process = subprocess.Popen(args)
+    
+    aria2c_process.wait()
 
-mpv_process.wait()
+    print(f"Downloaded at {path}")
+
+
+def play():
+    args = [
+        MPV_EXECUTABLE,
+        selected["file"],
+        f"--referrer={DEFAULT_MEDIA_REFERER}",
+        f"--force-media-title=Playing {show['name']}",
+    ]
+    args.extend(f"--sub-file={_}" for _ in subtitles)
+
+    mpv_process = subprocess.Popen(args)
+
+    mpv_process.wait()
+
+
+def choice():
+    print("~"*60)
+    print("1. Play the movie.")
+    print("2. Download the movie.")
+    print("~"*60)
+    
+    ch = int(input("Enter your choice: "))
+
+    while True:
+        if ch == 1:
+            play()
+            break
+        elif ch == 2:
+            download()
+            break
+        else:
+            print("Invalid choice")
+            exit(0)
+
+choice()
