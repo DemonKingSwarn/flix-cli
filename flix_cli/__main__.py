@@ -1,9 +1,7 @@
 from .core import __flix_cli__
-import sys
 
 def __flixcli__():
-    query = "".join(sys.argv[1:])
-    __flix_cli__.get_id
+    __flix_cli__.show_info
 
 if __name__ == "__main__":
     __flixcli__()
