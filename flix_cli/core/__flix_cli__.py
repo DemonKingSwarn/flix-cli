@@ -180,7 +180,7 @@ if len(media) > 1:
             and (parsed_us := int(user_selection)) in range(content_index)
         ):
             print("Nice joke. Now you have to TRY AGAIN!!!")
-        selected = media[parsed_us]
+            selected = media[parsed_us]
     except KeyboardInterrupt:
         exit(0)
 else:
@@ -238,20 +238,21 @@ def play():
 
 
 def choice():
-    print("~"*60)
-    print("1. Play the movie.")
-    print("2. Download the movie.")
-    print("~"*60)
-    
-    ch = int(input("Enter your choice: "))
+    print("[p] Play the movie.")
+    print("[d] Download the movie.")
+    print("[q] Quit")
+
+    ch = input("Enter your choice: ")
 
     while True:
-        if ch == 1:
+        if ch == "p":
             play()
             break
-        elif ch == 2:
+        elif ch == "d":
             download()
             break
+        elif ch == "q":
+            exit(0)
         else:
             print("Invalid choice")
             exit(0)
