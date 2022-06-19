@@ -49,15 +49,15 @@ color = [
     "\u001b[37m"
 ]
 
-def map_shows(query: str) -> list:
+def mapping(query: str) -> list:
 
     URL = f"https://imdb.com/find?q={query}&ref_=nv_sr_sm"
 
     headers = {
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:100.0) Gecko/20100101 Firefox/100.0"
-        }
+    }
 
-    with httpx.Client(follow_redirects=True) as client:
+    with httpx.Client(follow_redirects=True, timeout=None) as client:
         res = client.get(URL, headers=headers)
     
     scode = res.status_code
@@ -77,23 +77,30 @@ def map_shows(query: str) -> list:
         show = re.search(
             r'<td class="result_text"> <a href="/title/([a-z0-9]{8,})/\?ref_=fn_al_tt_[0-9]{1,}"(.*)</td>',
             str(instance)
-            )
+        )
 
         if show is not None:
+        
             title_ = re.sub(
-                r'(<(|/)small>|<(|/)br(|/)>|<(|/)a>|<(|/)span>|<(|/)i>|<|>)', 
-                "", 
+                r'(<(|/)(small|br|a|span|i)(|/)>|<|>)', 
+                '', 
                 str(show.group(2))
-                )
+            )
             
-            title_ = re.sub(r' - .*', "", title_)
-            instance  = {'id': str(show.group(1)), 'name': title_}
-            shows.append(instance)
+            validate = re.search(
+                r'\([a-zA-Z\s]*\)',
+                 title_
+            )
+        
+            if validate is None:
+                title_ = re.sub(r' - .*', '', title_)
+                instance  = {'id': str(show.group(1)), 'name': title_}
+                shows.append(instance)
     
     return shows
 
 
-def show_info() -> dict:
+def fetch() -> dict:
     
     try:
         if len(sys.argv) == 1:
@@ -102,19 +109,23 @@ def show_info() -> dict:
                 print("ValueError: no query parameter provided")
                 exit(0)
         else:
-            query = "".join(sys.argv[1:])
+            query = " ".join(sys.argv[1:])
 
-        shows = map_shows(query=query.replace(" ", "+"))
+        shows = mapping(query=query.replace(" ", "+"))
         
-        for idx, info in enumerate(shows):
-            color_idx = random.randint(0, len(color)-1) if idx >= len(color) else idx
-            print(f'[{idx+1}] {color[color_idx]}{info["name"]}\u001b[0m')
-
-        ask = int(input(": "))-1
-        if(ask >= len(shows)):
-            print("IndexError: index out of range.")
-            exit(1)
+        if len(shows) > 1:
+        
+            for idx, info in enumerate(shows):
+                color_idx = random.randint(0, len(color)-1) if idx >= len(color) else idx
+                print(f'[{idx+1}] {color[color_idx]}{info["name"]}\u001b[0m')
             
+            ask = int(input(": "))-1
+            if(ask >= len(shows)):
+                print("IndexError: index out of range.")
+                exit(1)
+        else:
+            return shows[0]
+
     except ValueError:
         return shows[0]
     except KeyboardInterrupt:
@@ -132,21 +143,18 @@ IV = b"9225679083961858"
 ENCRYPT_AJAX_ENDPOINT = "https://membed.net/encrypt-ajax.php"
 GDRIVE_PLAYER_ENDPOINT = "https://database.gdriveplayer.us/player.php"
 
-show = show_info()
-with httpx.Client() as client:
+show = fetch()
 
-    try:
-        content_id = CONTENT_ID_REGEX.search(
-            client.get(
-                GDRIVE_PLAYER_ENDPOINT,
-                params={
-                    "imdb": show['id'],
-                },
-            ).text
-        ).group(1)
-    except AttributeError:
-        print("SupportError: can't play series and episodes")
-        exit(0)
+with httpx.Client(timeout=None) as client:
+
+    content_id = CONTENT_ID_REGEX.search(
+        client.get(
+            GDRIVE_PLAYER_ENDPOINT,
+            params={
+                "imdb": show['id'],
+            },
+        ).text
+    ).group(1)
 
 
     content = json.loads(
@@ -167,23 +175,24 @@ subtitles = (_.get("file") for _ in content.get("track", {}).get("tracks", []))
 
 media = (content.get("source", []) or []) + (content.get("source_bk", []) or [])
 
-for content_index, source in enumerate(media):
-    print(f" > {content_index} / {source['label']} / {source['type']}")
 
 if not media:
     raise RuntimeError("Could not find any media for playback.")
 
-if len(media) > 1:
+if len(media) > 2:
+    for content_index, source in enumerate(media):
+        if(content_index+1 != len(media)):
+            print(f" > {content_index+1} / {source['label']} / {source['type']}")
     try:
         while not (
                 (user_selection := input("Take it or leave it, index: ")).isdigit()
-            and (parsed_us := int(user_selection)) in range(content_index)
+            and (parsed_us := int(user_selection)-1) in range(content_index)
         ):
             print("Nice joke. Now you have to TRY AGAIN!!!")
-            selected = media[parsed_us]
+        selected = media[parsed_us]
     except KeyboardInterrupt:
         exit(0)
-else:
+else:   
     selected = media[0]
 
 def determine_path() -> str:
@@ -201,13 +210,10 @@ def determine_path() -> str:
 
     else:
         print("[!] Make an issue for your OS.")
+        exit(0)
 
 
 def download(path: str = determine_path()):
-    
-    name = show['name']
-    name = name.replace(" ", "-")
-    name = name.replace("\"", "")
     
     args = [
         "aria2c",
@@ -224,6 +230,7 @@ def download(path: str = determine_path()):
 
 
 def play():
+
     args = [
         MPV_EXECUTABLE,
         selected["file"],
@@ -236,25 +243,19 @@ def play():
 
     mpv_process.wait()
 
+def init():
 
-def choice():
-    print("[p] Play the movie.")
+    print("\n[p] Play the movie.")
     print("[d] Download the movie.")
     print("[q] Quit")
 
-    ch = input("Enter your choice: ")
+    ch = input(": ")
 
-    while True:
-        if ch == "p":
-            play()
-            break
-        elif ch == "d":
-            download()
-            break
-        elif ch == "q":
-            exit(0)
-        else:
-            print("Invalid choice")
-            exit(0)
+    if ch == "p":
+        play()
+    elif ch == "d":
+        download()
+    else:
+        exit(0)
 
-choice()
+init()
