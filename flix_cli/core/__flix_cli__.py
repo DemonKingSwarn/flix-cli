@@ -82,7 +82,7 @@ def mapping(query: str) -> list:
         if show is not None:
         
             title_ = re.sub(
-                r'(<(|/)(small|br|a|span|i)(|/)>|<|>)', 
+                r'(<(|/)([a-z]+)(|/)>|<|>)', 
                 '', 
                 str(show.group(2))
             )
@@ -93,8 +93,12 @@ def mapping(query: str) -> list:
             )
         
             if validate is None:
+                
                 title_ = re.sub(r' - .*', '', title_)
-                instance  = {'id': str(show.group(1)), 'name': title_}
+                instance  = {
+                    'id': str(show.group(1)), 
+                    'name': title_
+                }
                 shows.append(instance)
     
     return shows
