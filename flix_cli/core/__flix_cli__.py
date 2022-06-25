@@ -218,19 +218,15 @@ def determine_path() -> str:
 
 
 def download(path: str = determine_path()):
-    
-    args = [
-        "aria2c",
-        f"--referer={DEFAULT_MEDIA_REFERER}",
-        f"--dir={path}",
-        selected["file"]
-    ]
-    
-    aria2c_process = subprocess.Popen(args)
-    
-    aria2c_process.wait()
 
-    print(f"Downloaded at {path}")
+    name = show['name']
+    name = name.replace(" ", "-")
+    name = name.replace("\"", "")
+    url = selected["file"]
+
+    subprocess.call(f"ffmpeg -referer {DEFAULT_MEDIA_REFERER} -i \"{url}\" -c copy \"{path}/{name}.mp4\"", shell=True)
+
+    print(f"Downloaded at {path}/{name}.mp4")
 
 
 def play():
