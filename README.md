@@ -39,6 +39,7 @@ Given that you have `git` installed, you can clone the repository from GitHub. I
 
 # Dependencies
 - mpv - Video Player
+- vlc - Alternate video player
 - ffmpeg - Download manager
 
 # Support
