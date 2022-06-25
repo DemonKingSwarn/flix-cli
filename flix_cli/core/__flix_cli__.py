@@ -230,18 +230,35 @@ def download(path: str = determine_path()):
 
 
 def play():
+    try:
+        try:
+            args = [
+                MPV_EXECUTABLE,
+                selected["file"],
+                f"--referrer={DEFAULT_MEDIA_REFERER}",
+                f"--force-media-title=Playing {show['name']}",
+            ]
+            args.extend(f"--sub-file={_}" for _ in subtitles)
 
-    args = [
-        MPV_EXECUTABLE,
-        selected["file"],
-        f"--referrer={DEFAULT_MEDIA_REFERER}",
-        f"--force-media-title=Playing {show['name']}",
-    ]
-    args.extend(f"--sub-file={_}" for _ in subtitles)
+            mpv_process = subprocess.Popen(args)
 
-    mpv_process = subprocess.Popen(args)
+            mpv_process.wait()
 
-    mpv_process.wait()
+        except ModuleNotFoundError:
+            args = [
+                "vlc",
+                f"--http-referrer={DEFAULT_MEDIA_REFERER}",
+                selected["file"],
+                f"--meta-title=Playing {show['name']}"
+            ]
+            
+            vlc_process = subprocess.Popen(args)
+
+            vlc_process.wait()
+
+    except Exception as e:
+        print(f"[!] Could not play {selected['name']}: mpv or vlc not found.")
+        exit(0)
 
 def init():
 
