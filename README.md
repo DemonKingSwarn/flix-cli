@@ -24,7 +24,7 @@ This project can be installed on to your device via different mechanisms, these 
 
 ## 1. PIP Installs Packages aka PIP Installation
 ```sh
-pip install git+https://github.com/DemonKingSwarn/flix-cli
+pip install flix-cli
 ```
 
 ## 2. Source Code Download
@@ -39,7 +39,7 @@ Given that you have `git` installed, you can clone the repository from GitHub. I
 
 # Dependencies
 - mpv - Video Player
-- aria2 - Download manager
+- ffmpeg - Download manager
 
 # Support
 You can contact the developer directly via this <a href="mailto:demonkingswarn@protonmail.com">email</a>. However, the most recommended way is to head to the discord server.
