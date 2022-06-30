@@ -244,7 +244,7 @@ def play():
 
             mpv_process.wait()
 
-        except ModuleNotFoundError:
+        except Exception as e:
             args = [
                 "vlc",
                 f"--http-referrer={DEFAULT_MEDIA_REFERER}",
