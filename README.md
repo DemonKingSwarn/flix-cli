@@ -5,6 +5,7 @@
 <img src="https://img.shields.io/badge/os-linux-brightgreen">
 <img src="https://img.shields.io/badge/os-mac-brightgreen">
 <img src="https://img.shields.io/badge/os-windows-brightgreen">
+<img src="https://img.shields.io/badge/os-android-brightgreen">
 <br>
 </p>
 <h1 align="center">
@@ -20,6 +21,8 @@
 <hr>
 
 # Installation
+<i>for dependencies <a href="https://github.com/DemonKingSwarn/flix-cli#dependencies">(see below)</a>.</i>
+
 This project can be installed on to your device via different mechanisms, these mechanisms are listed below in the order of ease.
 
 ## 1. PIP Installs Packages aka PIP Installation
@@ -34,8 +37,21 @@ git clone https://github.com/demonkingswarn/flix-cli
 
 Given that you have `git` installed, you can clone the repository from GitHub. If you do not have or want to deal with installation of `git`, you can simply download the repository using <a href="https://github.com/demonkingswarn/flix-cli/archive/refs/heads/master.zip">this link</a>.
 
-
 <b>Additional information</b>: You <b>must</b> have Python installed <b>and</b> in PATH to use this project properly. Your Python executable may be `py` or `python` or `python3`. <b>Only Python 3.6 and higher versions are supported by the project.</b>
+
+## 3. Android Installation
+Install termux <a href="https://termux.com">(Guide)</a>
+```sh
+pkg up -y
+pip install flix-cli
+echo "am start --user 0 -a android.intent.action.VIEW -d "$1" -n is.xyz.mpv/.MPVActivity &" >> $PREFIX/bin/mpv
+chmod +x $PREFIX/bin/mpv
+```
+
+For it to be able to stream you need to add referrer in mpv by opening mpv <a href="https://play.google.com/store/apps/details?id=is.xyz.mpv">(playstore version)</a>, going into Settings -> Android -> Edit mpv.conf and adding
+```sh
+referrer="https://membed.net"
+```
 
 # Dependencies
 - mpv - Video Player
