@@ -44,6 +44,7 @@ Install termux <a href="https://termux.com">(Guide)</a>
 ```sh
 pkg up -y
 pip install flix-cli
+echo "#\!/data/data/com.termux/files/usr/bin/sh" > $PREFIX/bin/mpv
 echo "am start --user 0 -a android.intent.action.VIEW -d \"$1\" -n is.xyz.mpv/.MPVActivity &" >> $PREFIX/bin/mpv
 chmod +x $PREFIX/bin/mpv
 ```
