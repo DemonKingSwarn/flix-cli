@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import base64
 import random
 import re
@@ -8,8 +6,8 @@ import subprocess
 import platform
 import os
 
-from utils.player import play
-from utils.downloader import download
+from .utils.player import play
+from .utils.downloader import download
 
 import httpx
 from bs4 import BeautifulSoup 

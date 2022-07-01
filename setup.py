@@ -10,7 +10,7 @@ setup(
     version=__core__,
     author="d3m0n@demonkingswarn",
     author_email="demonkingswarn@protonmail.com",
-    description="A module to stream your favorite movies.",
+    description="A high efficient, powerful and fast movie scraper.",
     packages=find_packages(),
     url="https://github.com/demonkingswarn/flix-cli",
     keywords=[
