@@ -8,6 +8,9 @@ import subprocess
 import platform
 import os
 
+from utils.player import play
+from utils.downloader import download
+
 import httpx
 from bs4 import BeautifulSoup 
 from Cryptodome.Cipher import AES
@@ -216,49 +219,11 @@ def determine_path() -> str:
         print("[!] Make an issue for your OS.")
         exit(0)
 
+def dl(path: str = determine_path()):
+    download(path, show['name'], selected['file'], DEFAULT_MEDIA_REFERER)
 
-def download(path: str = determine_path()):
-
-    name = show['name']
-    name = name.replace(" ", "-")
-    name = name.replace("\"", "")
-    url = selected["file"]
-
-    subprocess.call(f"ffmpeg -referer {DEFAULT_MEDIA_REFERER} -i \"{url}\" -c copy \"{path}/{name}.mp4\"", shell=True)
-
-    print(f"Downloaded at {path}/{name}.mp4")
-
-
-def play():
-    try:
-        try:
-            args = [
-                MPV_EXECUTABLE,
-                selected["file"],
-                f"--referrer={DEFAULT_MEDIA_REFERER}",
-                f"--force-media-title=Playing {show['name']}",
-            ]
-            args.extend(f"--sub-file={_}" for _ in subtitles)
-
-            mpv_process = subprocess.Popen(args)
-
-            mpv_process.wait()
-
-        except Exception as e:
-            args = [
-                "vlc",
-                f"--http-referrer={DEFAULT_MEDIA_REFERER}",
-                selected["file"],
-                f"--meta-title=Playing {show['name']}"
-            ]
-            
-            vlc_process = subprocess.Popen(args)
-
-            vlc_process.wait()
-
-    except Exception as e:
-        print(f"[!] Could not play {selected['name']}: mpv or vlc not found.")
-        exit(0)
+def launchPlayer():
+    play(selected['file'], show['name'], DEFAULT_MEDIA_REFERER, subtitles)
 
 def init():
 
@@ -269,9 +234,9 @@ def init():
     ch = input(": ")
 
     if ch == "p":
-        play()
+        launchPlayer()
     elif ch == "d":
-        download()
+        dl()
     else:
         exit(0)
 
