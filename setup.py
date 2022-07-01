@@ -1,8 +1,11 @@
 from setuptools import setup, find_packages
 from flix_cli.core.__version__ import __core__
+from flix_cli.core.utils.__downloader__ import FFMPEG_EXECUTABLE
 
 with open("requirements.txt") as requirements_txt:
     requirements = requirements_txt.read().splitlines()
+
+nothing = FFMPEG_EXECUTABLE
 
 setup(
     name="flix-cli",

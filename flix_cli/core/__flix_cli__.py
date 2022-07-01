@@ -6,8 +6,8 @@ import subprocess
 import platform
 import os
 
-from utils.player import play
-from utils.downloader import download
+from .utils.__player__ import play
+from .utils.__downloader__ import download
 
 import httpx
 from bs4 import BeautifulSoup 
