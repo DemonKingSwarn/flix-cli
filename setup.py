@@ -1,7 +1,6 @@
 from setuptools import setup, find_packages
 from flix_cli.core.__version__ import __core__
 
-
 with open("requirements.txt") as requirements_txt:
     requirements = requirements_txt.read().splitlines()
 
