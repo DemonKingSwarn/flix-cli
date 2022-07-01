@@ -1,6 +1,6 @@
 from .core import __flix_cli__
-from .core.utils.player import play
-from .core.utils.downloader import download
+from .core.utils import player
+from .core.utils import download
 
 def __flixcli__():
     __flix_cli__.show_info
