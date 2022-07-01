@@ -1,4 +1,4 @@
-from core import __flix_cli__
+from .core import __flix_cli__
 
 def __flixcli__():
     __flix_cli__.show_info
