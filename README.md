@@ -59,6 +59,16 @@ referrer="https://membed.net"
 - vlc - Alternate video player
 - ffmpeg - Download manager
 
+# Usage
+
+```sh
+Usage: flix-cli [ARGS]...
+
+Options:
+    download    Download your favourite movie by query.
+    play        Stream your favourite movie by query.
+```
+
 # Support
 You can contact the developer directly via this <a href="mailto:demonkingswarn@protonmail.com">email</a>. However, the most recommended way is to head to the discord server.
 
