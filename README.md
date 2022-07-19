@@ -37,7 +37,7 @@ git clone https://github.com/demonkingswarn/flix-cli
 
 Given that you have `git` installed, you can clone the repository from GitHub. If you do not have or want to deal with installation of `git`, you can simply download the repository using <a href="https://github.com/demonkingswarn/flix-cli/archive/refs/heads/master.zip">this link</a>.
 
-After the repository is downloaded and placed in an appropriate directory, you can, either use `<a href="https://github.com/demonkingswarn/flix-cli/blob/master/runner.py">runner.py</a>` to use the project without installation or use `<a href="https://github.com/demonkingswarn/flix-cli/blob/master/setup.py">setup.py</a>` to proceed with the installation.
+After the repository is downloaded and placed in an appropriate directory, you can, either use [`runner.py`](https://github.com/demonkingswarn/flix-cli/blob/master/runner.py) to use the project without installation or use [`setup.py`](https://github.com/demonkingswarn/flix-cli/blob/master/setup.py) to proceed with the installation.
 
 The former can be done via:
 ```sh
