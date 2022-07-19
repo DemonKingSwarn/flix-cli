@@ -37,6 +37,18 @@ git clone https://github.com/demonkingswarn/flix-cli
 
 Given that you have `git` installed, you can clone the repository from GitHub. If you do not have or want to deal with installation of `git`, you can simply download the repository using <a href="https://github.com/demonkingswarn/flix-cli/archive/refs/heads/master.zip">this link</a>.
 
+After the repository is downloaded and placed in an appropriate directory, you can, either use `<a href="https://github.com/demonkingswarn/flix-cli/blob/master/runner.py">runner.py</a>` to use the project without installation or use `<a href="https://github.com/demonkingswarn/flix-cli/blob/master/setup.py">setup.py</a>` to proceed with the installation.
+
+The former can be done via:
+```sh
+python runner.py
+```
+The later can be done via:
+```sh
+pip install .
+```
+Both commands are to be executed from the directory where the repository is located.
+
 <b>Additional information</b>: You <b>must</b> have Python installed <b>and</b> in PATH to use this project properly. Your Python executable may be `py` or `python` or `python3`. <b>Only Python 3.6 and higher versions are supported by the project.</b>
 
 ## 3. Android Installation
