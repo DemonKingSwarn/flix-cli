@@ -20,6 +20,18 @@
 
 <hr>
 
+# Overview
+
+- [Installation](#installation)
+    1. [PIP Installation](#1-pip-installs-packages-aka-pip-installation)
+    2. [Source Code Download](#2-source-code-download)
+    3. [Android Installation](#3-android-installation)
+- [Dependencies](#dependencies)
+- [Usage](#usage)
+- [Support](#support)
+- [Provider](#provider)
+- [Project Disclaimer](#project-disclaimer)
+
 # Installation
 <i>for dependencies <a href="https://github.com/DemonKingSwarn/flix-cli#dependencies">(see below)</a>.</i>
 
