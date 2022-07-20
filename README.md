@@ -103,7 +103,7 @@ If you run into issues or want to request a new feature, you are encouraged to m
 # Provider
 | Website                                      | Available Qualities | Status / Elapsed Time | Content Extension |
 | :------------------------------------------: | :-----------------:  | :----: | :-----------------: |
-| [gdriveplayer](https://database.gdriveplayer.us/player.php)         | 720p, 1080p | <img height="25" src="https://github.com/justfoolingaround/animdl-provider-benchmarks/raw/master/api/providers/nineanime.png">  | MP4 |
+| [gdriveplayer](https://database.gdriveplayer.us/player.php)         | 720p, 1080p | <img height="25" src="https://github.com/DemonKingSwarn/flix-status/raw/master/images/gdriveplayer.jpg">  | MP4 |
 
 # Project Disclaimer
 The disclaimer of the project  can be found <a href="https://github.com/demonkingswarn/flix-cli/blob/master/disclaimer.org">here</a>.
