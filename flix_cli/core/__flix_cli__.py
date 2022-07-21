@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import base64
 import random
 import re
@@ -18,7 +20,6 @@ try:
 except ImportError:
     import json
 
-MPV_EXECUTABLE = "mpv"
 
 DEFAULT_MEDIA_REFERER = "https://membed.net"
 

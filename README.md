@@ -80,7 +80,7 @@ referrer="https://membed.net"
 
 # Dependencies
 - mpv - Video Player
-- vlc - Alternate video player
+- iina - Alternate video player for MacOS
 - ffmpeg - Download manager
 
 # Usage
