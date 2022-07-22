@@ -39,6 +39,6 @@ This project uses client-side content access mechanisms. Hence, the copyright in
 * Contacting the developer
 
 
-Begin by making a GitHub issue or sending an email to demonkingswarn@protonmail.com.
+Begin by making a GitHub issue or sending an email to swarn@demonkingswarn.ml.
 
 

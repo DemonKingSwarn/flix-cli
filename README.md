@@ -94,7 +94,7 @@ Options:
 ```
 
 # Support
-You can contact the developer directly via this <a href="mailto:demonkingswarn@protonmail.com">email</a>. However, the most recommended way is to head to the discord server.
+You can contact the developer directly via this <a href="mailto:swarn@demonkingswarn.ml">email</a>. However, the most recommended way is to head to the discord server.
 
 <a href="https://discord.gg/JF85vTkDyC"><img src="https://invidget.switchblade.xyz/JF85vTkDyC"></a>
 
