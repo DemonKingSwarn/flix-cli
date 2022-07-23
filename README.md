@@ -31,6 +31,7 @@
 - [Support](#support)
 - [Provider](#provider)
 - [Project Disclaimer](#project-disclaimer)
+- [Honourable Mentions](#honourable-mentionss)
 
 # Installation
 <i>for dependencies <a href="https://github.com/DemonKingSwarn/flix-cli#dependencies">(see below)</a>.</i>
@@ -107,3 +108,9 @@ If you run into issues or want to request a new feature, you are encouraged to m
 
 # Project Disclaimer
 The disclaimer of the project  can be found <a href="https://github.com/demonkingswarn/flix-cli/blob/master/disclaimer.org">here</a>.
+
+# Honourable Mentions
+
+- [`animdl`](https://github.com/justfoolingaround/animdl): Ridiculously efficient, fast and light-weight (supports most sources: animixplay, 9anime...) (Python)
+- [`ani-cli`](https://github.com/pystardust/ani-cli): A cli tool to browse and play anime. (Shell)
+- [`mov-cli`](https://github.com/mov-cli/mov-cli): [WIP] watch movies and webseries from the cli. (Python/Shell)
