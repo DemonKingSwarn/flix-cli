@@ -31,7 +31,7 @@
 - [Support](#support)
 - [Provider](#provider)
 - [Project Disclaimer](#project-disclaimer)
-- [Honourable Mentions](#honourable-mentionss)
+- [Honourable Mentions](#honourable-mentions)
 
 # Installation
 <i>for dependencies <a href="https://github.com/DemonKingSwarn/flix-cli#dependencies">(see below)</a>.</i>
