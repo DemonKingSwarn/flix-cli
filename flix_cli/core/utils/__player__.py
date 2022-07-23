@@ -23,8 +23,11 @@ def play(file, name, referer, subtitles):
                 IINA_EXECUTABLE,
                 f"--mpv-referrer={referer}",
                 file,
-                f"--mpv-force-media-title=Playing {name}"
+                f"--mpv-force-media-title=Playing {name}",
+                "--keep-running"
             ]
+
+            args.extend(f"--mpv-sub-files={_}" for _ in subtitles)
             
             iina_process = subprocess.Popen(args)
 
