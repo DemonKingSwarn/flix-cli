@@ -14,7 +14,7 @@ def play(file, name, referer, subtitles):
             ]
             args.extend(f"--sub-file={_}" for _ in subtitles)
 
-            mpv_process = subprocess.Popen(args)
+            mpv_process = subprocess.Popen(args, stdout=subprocess.DEVNULL)
 
             mpv_process.wait()
 
@@ -29,7 +29,7 @@ def play(file, name, referer, subtitles):
 
             args.extend(f"--mpv-sub-files={_}" for _ in subtitles)
             
-            iina_process = subprocess.Popen(args)
+            iina_process = subprocess.Popen(args, stdout=subprocess.DEVNULL)
 
             iina_process.wait()
 
