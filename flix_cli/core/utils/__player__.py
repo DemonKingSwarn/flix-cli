@@ -8,7 +8,7 @@ VLC_INTENT = "am start -a \"android.intent.action.VIEW\""
 
 def play(file, name, referer, subtitles):
     try:
-        if(platform.system() == "Linux"):
+        if(platform.system() == "Linux" or platform.system() == "Windows"):
             args = [
                 MPV_EXECUTABLE,
                 file,
