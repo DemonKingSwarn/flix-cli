@@ -11,6 +11,7 @@ import os
 from .utils.__player__ import play
 from .utils.__downloader__ import download
 
+import click
 import httpx
 from bs4 import BeautifulSoup 
 from Cryptodome.Cipher import AES
@@ -21,7 +22,7 @@ except ImportError:
     import json
 
 
-DEFAULT_MEDIA_REFERER = "https://membed.net"
+@click.command(name="movie", help="Stream your favourite movie by query.")
 
 
 def pad(data):
@@ -109,13 +110,13 @@ def mapping(query: str) -> list:
 def fetch() -> dict:
     
     try:
-        if len(sys.argv) == 1:
+        if len(sys.argv) == 2:
             query = input("Search: ")
             if query == "": 
                 print("ValueError: no query parameter provided")
                 exit(0)
         else:
-            query = " ".join(sys.argv[1:])
+            query = " ".join(sys.argv[2:])
 
         shows = mapping(query=query.replace(" ", "+"))
         
@@ -145,7 +146,7 @@ CONTENT_ID_REGEX = re.compile(r"streaming\.php\?id=([^&?/#]+)")
 SECRET = b"25742532592138496744665879883281"
 IV = b"9225679083961858"
 
-
+DEFAULT_MEDIA_REFERER = "https://membed.net"
 ENCRYPT_AJAX_ENDPOINT = "https://membed.net/encrypt-ajax.php"
 GDRIVE_PLAYER_ENDPOINT = "https://database.gdriveplayer.us/player.php"
 
