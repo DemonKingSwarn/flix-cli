@@ -4,19 +4,9 @@ import click
 from .core.cli.commands import __flix_cli__, __series__
 from .core import __version__
 
-def __tv__(query: str):
-    if len(sys.argv) == 2:
-        query = input("Search: ")
-        if query == "":
-            print("ValueError: no query parameter provided")
-            exit(0)
-    else:
-        query = " ".join(sys.argv[2:])
-    __series__.get_id(query)
-
 commands = {
-    "tv": __tv__(),
-    "movie": __flix_cli__.fetch(),
+    "tv": __series__,
+    "movie": __flix_cli__,
 }
 
 @click.group(commands=commands)

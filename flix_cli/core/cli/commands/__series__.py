@@ -21,9 +21,7 @@ import sys
 
 @click.command(name="tv", help="Stream your favourite shows by query.")
 
-DEFAULT_MEDIA_REFERER = "https://membed.net"
 
-client = httpx.Client()
 
 def pad(data):
     return data + chr(len(data) % 16) * (16 - len(data) % 16)
@@ -43,9 +41,18 @@ def aes_decrypt(data: str, *, key, iv):
     )
 
 
+client = httpx.Client()
 cyan = lambda a: f"{Fore.CYAN}{a}{Style.RESET_ALL}"
 
-def get_id(query):
+def get_id():
+    if len(sys.argv) <= 2:
+        query = input("Search: ")
+        if query == "":
+            print("ValueError: no query parameter provided")
+            exit(0)
+    else:
+        query = " ".join(sys.argv[2:])
+
     query = query.replace(" ","_")
     
     url = f"https://v2.sg.media-imdb.com/suggestion/{query[0]}/{query}.json"
@@ -65,21 +72,14 @@ def get_id(query):
     
     return get_id.imdb_ids[get_id.c-1]
 
-
-if len(sys.argv) == 2:
-    query = input("Search: ")
-    if query == "":
-        print("ValueError: no query parameter provided")
-        exit(0)
-else:
-    query = " ".join(sys.argv[2:])
-
-get_id(query)
+get_id()
 
 SECRET = b"25742532592138496744665879883281"
 IV = b"9225679083961858"
 
 ENCRYPT_AJAX_ENDPOINT = "https://membed.net/encrypt-ajax.php"
+
+DEFAULT_MEDIA_REFERER = "https://membed.net"
 
 GDRIVE_PLAYER_ENDPOINT = "https://database.gdriveplayer.us/player.php?type=series"
 

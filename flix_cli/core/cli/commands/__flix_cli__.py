@@ -110,7 +110,7 @@ def mapping(query: str) -> list:
 def fetch() -> dict:
     
     try:
-        if len(sys.argv) == 2:
+        if len(sys.argv) <= 2:
             query = input("Search: ")
             if query == "": 
                 print("ValueError: no query parameter provided")
