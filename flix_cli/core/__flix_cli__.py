@@ -230,7 +230,13 @@ def determine_path() -> str:
         print("[!] Make an issue for your OS.")
         exit(0)
 
-def dl(path: str = determine_path()):
+def dlData(path: str = determine_path()):
+    try:
+        dl(movie.selected, path)
+    except Exception as e:
+        dl(series.selected, path)
+
+def dl(selected, path):
     download(path, query, selected['file'], DEFAULT_MEDIA_REFERER)
 
 def provideData():
