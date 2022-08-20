@@ -5,7 +5,6 @@ import re
 import subprocess
 import platform
 import os
-import click
 
 from .utils.__player__ import play
 from .utils.__downloader__ import download
@@ -19,7 +18,6 @@ except ImportError:
 from colorama import Fore, Style
 import sys
 
-@click.command(name="tv", help="Stream your favourite shows by query.")
 
 
 
@@ -72,7 +70,9 @@ def get_id():
     
     return get_id.imdb_ids[get_id.c-1]
 
-get_id()
+    main()
+
+#get_id()
 
 SECRET = b"25742532592138496744665879883281"
 IV = b"9225679083961858"
@@ -89,64 +89,69 @@ CONTENT_ID_REGEX = re.compile(r"streaming\.php\?id=([^&?/#]+)")
 
 #link = "https://" + re.findall(r'<a href="(.*?)"',r.text)[2]
 
-season = input("Enter season: ")
-episode = input("Enter episode: ")
+#season = input("Enter season: ")
+#episode = input("Enter episode: ")
 
 #yarl query to get id from link
 #id = yarl.URL(link).query.get('id')
 
-content_id = CONTENT_ID_REGEX.search(
-        client.get(
-            GDRIVE_PLAYER_ENDPOINT,
-            params={
-                "imdb": get_id.imdb_ids[get_id.c-1],
-                "season": season,
-                "episode": episode,
-            },
-        ).text
-    ).group(1)
+def main():
+
+    season = input("Enter season: ")
+    episode = input("Enter episode: ")
+    
+    content_id = CONTENT_ID_REGEX.search(
+            client.get(
+                GDRIVE_PLAYER_ENDPOINT,
+                params={
+                    "imdb": get_id.imdb_ids[get_id.c-1],
+                    "season": season,
+                    "episode": episode,
+                },
+            ).text
+        ).group(1)
 
 
-content = json.loads(
-        aes_decrypt(
-            json.loads(
-                httpx.get(
-                    ENCRYPT_AJAX_ENDPOINT,
-                    params={"id": aes_encrypt(content_id, key=SECRET, iv=IV).decode()},
-                    headers={"x-requested-with": "XMLHttpRequest"},
-                ).text
-            )["data"],
-            key=SECRET,
-            iv=IV,
+    content = json.loads(
+            aes_decrypt(
+                json.loads(
+                    httpx.get(
+                        ENCRYPT_AJAX_ENDPOINT,
+                        params={"id": aes_encrypt(content_id, key=SECRET, iv=IV).decode()},
+                        headers={"x-requested-with": "XMLHttpRequest"},
+                    ).text
+                )["data"],
+                key=SECRET,
+                iv=IV,
+            )
         )
-    )
 
-#print(content)
+    #print(content)
 
-subtitles = (_.get("file") for _ in content.get("track", {}).get("tracks", []))
+    subtitles = (_.get("file") for _ in content.get("track", {}).get("tracks", []))
 
-media = (content.get("source", []) or []) + (content.get("source_bk", []) or [])
+    media = (content.get("source", []) or []) + (content.get("source_bk", []) or [])
 
-if not media:
-    raise RuntimeError("Could not find any media for playback.")
+    if not media:
+        raise RuntimeError("Could not find any media for playback.")
 
-if len(media) > 2:
-    for content_index, source in enumerate(media):
-        if(content_index+1 != len(media)):
-            print(f" > {content_index+1} / {source['label']} / {source['type']}")
-    try:
-        while not (
-                (user_selection := input("Take it or leave it, index: ")).isdigit()
-            and (parsed_us := int(user_selection)-1) in range(content_index)
-        ):
-            print("Nice joke. Now you have to TRY AGAIN!!!")
-        selected = media[parsed_us]
-    except KeyboardInterrupt:
-        exit(0)
-else:   
-    selected = media[0]
+    if len(media) > 2:
+        for content_index, source in enumerate(media):
+            if(content_index+1 != len(media)):
+                print(f" > {content_index+1} / {source['label']} / {source['type']}")
+        try:
+            while not (
+                    (user_selection := input("Take it or leave it, index: ")).isdigit()
+                and (parsed_us := int(user_selection)-1) in range(content_index)
+            ):
+                print("Nice joke. Now you have to TRY AGAIN!!!")
+            selected = media[parsed_us]
+        except KeyboardInterrupt:
+            exit(0)
+    else:   
+        selected = media[0]
 
-#print(selected)
+    #print(selected)
 
 def determine_path() -> str:
     
@@ -183,5 +188,7 @@ def init():
         dl()
     else:
         exit(0)
+
+#main()
 
 init()

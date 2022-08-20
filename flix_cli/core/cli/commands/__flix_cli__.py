@@ -1,9 +1,7 @@
-#!/usr/bin/env python3
-
+import httpx
 import base64
-import random
+from Cryptodome.Cipher import AES
 import re
-import sys
 import subprocess
 import platform
 import os
@@ -11,18 +9,14 @@ import os
 from .utils.__player__ import play
 from .utils.__downloader__ import download
 
-import click
-import httpx
-from bs4 import BeautifulSoup 
-from Cryptodome.Cipher import AES
-
 try:
     import orjson as json
 except ImportError:
     import json
 
 
-@click.command(name="movie", help="Stream your favourite movie by query.")
+from colorama import Fore, Style
+import sys
 
 
 def pad(data):
@@ -42,165 +36,182 @@ def aes_decrypt(data: str, *, key, iv):
         .strip(b"\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10")
     )
 
-color = [  
-    "\u001b[31m",
-    "\u001b[32m",
-    "\u001b[33m",
-    "\u001b[34m",
-    "\u001b[35m",
-    "\u001b[36m",
-    "\u001b[37m"
-]
 
-def mapping(query: str) -> list:
-
-    URL = f"https://imdb.com/find?q={query}&ref_=nv_sr_sm"
-
-    headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:100.0) Gecko/20100101 Firefox/100.0"
-    }
-
-    with httpx.Client(follow_redirects=True, timeout=None) as client:
-        res = client.get(URL, headers=headers)
-    
-    scode = res.status_code
-    if scode == 200:
-        pass
-    elif scode == 404:
-        print("QueryError: show not found")
-    else:
-        print(f"returned => {scode}")
-
-    soup = BeautifulSoup(res.text, "html.parser")
-    td = soup.find_all('td', attrs={'class': "result_text"})
-
-    shows = list()
-    for instance in list(td):
-
-        show = re.search(
-            r'<td class="result_text"> <a href="/title/([a-z0-9]{8,})/\?ref_=fn_al_tt_[0-9]{1,}"(.*)</td>',
-            str(instance)
-        )
-
-        if show is not None:
-        
-            title_ = re.sub(
-                r'(<(|/)([a-z]+)(|/)>|<|>)', 
-                '', 
-                str(show.group(2))
-            )
-            
-            validate = re.search(
-                r'\([a-zA-Z\s]*\)',
-                 title_
-            )
-        
-            if validate is None:
-                
-                title_ = re.sub(r' - .*', '', title_)
-                instance  = {
-                    'id': str(show.group(1)), 
-                    'name': title_
-                }
-                shows.append(instance)
-    
-    return shows
-
-
-def fetch() -> dict:
-    
-    try:
-        if len(sys.argv) <= 2:
-            query = input("Search: ")
-            if query == "": 
-                print("ValueError: no query parameter provided")
-                exit(0)
-        else:
-            query = " ".join(sys.argv[2:])
-
-        shows = mapping(query=query.replace(" ", "+"))
-        
-        if len(shows) > 1:
-        
-            for idx, info in enumerate(shows):
-                color_idx = random.randint(0, len(color)-1) if idx >= len(color) else idx
-                print(f'[{idx+1}] {color[color_idx]}{info["name"]}\u001b[0m')
-            
-            ask = int(input(": "))-1
-            if(ask >= len(shows)):
-                print("IndexError: index out of range.")
-                exit(1)
-        else:
-            return shows[0]
-
-    except ValueError:
-        return shows[0]
-    except KeyboardInterrupt:
-        exit(0)
-
-    return shows[ask] 
-
-
-CONTENT_ID_REGEX = re.compile(r"streaming\.php\?id=([^&?/#]+)")
+client = httpx.Client()
+cyan = lambda a: f"{Fore.CYAN}{a}{Style.RESET_ALL}"
 
 SECRET = b"25742532592138496744665879883281"
 IV = b"9225679083961858"
 
-DEFAULT_MEDIA_REFERER = "https://membed.net"
 ENCRYPT_AJAX_ENDPOINT = "https://membed.net/encrypt-ajax.php"
-GDRIVE_PLAYER_ENDPOINT = "https://database.gdriveplayer.us/player.php"
 
-show = fetch()
+DEFAULT_MEDIA_REFERER = "https://membed.net"
 
-with httpx.Client(timeout=None) as client:
+GDRIVE_PLAYER_M_ENDPOINT = "https://database.gdriveplayer.us/player.php"
+GDRIVE_PLAYER_S_ENDPOINT = "https://database.gdriveplayer.us/player.php?type=series"
+
+CONTENT_ID_REGEX = re.compile(r"streaming\.php\?id=([^&?/#]+)")
+
+#r = client.get(GDRIVE_PLAYER_ENDPOINT)
+
+#link = "https://" + re.findall(r'<a href="(.*?)"',r.text)[2]
+
+#yarl query to get id from link
+#id = yarl.URL(link).query.get('id')
+
+def movie():
 
     content_id = CONTENT_ID_REGEX.search(
-        client.get(
-            GDRIVE_PLAYER_ENDPOINT,
-            params={
-                "imdb": show['id'],
-            },
-        ).text
-    ).group(1)
+            client.get(
+                GDRIVE_PLAYER_M_ENDPOINT,
+                params={
+                    "imdb": get_id.imdb_ids[get_id.c-1],
+                },
+            ).text
+        ).group(1)
 
 
     content = json.loads(
-        aes_decrypt(
-            json.loads(
-                client.get(
-                    ENCRYPT_AJAX_ENDPOINT,
-                    params={"id": aes_encrypt(content_id, key=SECRET, iv=IV).decode()},
-                    headers={"x-requested-with": "XMLHttpRequest"},
-                ).text
-            )["data"],
-            key=SECRET,
-            iv=IV,
+            aes_decrypt(
+                json.loads(
+                    httpx.get(
+                        ENCRYPT_AJAX_ENDPOINT,
+                        params={"id": aes_encrypt(content_id, key=SECRET, iv=IV).decode()},
+                        headers={"x-requested-with": "XMLHttpRequest"},
+                    ).text
+                )["data"],
+                key=SECRET,
+                iv=IV,
+            )
         )
-    )
 
-subtitles = (_.get("file") for _ in content.get("track", {}).get("tracks", []))
+    #print(content)
 
-media = (content.get("source", []) or []) + (content.get("source_bk", []) or [])
+    movie.subtitles = (_.get("file") for _ in content.get("track", {}).get("tracks", []))
 
+    media = (content.get("source", []) or []) + (content.get("source_bk", []) or [])
 
-if not media:
-    raise RuntimeError("Could not find any media for playback.")
+    if not media:
+        raise RuntimeError("Could not find any media for playback.")
 
-if len(media) > 2:
-    for content_index, source in enumerate(media):
-        if(content_index+1 != len(media)):
-            print(f" > {content_index+1} / {source['label']} / {source['type']}")
-    try:
-        while not (
+    if len(media) > 2:
+        for content_index, source in enumerate(media):
+            if(content_index+1 != len(media)):
+                print(f" > {content_index+1} / {source['label']} / {source['type']}")
+        try:
+            while not (
                 (user_selection := input("Take it or leave it, index: ")).isdigit()
-            and (parsed_us := int(user_selection)-1) in range(content_index)
-        ):
-            print("Nice joke. Now you have to TRY AGAIN!!!")
-        selected = media[parsed_us]
-    except KeyboardInterrupt:
+                and (parsed_us := int(user_selection)-1) in range(content_index)
+            ):
+                print("Nice joke. Now you have to TRY AGAIN!!!")
+            movie.selected = media[parsed_us]
+        except KeyboardInterrupt:
+            exit(0)
+    else:   
+        movie.selected = media[0]
+
+def series():
+    season = input("Enter season: ")
+    episode = input("Enter episode: ")
+    
+    
+    content_id = CONTENT_ID_REGEX.search(
+            client.get(
+                GDRIVE_PLAYER_S_ENDPOINT,
+                params={
+                    "imdb": get_id.imdb_ids[get_id.c-1],
+                    "season": season,
+                    "episode": episode,
+                },
+            ).text
+        ).group(1)
+
+    content = json.loads(
+            aes_decrypt(
+                json.loads(
+                    httpx.get(
+                        ENCRYPT_AJAX_ENDPOINT,
+                        params={"id": aes_encrypt(content_id, key=SECRET, iv=IV).decode()},
+                        headers={"x-requested-with": "XMLHttpRequest"},
+                    ).text
+                )["data"],
+                key=SECRET,
+                iv=IV,
+            )
+        )
+
+
+    series.subtitles = (_.get("file") for _ in content.get("track", {}).get("tracks", []))
+
+    media = (content.get("source", []) or []) + (content.get("source_bk", []) or [])
+
+    if not media:
+        raise RuntimeError("Could not find any media for playback.")
+
+    if len(media) > 2:
+        for content_index, source in enumerate(media):
+            if(content_index+1 != len(media)):
+                print(f" > {content_index+1} / {source['label']} / {source['type']}")
+        try:
+            while not (
+                (user_selection := input("Take it or leave it, index: ")).isdigit()
+                and (parsed_us := int(user_selection)-1) in range(content_index)
+            ):
+                print("Nice joke. Now you have to TRY AGAIN!!!")
+            series.selected = media[parsed_us]
+        except KeyboardInterrupt:
+            exit(0)
+    else:   
+        series.selected = media[0]
+
+
+def get_id(query: str):
+    query = query.replace(" ","_")
+    
+    url = f"https://v2.sg.media-imdb.com/suggestion/{query[0]}/{query}.json"
+    
+    r=client.get(url)
+    
+    get_id.imdb_ids = [i["id"] for i in r.json().get("d")]
+    names = [i["l"] for i in r.json().get("d")]
+    
+    print(cyan("[*]Results: "))
+    print("\n")
+    for i in range(len(names)):
+        print(cyan(f"{i+1}. {names[i]}"))
+    
+    print("\n")    
+    get_id.c = int(input(cyan("[*]Enter number: ")))
+    
+    return get_id.imdb_ids[get_id.c-1]
+
+
+if len(sys.argv) == 1:
+    query = input("Search: ")
+    if query == "":
+        print("ValueError: no query parameter provided")
         exit(0)
-else:   
-    selected = media[0]
+else:
+    query = " ".join(sys.argv[1:])
+
+get_id(query)
+
+def poison():
+    print("\nChoose your poison!!!")
+    print("[m] movie\n[s] series\n[q] quit")
+
+    ch = input(": ")
+
+    if ch == "m":
+        movie()
+    elif ch == "s":
+        series()
+    else:
+        exit(0)
+
+poison()
+
+#print(selected)
 
 def determine_path() -> str:
     
@@ -220,24 +231,30 @@ def determine_path() -> str:
         exit(0)
 
 def dl(path: str = determine_path()):
-    download(path, show['name'], selected['file'], DEFAULT_MEDIA_REFERER)
+    download(path, query, selected['file'], DEFAULT_MEDIA_REFERER)
 
-def launchPlayer():
-    play(selected['file'], show['name'], DEFAULT_MEDIA_REFERER, subtitles)
+def provideData():
+    try:
+        launchPlayer(movie.selected, movie.subtitles)
+    except Exception as e:
+        launchPlayer(series.selected, series.subtitles)
+
+def launchPlayer(selected, subtitles):
+    play(selected['file'], query, DEFAULT_MEDIA_REFERER, subtitles)
+
 
 def init():
-
-    print("\n[p] Play the movie.")
-    print("[d] Download the movie.")
-    print("[q] Quit")
+    print("\n[p] play\n[d] download\n[q] quit")
 
     ch = input(": ")
 
     if ch == "p":
-        launchPlayer()
+        provideData()
     elif ch == "d":
         dl()
     else:
         exit(0)
+
+#main()
 
 init()
