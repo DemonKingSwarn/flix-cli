@@ -4,7 +4,6 @@ import subprocess
 MPV_EXECUTABLE = "mpv"
 IINA_EXECUTABLE = "iina"
 
-VLC_INTENT = "am start -a \"android.intent.action.VIEW\""
 
 def play(file, name, referer, subtitles):
     try:
