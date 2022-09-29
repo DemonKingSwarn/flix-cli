@@ -23,13 +23,14 @@ def play(file, name, referer, subtitles):
         elif(platform.system() == "Darwin"):
             args = [
                 IINA_EXECUTABLE,
+                "--no-stdin",
+                "--keep-running",
                 f"--mpv-referrer={referer}",
                 file,
                 f"--mpv-force-media-title=Playing {name}",
-                "--keep-running",
             ]
 
-            args.extend(f"--mpv-subtitle={_}" for _ in subtitles)
+            args.extend(f"--mpv-sub-files={_}" for _ in subtitles)
             
             iina_process = subprocess.Popen(args, stdout=subprocess.DEVNULL)
 
