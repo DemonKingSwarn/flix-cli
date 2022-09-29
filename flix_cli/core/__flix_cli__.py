@@ -1,7 +1,7 @@
 import httpx
 import base64
 from Cryptodome.Cipher import AES
-import re
+import regex as re
 import subprocess
 import platform
 import os
