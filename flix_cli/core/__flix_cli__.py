@@ -257,7 +257,7 @@ def init():
     if ch == "p":
         provideData()
     elif ch == "d":
-        dl()
+        dlData()
     else:
         exit(0)
 
