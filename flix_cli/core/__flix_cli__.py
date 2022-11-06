@@ -37,7 +37,9 @@ def aes_decrypt(data: str, *, key, iv):
     )
 
 
-client = httpx.Client()
+headers = {"User-Agent": "flix-cli/1.5.1"}
+
+client = httpx.Client(headers=headers, follow_redirects=True, timeout=None)
 cyan = lambda a: f"{Fore.CYAN}{a}{Style.RESET_ALL}"
 
 SECRET = b"25742532592138496744665879883281"
