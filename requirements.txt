@@ -3,3 +3,4 @@ pycryptodomex==3.14.1
 beautifulsoup4==4.10.0
 regex==2022.3.15
 colorama==0.4.5
+fzf.py @ git+https://github.com/justfoolingaround/fzf.py
