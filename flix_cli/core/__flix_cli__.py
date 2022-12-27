@@ -1,7 +1,9 @@
 import httpx
-import base64
 from Cryptodome.Cipher import AES
 import regex as re
+from fzf import fzf_prompt
+
+import base64
 import subprocess
 import platform
 import os
@@ -181,6 +183,7 @@ def get_id(query: str):
     print("\n")
     for i in range(len(names)):
         print(cyan(f"{i+1}. {names[i]}"))
+        #fzf_prompt(f"{i+1}. {names[i]}")
     
     print("\n")    
     get_id.c = int(input(cyan("[*]Enter number: ")))
@@ -199,21 +202,19 @@ else:
 get_id(query)
 
 def poison():
-    print("\nChoose your poison!!!")
-    print("[m] movie\n[s] series\n[q] quit")
+    #print("\nChoose your poison!!!")
+    ch = fzf_prompt(["movie", "series"])
 
-    ch = input(": ")
+    #ch = input(": ")
 
-    if ch == "m":
+    if ch == "movie":
         movie()
-    elif ch == "s":
+    elif ch == "series":
         series()
     else:
         exit(0)
 
 poison()
-
-#print(selected)
 
 def determine_path() -> str:
     
@@ -252,16 +253,15 @@ def launchPlayer(selected, subtitles):
 
 
 def init():
-    print("\n[p] play\n[d] download\n[q] quit")
+    ch = fzf_prompt(["play", "download", "exit"])
 
-    ch = input(": ")
-
-    if ch == "p":
+    if ch == "play":
         provideData()
-    elif ch == "d":
+    elif ch == "download":
         dlData()
     else:
         exit(0)
+
 
 #main()
 

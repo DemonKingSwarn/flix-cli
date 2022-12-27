@@ -85,9 +85,10 @@ referrer="https://membed.net"
 ```
 
 # Dependencies
-- mpv - Video Player
-- iina - Alternate video player for MacOS
-- ffmpeg - Download manager
+- [`mpv`](https://mpv.io) - Video Player
+- [`iina`](https://iina.io) - Alternate video player for MacOS
+- [`ffmpeg`](https://github.com/FFmpeg/FFmpeg) - Download manager
+- [`fzf`](https://github.com/junegunn/fzf) - for selection menu
 
 # Usage
 
