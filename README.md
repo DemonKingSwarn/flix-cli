@@ -91,6 +91,7 @@ referrer="https://membed1.com"
 - [`fzf`](https://github.com/junegunn/fzf) - for selection menu
 
 ## fzf.py
+<i><a href="https://github.com/justfoolingaround/fzf.py">fzf.py</a> is a python wrapper for the command line fuzzy finder.</i>
 
 Download <a href="https://github.com/justfoolingaround/fzf.py">fzf.py</a> via this <a href="https://github.com/justfoolingaround/fzf.py/archive/refs/heads/master.zip">link</a>.
 
