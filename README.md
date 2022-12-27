@@ -81,7 +81,7 @@ chmod +x $PREFIX/bin/mpv
 
 For it to be able to stream you need to add referrer in mpv by opening mpv <a href="https://play.google.com/store/apps/details?id=is.xyz.mpv">(playstore version)</a>, going into Settings -> Android -> Edit mpv.conf and adding
 ```sh
-referrer="https://membed.net"
+referrer="https://membed1.com"
 ```
 
 # Dependencies
