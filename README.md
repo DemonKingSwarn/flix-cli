@@ -91,7 +91,7 @@ referrer="https://membed1.com"
 - [`fzf`](https://github.com/junegunn/fzf) - for selection menu
 
 ## fzf.py
-fzf.py is a python wrapper for <a href="https://github.com/junegunn/fzf">fzf</a>
+<a href="https://github.com/justfoolingaround/fzf.py">fzf.py</a> is a python wrapper for <a href="https://github.com/junegunn/fzf">fzf</a>
 ```sh
 pip install git+https://github.com/justfoolingaround/fzf.py
 ```
