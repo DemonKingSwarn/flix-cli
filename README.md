@@ -90,6 +90,18 @@ referrer="https://membed1.com"
 - [`ffmpeg`](https://github.com/FFmpeg/FFmpeg) - Download manager
 - [`fzf`](https://github.com/junegunn/fzf) - for selection menu
 
+## fzf.py
+
+Download <a href="https://github.com/justfoolingaround/fzf.py">fzf.py</a> via this <a href"https://github.com/justfoolingaround/gitcord/archive/refs/heads/master.zip">link</a>.
+
+After it is downloaded and placed in an appropriate directory, you can install it via this command:
+
+```sh
+pip install .
+```
+
+ This command is to be executed from the directory where the repository is located.
+
 # Usage
 
 ```sh
