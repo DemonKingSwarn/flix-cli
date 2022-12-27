@@ -90,6 +90,12 @@ referrer="https://membed1.com"
 - [`ffmpeg`](https://github.com/FFmpeg/FFmpeg) - Download manager
 - [`fzf`](https://github.com/junegunn/fzf) - for selection menu
 
+## fzf.py
+fzf.py is a python wrapper for <a href="https://github.com/junegunn/fzf">fzf</a>
+```sh
+pip install git+https://github.com/justfoolingaround/fzf.py
+```
+
 # Usage
 
 ```sh
