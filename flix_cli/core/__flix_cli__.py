@@ -45,9 +45,9 @@ cyan = lambda a: f"{Fore.CYAN}{a}{Style.RESET_ALL}"
 SECRET = b"25742532592138496744665879883281"
 IV = b"9225679083961858"
 
-ENCRYPT_AJAX_ENDPOINT = "https://membed.net/encrypt-ajax.php"
+ENCRYPT_AJAX_ENDPOINT = "https://membed1.com/encrypt-ajax.php"
 
-DEFAULT_MEDIA_REFERER = "https://membed.net"
+DEFAULT_MEDIA_REFERER = "https://membed1.com"
 
 GDRIVE_PLAYER_M_ENDPOINT = "https://databasegdriveplayer.xyz/player.php"
 GDRIVE_PLAYER_S_ENDPOINT = "https://databasegdriveplayer.xyz/player.php?type=series"
