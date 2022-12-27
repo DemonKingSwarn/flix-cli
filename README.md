@@ -92,7 +92,7 @@ referrer="https://membed1.com"
 
 ## fzf.py
 
-Download <a href="https://github.com/justfoolingaround/fzf.py">fzf.py</a> via this <a href="https://github.com/justfoolingaround/gitcord/archive/refs/heads/master.zip">link</a>.
+Download <a href="https://github.com/justfoolingaround/fzf.py">fzf.py</a> via this <a href="https://github.com/justfoolingaround/fzf.py/archive/refs/heads/master.zip">link</a>.
 
 After it is downloaded and placed in an appropriate directory, you can install it via this command:
 
