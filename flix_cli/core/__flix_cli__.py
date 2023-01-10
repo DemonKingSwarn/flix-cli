@@ -180,7 +180,6 @@ def get_id(query: str):
     names = [i["l"] for i in r.json().get("d")]
     
     #print("[*]Results: ")
-    print("\n")
     shows = []
     for i in range(len(names)):
         #print(f"{i+1}. {names[i]}")
@@ -188,7 +187,6 @@ def get_id(query: str):
         shows.append(f"{i+1}. {names[i]}")
 
     uwu = fzf_prompt(shows)
-    print("\n")    
     #get_id.c = int(input(cyan("[*]Enter number: ")))
     get_id.c = int(uwu[0])
 
