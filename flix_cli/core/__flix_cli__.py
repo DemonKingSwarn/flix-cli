@@ -39,7 +39,7 @@ def aes_decrypt(data: str, *, key, iv):
     )
 
 
-headers = {"User-Agent": "flix-cli/1.5.1"}
+headers = {"User-Agent": "flix-cli/1.5.7"}
 
 client = httpx.Client(headers=headers, follow_redirects=True, timeout=None)
 cyan = lambda a: f"{Fore.CYAN}{a}{Style.RESET_ALL}"
@@ -179,15 +179,19 @@ def get_id(query: str):
     get_id.imdb_ids = [i["id"] for i in r.json().get("d")]
     names = [i["l"] for i in r.json().get("d")]
     
-    print(cyan("[*]Results: "))
+    #print("[*]Results: ")
     print("\n")
+    shows = []
     for i in range(len(names)):
-        print(cyan(f"{i+1}. {names[i]}"))
+        #print(f"{i+1}. {names[i]}")
         #fzf_prompt(f"{i+1}. {names[i]}")
-    
+        shows.append(f"{i+1}. {names[i]}")
+
+    uwu = fzf_prompt(shows)
     print("\n")    
-    get_id.c = int(input(cyan("[*]Enter number: ")))
-    
+    #get_id.c = int(input(cyan("[*]Enter number: ")))
+    get_id.c = int(uwu[0])
+
     return get_id.imdb_ids[get_id.c-1]
 
 
