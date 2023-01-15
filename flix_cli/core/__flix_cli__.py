@@ -1,6 +1,6 @@
 import httpx
 from Cryptodome.Cipher import AES
-import regex as re
+import re
 from fzf import fzf_prompt
 
 import base64
@@ -17,7 +17,7 @@ except ImportError:
     import json
 
 
-from colorama import Fore, Style
+#from colorama import Fore, Style
 import sys
 
 
@@ -42,7 +42,7 @@ def aes_decrypt(data: str, *, key, iv):
 headers = {"User-Agent": "flix-cli/1.5.7"}
 
 client = httpx.Client(headers=headers, follow_redirects=True, timeout=None)
-cyan = lambda a: f"{Fore.CYAN}{a}{Style.RESET_ALL}"
+#cyan = lambda a: f"{Fore.CYAN}{a}{Style.RESET_ALL}"
 
 SECRET = b"25742532592138496744665879883281"
 IV = b"9225679083961858"
@@ -189,7 +189,7 @@ def get_id(query: str):
     uwu = fzf_prompt(shows)
     #get_id.c = int(input(cyan("[*]Enter number: ")))
     get_id.c = int(uwu[0])
-
+    print(get_id.c)
     return get_id.imdb_ids[get_id.c-1]
 
 
