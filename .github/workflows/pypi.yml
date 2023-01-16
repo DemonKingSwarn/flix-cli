@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - "flix_cli/core/__version__.py"
+      - "pyproject.toml"
 
 jobs:
   build:
@@ -10,6 +11,8 @@ jobs:
     steps:
       - name: Checking out repository content
         uses: actions/checkout@v2
+          with:
+            fetch-depth: 0
 
       - name: Setting up Python 3.9
         uses: actions/setup-python@v2
@@ -18,8 +21,8 @@ jobs:
 
       - name: Build the file
         run: |
-          pip install setuptools wheel
-          python setup.py sdist
+          python3 -m pip install --upgrade build
+          python3 -m build
 
       - name: Publish a Python distribution to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1

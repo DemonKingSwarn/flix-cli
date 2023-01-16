@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "flix-cli"
+version = "1.6.0"
+description = "A high efficient, powerful and fast movie scraper."
+authors = ["DemonKingSwarn <rockingswarn@gmail.com>"]
+license = "GPLv3"
+readme = "README.md"
+packages = [{include = "flix_cli"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+httpx = "0.23.0"
+pycryptodomex = "3.14.1"
+beautifulsoup4 = "4.10.0"
+colorama = "0.4.5"
+krfzf-py = "^0.0.4"
+
+[tool.poetry.scripts]
+flix-cli = "flix_cli.__main__:__flixcli__"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
