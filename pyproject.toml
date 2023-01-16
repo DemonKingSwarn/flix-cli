@@ -8,7 +8,7 @@ version = "1.6.1"
 description = "A high efficient, powerful and fast movie scraper."
 authors = ["DemonKingSwarn <rockingswarn@gmail.com>"]
 license = "GPLv3"
-readme = "README.txt"
+readme = "readme.txt"
 
 [tool.poetry.dependencies]
 python = "^3.10"
