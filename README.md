@@ -1,13 +1,3 @@
-<p align="center">
-<br>
-<a href="https://github.com/demonkingswarn/flix-cli"><img src="https://img.shields.io/github/stars/demonkingswarn/flix-cli?color=orange&logo=github&style=flat-square"></a>
-<a href="http://makeapullrequest.com"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg"></a>
-<img src="https://img.shields.io/badge/os-linux-brightgreen">
-<img src="https://img.shields.io/badge/os-mac-brightgreen">
-<img src="https://img.shields.io/badge/os-windows-brightgreen">
-<img src="https://img.shields.io/badge/os-android-brightgreen">
-<br>
-</p>
 <h1 align="center">
   FLIX-CLI
 </h1>
@@ -15,15 +5,32 @@
 <h3 align="center">
   A high efficient, powerful and fast movie scraper.
 </h3>
+
+<div align="center">
+  <br>
+
+  ![Language](https://img.shields.io/badge/-python-3776AB.svg?style=for-the-badge&logo=python&logoColor=white)
+  
+  <a href="https://github.com/demonkingswarn/flix-cli"><img src="https://img.shields.io/github/stars/demonkingswarn/flix-cli?color=orange&logo=github&style=flat-square " alt="starcount"></a>
+
+  <a href="http://makeapullrequest.com"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
+
+  <img src="https://img.shields.io/badge/os-linux-brightgreen" alt="OS linux">
+  <img src="https://img.shields.io/badge/os-mac-brightgreen"alt="OS Mac">
+  <img src="https://img.shields.io/badge/os-windows-brightgreen" alt="OS Windows">
+  <img src="https://img.shields.io/badge/os-android-brightgreen" alt="OS Android">
+  <br>
+</div>
+
 <br>
 
-
+---
 
 https://user-images.githubusercontent.com/69480361/193068496-ec0e418d-375b-4a14-be75-e3ac10d853b4.mp4
 
 
 
-<hr>
+---
 
 # Overview
 
