@@ -13,6 +13,8 @@
   
   <a href="https://github.com/demonkingswarn/flix-cli"><img src="https://img.shields.io/github/stars/demonkingswarn/flix-cli?color=orange&logo=github&style=flat-square " alt="starcount"></a>
 
+  [![Hits](https://hits.sh/github.com/DemonKingSwarn/flix-cli.svg)](https://hits.sh/github.com/DemonKingSwarn/flix-cli)
+
   <a href="http://makeapullrequest.com"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
 
   <img src="https://img.shields.io/badge/os-linux-brightgreen" alt="OS linux">
