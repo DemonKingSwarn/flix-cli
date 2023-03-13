@@ -55,24 +55,19 @@ This project can be installed on to your device via different mechanisms, these 
 pip install flix-cli
 ```
 
-## 2. Source Code Download
-``` sh
-git clone https://github.com/demonkingswarn/flix-cli
-```
+## 2. Installing from source
 
-Given that you have `git` installed, you can clone the repository from GitHub. If you do not have or want to deal with installation of `git`, you can simply download the repository using <a href="https://github.com/demonkingswarn/flix-cli/archive/refs/heads/master.zip">this link</a>.
+First ensure <a href="https://python-poetry.org/docs/#installation">Poetry is installed</a>.
 
-After the repository is downloaded and placed in an appropriate directory, you can, either use [`runner.py`](https://github.com/demonkingswarn/flix-cli/blob/master/runner.py) to use the project without installation or use [`setup.py`](https://github.com/demonkingswarn/flix-cli/blob/master/setup.py) to proceed with the installation.
+Then run the following command:
 
-The former can be done via:
 ```sh
-python runner.py
+git clone https://github.com/demonkingswarn/flix-cli.git \
+&& cd flix-cli \ 
+&& poetry build \ 
+&& pip install flix-cli \ 
+&& cd ..
 ```
-The later can be done via:
-```sh
-pip install .
-```
-Both commands are to be executed from the directory where the repository is located.
 
 <b>Additional information</b>: You <b>must</b> have Python installed <b>and</b> in PATH to use this project properly. Your Python executable may be `py` or `python` or `python3`. <b>Only Python 3.6 and higher versions are supported by the project.</b>
 
