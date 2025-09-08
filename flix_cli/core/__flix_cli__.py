@@ -19,6 +19,7 @@ except ImportError:
 import sys
 from urllib.parse import urljoin, quote
 import time
+
 from bs4 import BeautifulSoup
 
 headers = {
@@ -62,7 +63,6 @@ def decode_url(url: str):
                                     subtitles.append(track['file'])
                         return video_link, subtitles
                 
-                # Try other common fields
                 for key in ['link', 'url', 'file']:
                     if key in data and data[key]:
                         return data[key], []
@@ -157,7 +157,6 @@ def get_tv_seasons(media_id: str):
         print(f"Debug: Seasons response status: {response.status_code}")
         
         if response.status_code == 200:
-            # Parse like lobster: extract season title and ID from href
             season_pattern = re.compile(r'href="[^"]*-(\d+)"[^>]*>([^<]*)</a>')
             matches = season_pattern.findall(response.text)
             
@@ -187,8 +186,6 @@ def get_season_episodes(season_id: str):
         print(f"Debug: Episodes response status: {response.status_code}")
         
         if response.status_code == 200:
-            # Parse like lobster: look for data-id and title in nav-item elements
-            # First, split by class="nav-item" like lobster does
             content = response.text.replace('\n', '').replace('class="nav-item"', '\nclass="nav-item"')
             
             episode_pattern = re.compile(r'data-id="(\d+)"[^>]*title="([^"]*)"')
@@ -220,7 +217,6 @@ def get_episode_servers(data_id: str, preferred_provider: str = "Vidcloud"):
         print(f"Debug: Servers response status: {response.status_code}")
         
         if response.status_code == 200:
-            # Parse like lobster: look for data-id and title in nav-item elements
             content = response.text.replace('\n', '').replace('class="nav-item"', '\nclass="nav-item"')
             
             server_pattern = re.compile(r'data-id="(\d+)"[^>]*title="([^"]*)"')
@@ -234,13 +230,11 @@ def get_episode_servers(data_id: str, preferred_provider: str = "Vidcloud"):
                 })
                 print(f"Debug: Found server: {server_name.strip()} (ID: {server_id})")
             
-            # Find preferred provider like lobster does
             for server in servers:
                 if preferred_provider.lower() in server['name'].lower():
                     print(f"Debug: Selected {preferred_provider} server: {server['id']}")
                     return server['id']
             
-            # Fallback to first server
             if servers:
                 print(f"Debug: Using fallback server: {servers[0]['id']}")
                 return servers[0]['id']
@@ -261,7 +255,6 @@ def get_embed_link(episode_id: str):
         print(f"Debug: Sources response status: {response.status_code}")
         
         if response.status_code == 200:
-            # Extract like lobster: look for "link" in JSON response
             link_match = re.search(r'"link":"([^"]*)"', response.text)
             if link_match:
                 embed_link = link_match.group(1)
@@ -278,7 +271,6 @@ def movie():
     """Handle movie streaming"""
     global selected_media, selected_subtitles
     
-    # Extract media ID from URL
     media_id_match = re.search(r'/movie/[^/]*-(\d+)', get_id.selected_url)
     if not media_id_match:
         raise RuntimeError("Could not extract media ID from URL")
@@ -286,22 +278,18 @@ def movie():
     media_id = media_id_match.group(1)
     print(f"Debug: Movie media ID: {media_id}")
     
-    # For movies, use the movie/episodes endpoint like lobster
     try:
         movie_episodes_url = f"{FLIXHQ_AJAX_URL}/movie/episodes/{media_id}"
         response = client.get(movie_episodes_url)
         
         if response.status_code == 200:
-            # Extract like lobster: find href with provider name
             content = response.text.replace('\n', '').replace('class="nav-item"', '\nclass="nav-item"')
             
-            # Look for Vidcloud provider first
             provider_pattern = re.compile(r'href="([^"]*)"[^>]*title="Vidcloud"')
             match = provider_pattern.search(content)
             
             if match:
                 movie_page_url = FLIXHQ_BASE_URL + match.group(1)
-                # Extract episode ID like lobster: -(\d+).(\d+)$ -> take the second number
                 episode_match = re.search(r'-(\d+)\.(\d+)$', movie_page_url)
                 if episode_match:
                     episode_id = episode_match.group(2)
@@ -324,7 +312,7 @@ def movie():
     raise RuntimeError("Could not get movie stream")
 
 def series():
-    """Handle series streaming using lobster's exact approach"""
+    """Handle series streaming"""
     global selected_media, selected_subtitles
     
     season = input("Enter season: ")
@@ -337,7 +325,6 @@ def series():
         print("Invalid season or episode number")
         raise RuntimeError("Invalid season or episode number")
     
-    # Extract media ID from URL
     media_id_match = re.search(r'/tv/[^/]*-(\d+)', get_id.selected_url)
     if not media_id_match:
         raise RuntimeError("Could not extract media ID from URL")
@@ -345,12 +332,10 @@ def series():
     media_id = media_id_match.group(1)
     print(f"Debug: TV media ID: {media_id}")
     
-    # Step 1: Get seasons
     seasons = get_tv_seasons(media_id)
     if not seasons:
         raise RuntimeError("Could not get seasons")
     
-    # Step 2: Find the target season (try exact match first, then positional)
     target_season_id = None
     for season_data in seasons:
         season_title = season_data['title'].lower()
@@ -358,7 +343,6 @@ def series():
             target_season_id = season_data['id']
             break
     
-    # Fallback: assume seasons are in order
     if not target_season_id and season_num <= len(seasons):
         target_season_id = seasons[season_num - 1]['id']
     
@@ -367,24 +351,20 @@ def series():
     
     print(f"Debug: Target season ID: {target_season_id}")
     
-    # Step 3: Get episodes for this season
     episodes = get_season_episodes(target_season_id)
     if not episodes:
         raise RuntimeError(f"Could not get episodes for season {season_num}")
     
-    # Step 4: Find the target episode (assume episodes are in order)
     if episode_num > len(episodes):
         raise RuntimeError(f"Episode {episode_num} not found (only {len(episodes)} episodes available)")
     
-    target_episode = episodes[episode_num - 1]  # Episodes are 1-indexed
+    target_episode = episodes[episode_num - 1]
     print(f"Debug: Target episode: {target_episode['title']} (data-id: {target_episode['data_id']})")
     
-    # Step 5: Get episode servers and select Vidcloud
     episode_id = get_episode_servers(target_episode['data_id'], "Vidcloud")
     if not episode_id:
         raise RuntimeError("Could not get episode server ID")
     
-    # Step 6: Get embed link
     embed_link = get_embed_link(episode_id)
     if not embed_link:
         raise RuntimeError("Could not get embed link")
@@ -405,7 +385,6 @@ def get_id(query: str):
     
     get_id.selected_url = selected_url
     
-    # Determine content type from URL
     if '/movie/' in selected_url:
         get_id.content_type = 'movie'
     elif '/tv/' in selected_url:
