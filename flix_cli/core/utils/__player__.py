@@ -1,4 +1,4 @@
-import platform
+import platform as plt
 import subprocess
 
 MPV_EXECUTABLE = "mpv"
@@ -7,7 +7,7 @@ IINA_EXECUTABLE = "iina"
 
 def play(file, name, referer, subtitles):
     try:
-        if(platform.system() == "Linux" or platform.system() == "Windows"):
+        if(plt.system() == 'Linux' or plt.system() == 'Windows'):
             args = [
                 MPV_EXECUTABLE,
                 file,
@@ -20,7 +20,7 @@ def play(file, name, referer, subtitles):
 
             mpv_process.wait()
 
-        elif(platform.system() == "Darwin"):
+        elif(plt.system() == 'Darwin'):
             args = [
                 IINA_EXECUTABLE,
                 "--no-stdin",

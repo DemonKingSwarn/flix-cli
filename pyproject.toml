@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "flix-cli"
-version = "1.6.2"
+version = "1.6.4"
 description = "A high efficient, powerful and fast movie scraper."
 authors = ["DemonKingSwarn <rockingswarn@gmail.com>"]
 license = "GPLv3"
@@ -12,11 +12,11 @@ readme = "readme.txt"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-httpx = "0.23.0"
+httpx = "0.28.1"
 pycryptodomex = "3.14.1"
 beautifulsoup4 = "4.10.0"
 colorama = "0.4.5"
-krfzf-py = "^0.0.4"
+krfzf-py = "0.0.4"
 
 [tool.poetry.dev-dependencies]
 
