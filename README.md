@@ -83,7 +83,7 @@ chmod +x $PREFIX/bin/mpv
 
 For it to be able to stream you need to add referrer in mpv by opening mpv <a href="https://play.google.com/store/apps/details?id=is.xyz.mpv">(playstore version)</a>, going into Settings -> Android -> Edit mpv.conf and adding
 ```sh
-referrer="https://membed1.com"
+referrer="https://flixhq.to"
 ```
 
 # Dependencies
@@ -110,9 +110,9 @@ You can contact the developer directly via this <a href="mailto:swarn@demonkings
 If you run into issues or want to request a new feature, you are encouraged to make a GitHub issue, won't bite you, trust me.
 
 # Provider
-| Website                                      | Available Qualities | Status / Elapsed Time | Content Extension |
-| :------------------------------------------: | :-----------------:  | :----: | :-----------------: |
-| [gdriveplayer](https://database.gdriveplayer.us/player.php)         | 720p, 1080p | <img height="25" src="https://github.com/DemonKingSwarn/flix-status/raw/master/images/gdriveplayer.jpg">  | MP4 |
+| Website                                      | Available Qualities | Status / Elapsed Time                                                                                    | Content Extension   |
+| :------------------------------------------: | :-----------------: | :----:                                                                                                   | :-----------------: |
+| [flixhq](https://flixhq.to)                  | 720p, 1080p         | <img height="25" src="https://github.com/DemonKingSwarn/flix-status/raw/master/images/gdriveplayer.jpg"> | MP4                 |
 
 # Project Disclaimer
 The disclaimer of the project  can be found <a href="https://github.com/demonkingswarn/flix-cli/blob/master/disclaimer.org">here</a>.
