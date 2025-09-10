@@ -25,3 +25,5 @@ jobs:
           git config user.email 'github-actions@github.com'
           git add .assets/downloads.svg
           git diff --cached --quiet || (git commit -m 'Update download shield' && git push)
+
+
