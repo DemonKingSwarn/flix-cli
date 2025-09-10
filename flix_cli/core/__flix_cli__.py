@@ -422,7 +422,7 @@ def determine_path() -> str:
     plt = platform.system()
     if plt == "Windows":
         return f"C://Users//{os.getenv('username')}//Downloads"
-    elif plt == "Linux":
+    elif plt == "Linux" or plt == "FreeBSD":
         return f"/home/{os.getlogin()}/Downloads"
     elif plt == "Darwin":
         return f"/Users/{os.getlogin()}/Downloads"

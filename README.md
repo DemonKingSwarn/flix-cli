@@ -16,6 +16,7 @@
   <a href="http://makeapullrequest.com"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
 
   <img src="https://img.shields.io/badge/os-linux-brightgreen" alt="OS linux">
+  <img src="https://img.shields.io/badge/os-freebsd-brightscreen" alt="OS FreeBSD">
   <img src="https://img.shields.io/badge/os-mac-brightgreen"alt="OS Mac">
   <img src="https://img.shields.io/badge/os-windows-brightgreen" alt="OS Windows">
   <img src="https://img.shields.io/badge/os-android-brightgreen" alt="OS Android">
