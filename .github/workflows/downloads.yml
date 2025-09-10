@@ -21,8 +21,8 @@ jobs:
 
       - name: Commit and push if updated
         run: |
-          git config user.name 'github-actions'
-          git config user.email 'github-actions@github.com'
+          git config user.name 'Detective Douche'
+          git config user.email 'guacamole@demonkingswarn.live'
           git add .assets/downloads.svg
           git diff --cached --quiet || (git commit -m 'Update download shield' && git push)
 
