@@ -17,7 +17,8 @@ jobs:
 
       - name: Fetch shield image
         run: |
-          curl -o .assets/downloads.svg https://img.shields.io/pypi/dm/flix-cli
+          rm .assets/downloads.svg
+          curl -o .assets/downloads.svg "https://img.shields.io/pypi/dm/flix-cli"
 
       - name: Commit and push if updated
         run: |
