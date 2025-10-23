@@ -6,4 +6,4 @@ def cast(file, subs):
 
     url = file
 
-    subprocess.call(f"{CATT_EXECUTABLE} -s \"{subs}\" \"{url}\"", shell=True)
+    subprocess.call(f"{CATT_EXECUTABLE} cast -s \"{subs}\" \"{url}\"", shell=True)
