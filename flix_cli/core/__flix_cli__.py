@@ -9,6 +9,7 @@ import os
 
 from .utils.__player__ import play
 from .utils.__downloader__ import download
+from .utils.__cast__ import cast
 from .__version__ import __core__
 
 try:
@@ -418,7 +419,7 @@ def dlData(path: str = determine_path()):
     else:
         print("No media selected for download")
 
-def provideData():
+def provideData(play_type):
     """Play media with support for episode ranges"""
     global selected_media, selected_subtitles
     if selected_media:
@@ -436,7 +437,10 @@ def provideData():
                 else:
                     episode_title = episode_data['label']
                 
-                play(decoded_url, episode_title, FLIXHQ_BASE_URL, subs)
+                if play_type == "play":
+                    play(decoded_url, episode_title, FLIXHQ_BASE_URL, subs)
+                elif play_type == "cast":
+                    cast(decoded_url, subs)
                 if len(episodes_to_play) > 1 and i < len(episodes_to_play):
                     continue_choice = input(f"\nContinue to next episode? (y/n): ").lower().strip()
                     if continue_choice not in ['y', 'yes', '']:
@@ -455,11 +459,13 @@ def provideData():
         print("No media selected for playback")
 
 def init():
-    ch = fzf_prompt(["play", "download", "exit"])
+    ch = fzf_prompt(["play", "download", "chromecaast" "exit"])
     if ch == "play":
-        provideData()
+        provideData("play")
     elif ch == "download":
         dlData()
+    elif ch == "chromecast":
+        providedData("cast")
     else:
         exit(0)
 
