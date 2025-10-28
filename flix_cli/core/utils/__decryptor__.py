@@ -4,7 +4,7 @@ import sys
 import httpx
 import regex
 
-from ..__version__ import  __core_
+from ..__version__ import  __core__
 
 headers = {
     "User-Agent": f"flix-cli/{__core__}",
