@@ -39,79 +39,51 @@ DECODER = "https://dec.eatmynerds.live"
 selected_media = None
 selected_subtitles = []
 
-def urlencode_ordered(params, order):
-    # Encode query params in exact order
-    parts = []
-    for k in order:
-        v = params[k]
-        parts.append(f"{k}={quote_plus(str(v))}")
-    return "&".join(parts)
-
-def sha256_hash(text_to_hash: str) -> str:
-    text_bytes = text_to_hash.encode('utf-8')
-    hash_object = hashlib.sha256(text_bytes)
-    hash_val = hash_object.hexdigest()
-    return hash_val
-
-def decrypt_stream_url(embed_link, api_url):
-    # Step 1: Get challenge info
-    resp = client.get(f"{api_url}/challenge")
-    if resp.status_code != 200:
-        print(f"Failed to fetch challenge ({resp.status_code})")
-        print(resp.text)
-        return embed_link, []
-
-    data = resp.json()
-    payload = data.get("payload")
-    signature = data.get("signature")
-    difficulty = int(data.get("difficulty", 0))
-    challenge = payload.split(".")[0]
-
-    if not (payload and signature and difficulty):
-        print("Missing challenge data fields")
-        return embed_link, []
-
-    # Step 2: find nonce for SHA256 hash starting with '0' * difficulty
-    prefix = ""
-    i = 0
-    while i < difficulty:
-        prefix = f"{prefix}0"
-        i = i + 1
-
+def extract_from_embed(embed_link, api_url):
+    # Get challenge response from API
+    challenge_response = requests.get(f"{api_url}/challenge").json()
+    if not challenge_response:
+        raise ValueError("Failed to get a response from the API server.")
+    
+    payload = challenge_response.get("payload")
+    signature = challenge_response.get("signature")
+    difficulty = challenge_response.get("difficulty")
+    if payload is None or signature is None or difficulty is None:
+        raise ValueError("Could not parse the API challenge response.")
+    
+    challenge = payload.split('.')[0]
+    
+    # Construct prefix according to difficulty
+    prefix = "0" * int(difficulty)
+    
     nonce = 0
     while True:
         text_to_hash = f"{challenge}{nonce}"
-        hash_val = sha256_hash(text_to_hash)
+        hash_val = hashlib.sha256(text_to_hash.encode('utf-8')).hexdigest()
         if hash_val.startswith(prefix):
             break
         nonce += 1
-
-    # Step 3: Construct full query URL with ordered params
-    query_params = {
-        "url": embed_link,
-        "payload": payload,
-        "signature": signature,
-        "nonce": nonce
-    }
-    ordered_query = urlencode_ordered(query_params, ['url', 'payload', 'signature', 'nonce'])
-    full_url = f"{api_url}?{ordered_query}"
-
-    final_resp = client.get(full_url)
-    if final_resp.status_code != 200:
-        print(f"Failed to get decrypted url from decoder ({final_resp.status_code})")
-        print(final_resp.text)
-        return embed_link, []
-
-    final_data = final_resp.json()
-    video_link = final_data.get("file") or ""
-    subtitles = []
-    if "tracks" in final_data:
-        for track in final_data["tracks"]:
-            if track.get("kind") == "captions" and track.get("file"):
-                subtitles.append(track["file"])
-
-    print(video_link)
-    return video_link, subtitles
+    
+    # Construct final URL with computed nonce and API details
+    final_url = f"{api_url}/?url={embed_link}&payload={payload}&signature={signature}&nonce={nonce}"
+    
+    # Get JSON data from final URL
+    json_data = requests.get(final_url).json()
+    if not json_data:
+        return None
+    
+    # Extract video link with .m3u8 extension
+    file_url = None
+    if "file" in json_data:
+        file_url = json_data["file"]
+    else:
+        # Fallback: try to find the .m3u8 link inside json_data
+        for key, value in json_data.items():
+            if isinstance(value, str) and value.endswith(".m3u8"):
+                file_url = value
+                break
+    
+    return file_url
 
 def parse_episode_range(episode_input: str):
     """Parse episode input to handle ranges like '5-7' or single episodes like '5'"""
@@ -443,7 +415,7 @@ def dlData(path: str = determine_path()):
         for i, episode_data in enumerate(episodes_to_download, 1):
             print(f"\nDownloading episode {i}/{len(episodes_to_download)}: {episode_data['label']}")
             try:
-                decoded_url, subs = decrypt_stream_url(episode_data['file'], DECODER)
+                decoded_url, subs = extract_from_embed(episode_data['file'], DECODER)
                 if 'season' in episode_data and 'episode' in episode_data:
                     episode_query = f"{query}_S{episode_data['season']:02d}E{episode_data['episode']:02d}"
                 else:
@@ -466,7 +438,7 @@ def provideData(play_type):
         for i, episode_data in enumerate(episodes_to_play, 1):
             print(f"\nPlaying episode {i}/{len(episodes_to_play)}: {episode_data['label']}")
             try:
-                decoded_url, subs = decrypt_stream_url(episode_data['file'], DECODER)
+                decoded_url, subs = extract_from_embed(episode_data['file'], DECODER)
 
                 if 'episode_title' in episode_data:
                      episode_title = episode_data['episode_title']
