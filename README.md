@@ -37,9 +37,10 @@ https://user-images.githubusercontent.com/69480361/193068496-ec0e418d-375b-4a14-
 
 - [Installation](#installation)
     1. [PIP Installation](#1-pip-installs-packages-aka-pip-installation)
-    2. [WSL](#2-wsl-alternative-windows-installation)
-    3. [Source Code Download](#3-source-code-download)
-    4. [Android Installation](#4-android-installation)
+    2. [AUR](#2-aur)
+    3. [WSL](#3-wsl-alternative-windows-installation)
+    4. [Source Code Download](#4-source-code-download)
+    5. [Android Installation](#5-android-installation)
 - [Dependencies](#dependencies)
 - [Usage](#usage)
 - [Support](#support)
@@ -57,13 +58,19 @@ This project can be installed on to your device via different mechanisms, these 
 pip install flix-cli
 ```
 
-## 2. WSL (Alternative Windows Installation)
+## 2. AUR
+
+```sh
+paru -S flix-cli
+```
+
+## 3. WSL (Alternative Windows Installation)
 
 Note that the media player (mpv) will need to be installed on Windows, not WSL.
 
 When installing the media player on Windows, make sure that it is on the Windows Path. An easy way to ensure this is to download the media player with a package manager (on Windows, not WSL) such as scoop.
 
-## 3. Installing from source
+## 4. Installing from source
 
 First ensure <a href="https://python-poetry.org/docs/#installation">Poetry is installed</a>.
 
@@ -79,7 +86,7 @@ git clone https://github.com/demonkingswarn/flix-cli.git \
 
 <b>Additional information</b>: You <b>must</b> have Python installed <b>and</b> in PATH to use this project properly. Your Python executable may be `py` or `python` or `python3`. <b>Only Python 3.6 and higher versions are supported by the project.</b>
 
-## 4. Android Installation
+## 5. Android Installation
 Install termux <a href="https://termux.com">(Guide)</a>
 ```sh
 pkg up -y
