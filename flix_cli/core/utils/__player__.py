@@ -7,7 +7,7 @@ IINA_EXECUTABLE = "iina"
 
 def play(file, name, referer, subtitles):
     try:
-        if(plt.system() == 'Linux' or plt.system() == 'Windows' or plt.system() == 'FreeBSD'):
+        if(plt.system() == "Linux" or plt.system() == "Windows" or plt.system() == "FreeBSD"):
             args = [
                 MPV_EXECUTABLE,
                 file,
@@ -20,7 +20,7 @@ def play(file, name, referer, subtitles):
 
             mpv_process.wait()
 
-        elif(plt.system() == 'Darwin'):
+        elif(plt.system() == "Darwin"):
             args = [
                 IINA_EXECUTABLE,
                 "--no-stdin",

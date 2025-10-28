@@ -423,7 +423,7 @@ def provideData(play_type):
         print("No media selected for playback")
 
 def init():
-    ch = fzf_prompt(["play", "download", "chromecaast" "exit"])
+    ch = fzf_prompt(["play", "download", "chromecaast", "exit"])
     if ch == "play":
         provideData("play")
     elif ch == "download":
