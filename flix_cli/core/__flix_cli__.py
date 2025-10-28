@@ -17,6 +17,7 @@ try:
 except ImportError:
     import json
 
+import hashlib
 import sys
 from urllib.parse import urljoin, quote, urlencode, quote_plus
 import time
@@ -46,8 +47,16 @@ def urlencode_ordered(params, order):
         parts.append(f"{k}={quote_plus(str(v))}")
     return "&".join(parts)
 
+def sha256_hash(text_to_hash: str) -> str:
+    # Encode the text to bytes
+    text_bytes = text_to_hash.encode('utf-8')
+    # Calculate SHA256 hash
+    hash_object = hashlib.sha256(text_bytes)
+    # Get the hexadecimal digest string
+    hash_val = hash_object.hexdigest()
+    return hash_val
+
 def decrypt_stream_url(embed_link, api_url):
-    import hashlib
     # Step 1: Get challenge info
     resp = client.get(f"{api_url}/challenge")
     if resp.status_code != 200:
@@ -59,21 +68,24 @@ def decrypt_stream_url(embed_link, api_url):
     payload = data.get("payload")
     signature = data.get("signature")
     difficulty = int(data.get("difficulty", 0))
+    challenge = payload.split(".")[0]
 
     if not (payload and signature and difficulty):
         print("Missing challenge data fields")
         return embed_link, []
 
-    # Extract challenge string (prefix before dot)
-    challenge = payload.split(".")[0]
-
     # Step 2: find nonce for SHA256 hash starting with '0' * difficulty
-    prefix = "0" * difficulty
+    prefix = ""
+    i = 0
+    while i < difficulty:
+        prefix = f"{prefix}0"
+        i = i + 1
+
     nonce = 0
     while True:
-        text = f"{challenge}{nonce}"
-        hash_digest = hashlib.sha256(text.encode("utf-8")).hexdigest()
-        if hash_digest.startswith(prefix):
+        text_to_hash = f"{challenge}{nonce}"
+        hash_val = sha256_has(text_to_hash)
+        if hash_val.startswith(prefix):
             break
         nonce += 1
 
@@ -101,6 +113,7 @@ def decrypt_stream_url(embed_link, api_url):
             if track.get("kind") == "captions" and track.get("file"):
                 subtitles.append(track["file"])
 
+    print(video_link)
     return video_link, subtitles
 
 def parse_episode_range(episode_input: str):
