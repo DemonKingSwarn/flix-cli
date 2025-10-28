@@ -48,11 +48,8 @@ def urlencode_ordered(params, order):
     return "&".join(parts)
 
 def sha256_hash(text_to_hash: str) -> str:
-    # Encode the text to bytes
     text_bytes = text_to_hash.encode('utf-8')
-    # Calculate SHA256 hash
     hash_object = hashlib.sha256(text_bytes)
-    # Get the hexadecimal digest string
     hash_val = hash_object.hexdigest()
     return hash_val
 
@@ -84,7 +81,7 @@ def decrypt_stream_url(embed_link, api_url):
     nonce = 0
     while True:
         text_to_hash = f"{challenge}{nonce}"
-        hash_val = sha256_has(text_to_hash)
+        hash_val = sha256_hash(text_to_hash)
         if hash_val.startswith(prefix):
             break
         nonce += 1
