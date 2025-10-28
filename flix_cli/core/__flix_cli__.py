@@ -245,7 +245,7 @@ def get_episode_data(target_episode, season_num, episode_num):
         return None
     return {
         'file': embed_link,
-        'label': f'S{season_num}E{episode_num} - {target_episode['title']}',
+        'label': f"S{season_num}E{episode_num} - {target_episode['title']}",
         'type': 'embed',
         'season': season_num,
         'episode': episode_num
