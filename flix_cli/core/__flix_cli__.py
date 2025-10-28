@@ -39,23 +39,36 @@ DECODER = "https://dec.eatmynerds.live"
 selected_media = None
 selected_subtitles = []
 
-def extract_from_embed(embed_link, api_url):
-    # Get challenge response from API
-    challenge_response = client.get(f"{api_url}/challenge").json()
+def extact_from_embed(embed_link, api_url):
+    subs_language = 'english'
+    json_output = False
+
+    # Get challenge response JSON
+    response = client.get(f"{api_url}/challenge")
+    challenge_response = response.text
     if not challenge_response:
-        raise ValueError("Failed to get a response from the API server.")
-    
-    payload = challenge_response.get("payload")
-    signature = challenge_response.get("signature")
-    difficulty = challenge_response.get("difficulty")
-    if payload is None or signature is None or difficulty is None:
-        raise ValueError("Could not parse the API challenge response.")
-    
+        raise RuntimeError("ERROR: Failed to get a response from the API server.")
+
+    # Extract payload, signature, difficulty using regex to match shell's sed extraction behavior
+    payload_match = re.search(r'"payload":"([^"]+)"', challenge_response)
+    signature_match = re.search(r'"signature":"([^"]+)"', challenge_response)
+    difficulty_match = re.search(r'"difficulty":(\d+)', challenge_response)
+
+    if not payload_match or not signature_match or not difficulty_match:
+        raise RuntimeError("FATAL: Could not parse the API challenge response.")
+
+    payload = payload_match.group(1)
+    signature = signature_match.group(1)
+    difficulty = int(difficulty_match.group(1))
+
+    # Challenge is substring before first '.'
     challenge = payload.split('.')[0]
-    
-    # Construct prefix according to difficulty
-    prefix = "0" * int(difficulty)
-    
+
+    # Construct prefix string of zeros exactly as shell does
+    prefix = ''
+    for _ in range(difficulty):
+        prefix += '0'
+
     nonce = 0
     while True:
         text_to_hash = f"{challenge}{nonce}"
@@ -63,27 +76,37 @@ def extract_from_embed(embed_link, api_url):
         if hash_val.startswith(prefix):
             break
         nonce += 1
-    
-    # Construct final URL with computed nonce and API details
+
     final_url = f"{api_url}/?url={embed_link}&payload={payload}&signature={signature}&nonce={nonce}"
-    
-    # Get JSON data from final URL
-    json_data = client.get(final_url).json()
-    if not json_data:
-        return None
-    
-    # Extract video link with .m3u8 extension
-    file_url = None
-    if "file" in json_data:
-        file_url = json_data["file"]
-    else:
-        # Fallback: try to find the .m3u8 link inside json_data
-        for key, value in json_data.items():
-            if isinstance(value, str) and value.endswith(".m3u8"):
-                file_url = value
-                break
-    
-    return file_url
+    decrypted_response = client.get(final_url).text
+
+    if json_output:
+        print(decrypted_response)
+        exit(0)
+
+    # Extract video link (.m3u8) like shell using regex
+    video_link_match = re.search(r'"file":"([^"]+\.m3u8)"', decrypted_response)
+    video_link = video_link_match.group(1) if video_link_match else None
+
+    if video_link and quality:
+        video_link = video_link.replace("/playlist.m3u8", f"/{quality}/index.m3u8")
+
+    # Subtitle extraction logic similar to shell script
+    subs = []
+    if not no_subs:
+        subs_matches = re.findall(r'"file":"([^"]*)".*?"label":"([^"]*' + re.escape(subs_language) + r'[^"]*)"', decrypted_response, re.IGNORECASE | re.DOTALL)
+        if not subs_matches:
+            # Could notify no subtitles in a real app, here just leave subs empty
+            pass
+        else:
+            for sfile, slabel in subs_matches:
+                # Shell replaces ':' with escaped path separator in subs link, here we directly use sfile
+                subs.append({
+                    "file": sfile,
+                    "label": slabel
+                })
+
+    return video_link, subs
 
 def parse_episode_range(episode_input: str):
     """Parse episode input to handle ranges like '5-7' or single episodes like '5'"""
