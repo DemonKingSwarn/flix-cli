@@ -10,7 +10,6 @@ import os
 from .utils.__player__ import play
 from .utils.__downloader__ import download
 from .utils.__cast__ import cast
-from .__decryptor__ import decrypt_stream_url
 from .__version__ import __core__
 
 try:
@@ -18,6 +17,7 @@ try:
 except ImportError:
     import json
 
+import hashlib
 import sys
 from urllib.parse import urljoin, quote
 import time
