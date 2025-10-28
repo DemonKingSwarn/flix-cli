@@ -39,7 +39,7 @@ DECODER = "https://dec.eatmynerds.live"
 selected_media = None
 selected_subtitles = []
 
-def extact_from_embed(embed_link, api_url):
+def extract_from_embed(embed_link, api_url):
     subs_language = 'english'
     json_output = False
 
