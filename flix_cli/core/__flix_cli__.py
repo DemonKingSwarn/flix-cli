@@ -24,7 +24,7 @@ import time
 from bs4 import BeautifulSoup
 
 headers = {
-    "User-Agent": f"flix-cli/{__core__}",
+    "User-Agent": f"lobster/4.5.9",
     "Referer": "https://flixhq.to/",
     "X-Requested-With": "XMLHttpRequest"
 }
