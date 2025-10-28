@@ -61,43 +61,6 @@ def parse_episode_range(episode_input: str):
             print("Invalid episode number")
             return None
 
-def decode_url(url: str):
-    """Decode the stream URL using the decoding service"""
-    try:
-        decoder_endpoint = f"{DECODER}?url={quote(url)}"
-        resp = client.get(decoder_endpoint, headers={
-            "User-Agent": headers["User-Agent"],
-            "Referer": FLIXHQ_BASE_URL
-        })
-        if resp.status_code == 200:
-            try:
-                data = resp.json()
-                if 'sources' in data and data['sources']:
-                    video_link = data['sources'][0].get('file', '')
-                    if video_link and '.m3u8' in video_link:
-                        print(f"Debug: Found m3u8 URL: {video_link}")
-                        subtitles = []
-                        if 'tracks' in data:
-                            for track in data['tracks']:
-                                if track.get('kind') == 'captions' and track.get('file'):
-                                    subtitles.append(track['file'])
-                        return video_link, subtitles
-                for key in ['link', 'url', 'file']:
-                    if key in data and data[key]:
-                        return data[key], []
-            except json.JSONDecodeError:
-                text_response = resp.text
-                m3u8_match = re.search(r'"file":"([^"]*\.m3u8[^"]*)"', text_response)
-                if m3u8_match:
-                    decoded_url = m3u8_match.group(1)
-                    print(f"Debug: Regex extracted m3u8: {decoded_url}")
-                    return decoded_url, []
-        print(f"Debug: Failed to decode, using original URL")
-        return url, []
-    except Exception as e:
-        print(f"Debug: Error decoding URL: {e}")
-        return url, []
-
 def search_content(query: str):
     """Search for content on flixhq.to"""
     try:

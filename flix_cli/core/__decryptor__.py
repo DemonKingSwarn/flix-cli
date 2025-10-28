@@ -1,5 +1,15 @@
 import hashlib
 
+import httpx
+
+headers = {
+    "User-Agent": f"flix-cli/{__core__}",
+    "Referer": "https://flixhq.to/",
+    "X-Requested-With": "XMLHttpRequest"
+}
+
+client = httpx.Client(headers=headers, follow_redirects=True, timeout=None)
+
 def decrypt_stream_url(embed_link, api_url):
     # Step 1: Obtain challenge
     challenge_resp = client.get(f"{api_url}/challenge")
