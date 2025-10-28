@@ -4,8 +4,10 @@ import sys
 import httpx
 import regex as re
 
+from .__version__ import  __core_
+
 headers = {
-    "User-Agent": f"lobster/4.5.9",
+    "User-Agent": f"flix-cli/{__core__}",
     "Referer": "https://flixhq.to/",
     "X-Requested-With": "XMLHttpRequest"
 }
@@ -18,7 +20,6 @@ def send_notification(message):
 def decrypt_stream_url(embed_link, API_URL):
     client = httpx.Client()
 
-    # Step 1: Get challenge
     try:
         response = client.get(f"{API_URL}/challenge")
         response.raise_for_status()
@@ -27,7 +28,6 @@ def decrypt_stream_url(embed_link, API_URL):
         send_notification(f"ERROR: Failed to get a response from the API server. ({e})")
         return None, None
 
-    # Step 2: Extract values
     payload_match = re.search(r'"payload":"([^"]+)"', challenge_response)
     signature_match = re.search(r'"signature":"([^"]+)"', challenge_response)
     difficulty_match = re.search(r'"difficulty":(\d+)', challenge_response)
@@ -41,7 +41,6 @@ def decrypt_stream_url(embed_link, API_URL):
     difficulty = int(difficulty_match.group(1))
     challenge = payload.split('.')[0]
 
-    # Step 3: Proof-of-work
     prefix = '0' * difficulty
     nonce = 0
 
@@ -53,7 +52,6 @@ def decrypt_stream_url(embed_link, API_URL):
             break
         nonce += 1
 
-    # Step 4: Request the final data
     final_url = f"{API_URL}/?url={embed_link}&payload={payload}&signature={signature}&nonce={nonce}"
 
     try:
