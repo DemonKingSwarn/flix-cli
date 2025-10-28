@@ -4,7 +4,13 @@ import sys
 import httpx
 import regex as re
 
-client = httpx.Client(follow_redirects=True, timeout=None)
+headers = {
+    "User-Agent": f"lobster/4.5.9",
+    "Referer": "https://flixhq.to/",
+    "X-Requested-With": "XMLHttpRequest"
+}
+
+client = httpx.Client(headers=headers, follow_redirects=True, timeout=None)
 
 def send_notification(message):
     print(message, file=sys.stderr)
