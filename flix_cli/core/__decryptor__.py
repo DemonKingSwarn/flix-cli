@@ -10,28 +10,25 @@ def send_notification(message):
     print(message, file=sys.stderr)
 
 def decrypt_stream_url(embed_link, API_URL):
-    quality = None
-    json_output = False
-    no_subs = False
-    subs_language = "en"
+    client = httpx.Client()
 
-    # Step 1: Get challenge from API
+    # Step 1: Get challenge
     try:
         response = client.get(f"{API_URL}/challenge")
         response.raise_for_status()
         challenge_response = response.text
     except Exception as e:
         send_notification(f"ERROR: Failed to get a response from the API server. ({e})")
-        return None
+        return None, None
 
-    # Step 2: Extract fields using regex
+    # Step 2: Extract values
     payload_match = re.search(r'"payload":"([^"]+)"', challenge_response)
     signature_match = re.search(r'"signature":"([^"]+)"', challenge_response)
     difficulty_match = re.search(r'"difficulty":(\d+)', challenge_response)
 
     if not (payload_match and signature_match and difficulty_match):
         send_notification("FATAL: Could not parse the API challenge response.")
-        return None
+        return None, None
 
     payload = payload_match.group(1)
     signature = signature_match.group(1)
@@ -50,32 +47,21 @@ def decrypt_stream_url(embed_link, API_URL):
             break
         nonce += 1
 
-    # Step 4: Build final URL and request data
+    # Step 4: Request the final data
     final_url = f"{API_URL}/?url={embed_link}&payload={payload}&signature={signature}&nonce={nonce}"
-    json_data = client.get(final_url).text
 
-    # Step 5: Extract .m3u8 link
-    m3u8_match = re.search(r'"file":"([^"]*\.m3u8)"', json_data)
-    video_link = m3u8_match.group(1) if m3u8_match else None
+    try:
+        json_data = client.get(final_url).text
+    except Exception as e:
+        send_notification(f"ERROR: Failed to get JSON data. ({e})")
+        return None, None
 
-    if quality and video_link:
-        video_link = video_link.replace("/playlist.m3u8", f"/{quality}/index.m3u8")
+    # Step 5: Extract main video and subtitle links
+    video_match = re.search(r'"file":"([^"]*\.m3u8)"', json_data)
+    subs_matches = re.findall(r'"file":"([^"]*\.vtt)"', json_data, flags=re.IGNORECASE)
 
-    if json_output:
-        print(json_data)
-        sys.exit(0)
-
-    # Step 6: Handle subtitles
-    subs_links = []
-
-    if no_subs:
-        send_notification("Continuing without subtitles")
-    else:
-        subs_links = re.findall(
-            rf'"file":"([^"]*)"[^{{}}]*"label":"[^"]*{subs_language}[^"]*"', json_data, flags=re.IGNORECASE
-        )
-        if not subs_links:
-            send_notification(f"No subtitles found for language '{subs_language}'")
+    video_link = video_match.group(1) if video_match else None
+    subs_links = subs_matches if subs_matches else []
 
     return video_link, subs_links
 
