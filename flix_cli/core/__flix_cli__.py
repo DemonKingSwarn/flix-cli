@@ -41,7 +41,7 @@ selected_subtitles = []
 
 def extract_from_embed(embed_link, api_url):
     # Get challenge response from API
-    challenge_response = requests.get(f"{api_url}/challenge").json()
+    challenge_response = client.get(f"{api_url}/challenge").json()
     if not challenge_response:
         raise ValueError("Failed to get a response from the API server.")
     
@@ -68,7 +68,7 @@ def extract_from_embed(embed_link, api_url):
     final_url = f"{api_url}/?url={embed_link}&payload={payload}&signature={signature}&nonce={nonce}"
     
     # Get JSON data from final URL
-    json_data = requests.get(final_url).json()
+    json_data = client.get(final_url).json()
     if not json_data:
         return None
     
