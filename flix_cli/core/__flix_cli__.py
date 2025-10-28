@@ -42,6 +42,7 @@ selected_subtitles = []
 def extract_from_embed(embed_link, api_url):
     subs_language = 'english'
     json_output = False
+    no_subs = False
 
     # Get challenge response JSON
     response = client.get(f"{api_url}/challenge")
@@ -87,9 +88,6 @@ def extract_from_embed(embed_link, api_url):
     # Extract video link (.m3u8) like shell using regex
     video_link_match = re.search(r'"file":"([^"]+\.m3u8)"', decrypted_response)
     video_link = video_link_match.group(1) if video_link_match else None
-
-    if video_link and quality:
-        video_link = video_link.replace("/playlist.m3u8", f"/{quality}/index.m3u8")
 
     # Subtitle extraction logic similar to shell script
     subs = []
