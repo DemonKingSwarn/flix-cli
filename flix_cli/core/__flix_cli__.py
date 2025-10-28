@@ -10,6 +10,7 @@ import os
 from .utils.__player__ import play
 from .utils.__downloader__ import download
 from .utils.__cast__ import cast
+from .__decryptor__ import decrypt_stream_url
 from .__version__ import __core__
 
 try:
@@ -17,9 +18,8 @@ try:
 except ImportError:
     import json
 
-import hashlib
 import sys
-from urllib.parse import urljoin, quote, urlencode, quote_plus
+from urllib.parse import urljoin, quote
 import time
 from bs4 import BeautifulSoup
 
@@ -38,73 +38,6 @@ DECODER = "https://dec.eatmynerds.live"
 
 selected_media = None
 selected_subtitles = []
-
-def extract_from_embed(embed_link, api_url):
-    subs_language = 'english'
-    json_output = False
-    no_subs = False
-
-    # Get challenge response JSON
-    response = client.get(f"{api_url}/challenge")
-    challenge_response = response.text
-    if not challenge_response:
-        raise RuntimeError("ERROR: Failed to get a response from the API server.")
-
-    # Extract payload, signature, difficulty using regex to match shell's sed extraction behavior
-    payload_match = re.search(r'"payload":"([^"]+)"', challenge_response)
-    signature_match = re.search(r'"signature":"([^"]+)"', challenge_response)
-    difficulty_match = re.search(r'"difficulty":(\d+)', challenge_response)
-
-    if not payload_match or not signature_match or not difficulty_match:
-        raise RuntimeError("FATAL: Could not parse the API challenge response.")
-
-    payload = payload_match.group(1)
-    signature = signature_match.group(1)
-    difficulty = int(difficulty_match.group(1))
-
-    # Challenge is substring before first '.'
-    challenge = payload.split('.')[0]
-
-    # Construct prefix string of zeros exactly as shell does
-    prefix = ''
-    for _ in range(difficulty):
-        prefix += '0'
-
-    nonce = 0
-    while True:
-        text_to_hash = f"{challenge}{nonce}"
-        hash_val = hashlib.sha256(text_to_hash.encode('utf-8')).hexdigest()
-        if hash_val.startswith(prefix):
-            break
-        nonce += 1
-
-    final_url = f"{api_url}/?url={embed_link}&payload={payload}&signature={signature}&nonce={nonce}"
-    decrypted_response = client.get(final_url).text
-
-    if json_output:
-        print(decrypted_response)
-        exit(0)
-
-    # Extract video link (.m3u8) like shell using regex
-    video_link_match = re.search(r'"file":"([^"]+\.m3u8)"', decrypted_response)
-    video_link = video_link_match.group(1) if video_link_match else None
-
-    # Subtitle extraction logic similar to shell script
-    subs = []
-    if not no_subs:
-        subs_matches = re.findall(r'"file":"([^"]*)".*?"label":"([^"]*' + re.escape(subs_language) + r'[^"]*)"', decrypted_response, re.IGNORECASE | re.DOTALL)
-        if not subs_matches:
-            # Could notify no subtitles in a real app, here just leave subs empty
-            pass
-        else:
-            for sfile, slabel in subs_matches:
-                # Shell replaces ':' with escaped path separator in subs link, here we directly use sfile
-                subs.append({
-                    "file": sfile,
-                    "label": slabel
-                })
-
-    return video_link, subs
 
 def parse_episode_range(episode_input: str):
     """Parse episode input to handle ranges like '5-7' or single episodes like '5'"""
@@ -436,7 +369,7 @@ def dlData(path: str = determine_path()):
         for i, episode_data in enumerate(episodes_to_download, 1):
             print(f"\nDownloading episode {i}/{len(episodes_to_download)}: {episode_data['label']}")
             try:
-                decoded_url, subs = extract_from_embed(episode_data['file'], DECODER)
+                decoded_url, subs = decrypt_stream_url(episode_data['file'], DECODER)
                 if 'season' in episode_data and 'episode' in episode_data:
                     episode_query = f"{query}_S{episode_data['season']:02d}E{episode_data['episode']:02d}"
                 else:
@@ -459,7 +392,7 @@ def provideData(play_type):
         for i, episode_data in enumerate(episodes_to_play, 1):
             print(f"\nPlaying episode {i}/{len(episodes_to_play)}: {episode_data['label']}")
             try:
-                decoded_url, subs = extract_from_embed(episode_data['file'], DECODER)
+                decoded_url, subs = decrypt_stream_url(episode_data['file'], DECODER)
 
                 if 'episode_title' in episode_data:
                      episode_title = episode_data['episode_title']
