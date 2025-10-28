@@ -4,6 +4,12 @@ import subprocess
 MPV_EXECUTABLE = "mpv"
 IINA_EXECUTABLE = "iina"
 
+def is_ish():
+    try:
+        output = subprocess.check_output(['uname', '-o'], text=True).strip()
+        return output == 'iSH'
+    except Exception:
+        return False
 
 def play(file, name, referer, subtitles):
     try:
@@ -21,20 +27,25 @@ def play(file, name, referer, subtitles):
             mpv_process.wait()
 
         elif(plt.system() == "Darwin"):
-            args = [
-                IINA_EXECUTABLE,
-                "--no-stdin",
-                "--keep-running",
-                f"--mpv-referrer={referer}",
-                file,
-                f"--mpv-force-media-title=Playing {name}",
-            ]
+            if is_ish():
+                f"\033]8;;vlc-x-callback://x-callback-url/stream?url={file}&sub={','.join(subtitles)}\a~ Tap to open VLC ~\033]8;;\a"
 
-            args.extend(f"--mpv-sub-files={_}" for _ in subtitles)
-            
-            iina_process = subprocess.Popen(args, stdout=subprocess.DEVNULL)
+            else:
 
-            iina_process.wait()
+                args = [
+                    IINA_EXECUTABLE,
+                    "--no-stdin",
+                    "--keep-running",
+                    f"--mpv-referrer={referer}",
+                    file,
+                    f"--mpv-force-media-title=Playing {name}",
+                ]
+
+                args.extend(f"--mpv-sub-files={_}" for _ in subtitles)
+                
+                iina_process = subprocess.Popen(args, stdout=subprocess.DEVNULL)
+
+                iina_process.wait()
 
     except Exception as e:
         print("[!] no supported video player were found.")

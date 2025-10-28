@@ -10,7 +10,7 @@ import os
 from .utils.__player__ import play
 from .utils.__downloader__ import download
 from .utils.__cast__ import cast
-from .__decryptor__ import decrypt_stream_url
+from .utils.__decryptor__ import decrypt_stream_url
 from .__version__ import __core__
 
 try:
@@ -113,7 +113,6 @@ def search_content(query: str):
         return None
 
 def get_tv_seasons(media_id: str):
-    """Get TV show seasons using lobster's approach"""
     try:
         seasons_url = f"{FLIXHQ_AJAX_URL}/v2/tv/seasons/{media_id}"
         response = client.get(seasons_url)
@@ -135,7 +134,6 @@ def get_tv_seasons(media_id: str):
         return []
 
 def get_season_episodes(season_id: str):
-    """Get episodes for a season using lobster's approach"""
     try:
         episodes_url = f"{FLIXHQ_AJAX_URL}/v2/season/episodes/{season_id}"
         response = client.get(episodes_url)
@@ -156,7 +154,6 @@ def get_season_episodes(season_id: str):
         return []
 
 def get_episode_servers(data_id: str, preferred_provider: str = "Vidcloud"):
-    """Get episode servers using lobster's approach"""
     try:
         servers_url = f"{FLIXHQ_AJAX_URL}/v2/episode/servers/{data_id}"
         response = client.get(servers_url)
@@ -181,7 +178,6 @@ def get_episode_servers(data_id: str, preferred_provider: str = "Vidcloud"):
         return None
 
 def get_embed_link(episode_id: str):
-    """Get embed link from episode sources endpoint"""
     try:
         sources_url = f"{FLIXHQ_AJAX_URL}/episode/sources/{episode_id}"
         response = client.get(sources_url)
@@ -369,7 +365,7 @@ def dlData(path: str = determine_path()):
         for i, episode_data in enumerate(episodes_to_download, 1):
             print(f"\nDownloading episode {i}/{len(episodes_to_download)}: {episode_data['label']}")
             try:
-                decoded_url, subs = decrypt_stream_url(episode_data['file'], DECODER)
+                decoded_url, subs = decrypt_stream_url(episode_data['file'])
                 if 'season' in episode_data and 'episode' in episode_data:
                     episode_query = f"{query}_S{episode_data['season']:02d}E{episode_data['episode']:02d}"
                 else:
@@ -392,7 +388,7 @@ def provideData(play_type):
         for i, episode_data in enumerate(episodes_to_play, 1):
             print(f"\nPlaying episode {i}/{len(episodes_to_play)}: {episode_data['label']}")
             try:
-                decoded_url, subs = decrypt_stream_url(episode_data['file'], DECODER)
+                decoded_url, subs = decrypt_stream_url(episode_data['file'])
 
                 if 'episode_title' in episode_data:
                      episode_title = episode_data['episode_title']
