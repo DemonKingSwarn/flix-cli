@@ -10,6 +10,7 @@ import os
 from .utils.__player__ import play
 from .utils.__downloader__ import download
 from .utils.__cast__ import cast
+from .__decryptor__ import decrypt_stream_url
 from .__version__ import __core__
 
 try:
@@ -405,7 +406,7 @@ def dlData(path: str = determine_path()):
         for i, episode_data in enumerate(episodes_to_download, 1):
             print(f"\nDownloading episode {i}/{len(episodes_to_download)}: {episode_data['label']}")
             try:
-                decoded_url, subs = decode_url(episode_data['file'])
+                decoded_url, subs = decrypt_stream_url(episode_data['file'], DECODER)
                 if 'season' in episode_data and 'episode' in episode_data:
                     episode_query = f"{query}_S{episode_data['season']:02d}E{episode_data['episode']:02d}"
                 else:
@@ -428,7 +429,7 @@ def provideData(play_type):
         for i, episode_data in enumerate(episodes_to_play, 1):
             print(f"\nPlaying episode {i}/{len(episodes_to_play)}: {episode_data['label']}")
             try:
-                decoded_url, subs = decode_url(episode_data['file'])
+                decoded_url, subs = decrypt_stream_url(episode_data['file'], DECODER)
 
                 if 'episode_title' in episode_data:
                      episode_title = episode_data['episode_title']
