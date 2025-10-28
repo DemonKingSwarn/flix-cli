@@ -17,7 +17,6 @@ try:
 except ImportError:
     import json
 
-import hashlib
 import sys
 from urllib.parse import urljoin, quote, urlencode, quote_plus
 import time
@@ -39,15 +38,8 @@ DECODER = "https://dec.eatmynerds.live"
 selected_media = None
 selected_subtitles = []
 
-def urlencode_ordered(params, order):
-    # Encode query params in exact order
-    parts = []
-    for k in order:
-        v = params[k]
-        parts.append(f"{k}={quote_plus(str(v))}")
-    return "&".join(parts)
-
 def decrypt_stream_url(embed_link, api_url):
+    import hashlib
     # Step 1: Get challenge info
     resp = client.get(f"{api_url}/challenge")
     if resp.status_code != 200:
@@ -59,12 +51,15 @@ def decrypt_stream_url(embed_link, api_url):
     payload = data.get("payload")
     signature = data.get("signature")
     difficulty = int(data.get("difficulty", 0))
+
     if not (payload and signature and difficulty):
         print("Missing challenge data fields")
         return embed_link, []
 
+    # Extract challenge string (prefix before dot)
     challenge = payload.split(".")[0]
 
+    # Step 2: find nonce for SHA256 hash starting with '0' * difficulty
     prefix = "0" * difficulty
     nonce = 0
     while True:
@@ -74,7 +69,7 @@ def decrypt_stream_url(embed_link, api_url):
             break
         nonce += 1
 
-    # Step 3: Construct full URL manually with encoded params
+    # Step 3: Construct full query URL with ordered params
     query_params = {
         "url": embed_link,
         "payload": payload,
