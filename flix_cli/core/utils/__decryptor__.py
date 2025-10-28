@@ -5,7 +5,6 @@ import json
 import httpx
 import regex
 
-# Use curl's default User-Agent - this is likely what the API is checking!
 headers = {
     "User-Agent": "curl/8.16.0"
 }
@@ -35,8 +34,6 @@ def solve_challenge(challenge_response):
     return payload, signature, nonce
 
 def decrypt_stream_url(embed_link, quality=None, subs_language="english"):
-    """Extract video and subtitle links from embed - stops when found"""
-    
     # Get challenge
     challenge_response = client.get(f"{API_URL}/challenge")
     
@@ -49,7 +46,6 @@ def decrypt_stream_url(embed_link, quality=None, subs_language="english"):
     print(f"Challenge solved - nonce: {nonce}", file=sys.stderr)
     print(f"Requesting decryption for: {embed_link}", file=sys.stderr)
     
-    # Use params dict so httpx properly URL-encodes the parameters
     params = {
         "url": embed_link,
         "payload": payload,
@@ -57,7 +53,6 @@ def decrypt_stream_url(embed_link, quality=None, subs_language="english"):
         "nonce": nonce
     }
     
-    # Make request with curl User-Agent
     response = client.get(API_URL, params=params)
     
     print(f"Response status: {response.status_code}", file=sys.stderr)
@@ -74,7 +69,6 @@ def decrypt_stream_url(embed_link, quality=None, subs_language="english"):
         print(f"Response was: {response.text}", file=sys.stderr)
         return None, None
     
-    # Extract video link
     video_link = None
     if 'sources' in json_data:
         for source in json_data['sources']:
@@ -82,11 +76,9 @@ def decrypt_stream_url(embed_link, quality=None, subs_language="english"):
                 video_link = source['file']
                 break
     
-    # Apply quality if specified
     if video_link and quality:
         video_link = regex.sub(r'/playlist\.m3u8', f'/{quality}/index.m3u8', video_link)
     
-    # Extract subtitle links
     subs_links = []
     if 'tracks' in json_data:
         for track in json_data['tracks']:
