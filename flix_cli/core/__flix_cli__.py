@@ -19,12 +19,12 @@ except ImportError:
 
 import hashlib
 import sys
-from urllib.parse import urljoin, quote, urlencode
+from urllib.parse import urljoin, quote, urlencode, quote_plus
 import time
 from bs4 import BeautifulSoup
 
 headers = {
-    "User-Agent": f"lobster/4.5.9",
+    "User-Agent": f"flix-cli/{__core__}",
     "Referer": "https://flixhq.to/",
     "X-Requested-With": "XMLHttpRequest"
 }
@@ -38,6 +38,14 @@ DECODER = "https://dec.eatmynerds.live"
 
 selected_media = None
 selected_subtitles = []
+
+def urlencode_ordered(params, order):
+    # Encode query params in exact order
+    parts = []
+    for k in order:
+        v = params[k]
+        parts.append(f"{k}={quote_plus(str(v))}")
+    return "&".join(parts)
 
 def decrypt_stream_url(embed_link, api_url):
     # Step 1: Get challenge info
@@ -73,7 +81,8 @@ def decrypt_stream_url(embed_link, api_url):
         "signature": signature,
         "nonce": nonce
     }
-    full_url = f"{api_url}?{urlencode(query_params)}"
+    ordered_query = urlencode_ordered(query_params, ['url', 'payload', 'signature', 'nonce'])
+    full_url = f"{api_url}?{ordered_query}"
 
     final_resp = client.get(full_url)
     if final_resp.status_code != 200:
