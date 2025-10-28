@@ -38,6 +38,14 @@ DECODER = "https://dec.eatmynerds.live"
 selected_media = None
 selected_subtitles = []
 
+def urlencode_ordered(params, order):
+    # Encode query params in exact order
+    parts = []
+    for k in order:
+        v = params[k]
+        parts.append(f"{k}={quote_plus(str(v))}")
+    return "&".join(parts)
+
 def decrypt_stream_url(embed_link, api_url):
     import hashlib
     # Step 1: Get challenge info
