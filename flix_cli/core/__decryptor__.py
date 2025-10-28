@@ -1,4 +1,5 @@
 import hashlib
+import sys
 
 import httpx
 import regex as re
