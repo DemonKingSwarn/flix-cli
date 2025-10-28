@@ -19,7 +19,7 @@ except ImportError:
 
 import hashlib
 import sys
-from urllib.parse import urljoin, quote
+from urllib.parse import urljoin, quote, urlencode
 import time
 from bs4 import BeautifulSoup
 
@@ -40,10 +40,11 @@ selected_media = None
 selected_subtitles = []
 
 def decrypt_stream_url(embed_link, api_url):
-    # Step 1: Get challenge info from API
+    # Step 1: Get challenge info
     resp = client.get(f"{api_url}/challenge")
     if resp.status_code != 200:
         print(f"Failed to fetch challenge ({resp.status_code})")
+        print(resp.text)
         return embed_link, []
 
     data = resp.json()
@@ -54,9 +55,8 @@ def decrypt_stream_url(embed_link, api_url):
         print("Missing challenge data fields")
         return embed_link, []
 
-    challenge = payload.split(".")[0]  # Part before dot as in shell
+    challenge = payload.split(".")[0]
 
-    # Step 2: Solve proof-of-work: find nonce so sha256(challenge+nonce) starts with difficulty zeros
     prefix = "0" * difficulty
     nonce = 0
     while True:
@@ -66,21 +66,22 @@ def decrypt_stream_url(embed_link, api_url):
             break
         nonce += 1
 
-    # Step 3: Final request with solved nonce and challenge data
-    params = {
+    # Step 3: Construct full URL manually with encoded params
+    query_params = {
         "url": embed_link,
         "payload": payload,
         "signature": signature,
         "nonce": nonce
     }
-    final_resp = client.get(api_url, params=params)
+    full_url = f"{api_url}?{urlencode(query_params)}"
+
+    final_resp = client.get(full_url)
     if final_resp.status_code != 200:
         print(f"Failed to get decrypted url from decoder ({final_resp.status_code})")
+        print(final_resp.text)
         return embed_link, []
 
     final_data = final_resp.json()
-
-    # Extract video link and subtitles as before
     video_link = final_data.get("file") or ""
     subtitles = []
     if "tracks" in final_data:
