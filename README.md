@@ -72,7 +72,7 @@ paru -S flix-cli
 Make sure [scoop package manager](https://scoop.sh) is installed in your system.
 
 ```ps
-scoop install https://github.com/DemonKingSwarn/flix-cli/raw/refs/heads/master/flix-cli.json
+scoop install "https://github.com/DemonKingSwarn/flix-cli/raw/refs/heads/master/flix-cli.json"
 ```
 
 ## 4. WSL (Alternative Windows Installation)
