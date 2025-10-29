@@ -109,6 +109,7 @@ Install iSH <a href="https://apps.apple.com/us/app/ish-shell/id1436902243">(Guid
 apk update
 apk add python3
 apk add py3-pip
+apk add fzf
 pip install --upgrade flix-cli
 ```
 
