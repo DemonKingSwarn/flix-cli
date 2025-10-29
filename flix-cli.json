@@ -8,7 +8,7 @@
         "script": "python -m pip install flix-cli==$version"
     },
     "uninstaller": {
-        "script": "python -m pip uninstall -y flix-cli"
+        "script": "python -m pip uninstall -y flix-cli==1.7.10.8"
     },
     "bin": "flix-cli",
     "checkver": {
