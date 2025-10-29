@@ -39,10 +39,11 @@ https://user-images.githubusercontent.com/69480361/193068496-ec0e418d-375b-4a14-
 - [Installation](#installation)
     1. [PIP Installation](#1-pip-installs-packages-aka-pip-installation)
     2. [AUR (Arch Linux)](#2-aur-arch-linux)
-    3. [WSL (Alternative Window Installation)](#3-wsl-alternative-windows-installation)
-    4. [Source Code Download](#4-source-code-download)
-    5. [Android Installation](#5-android-installation)
-    6. [iSH Installation (IOS)](#6-ish-installation-ios)
+    3. [Scoop (Windows)](#3-scoop-windows)
+    4. [WSL (Alternative Window Installation)](#4-wsl-alternative-windows-installation)
+    5. [Source Code Download](#5-source-code-download)
+    6. [Android Installation](#6-android-installation)
+    7. [iSH Installation (IOS)](#7-ish-installation-ios)
 - [Dependencies](#dependencies)
 - [Usage](#usage)
 - [Support](#support)
@@ -66,13 +67,21 @@ pip install flix-cli
 paru -S flix-cli
 ```
 
-## 3. WSL (Alternative Windows Installation)
+## 3. Scoop (Windows)
+
+Make sure [scoop package manager](https://scoop.sh) is installed in your system.
+
+```ps
+scoop install https://github.com/DemonKingSwarn/flix-cli/raw/refs/heads/master/flix-cli.json
+```
+
+## 4. WSL (Alternative Windows Installation)
 
 Note that the media player (mpv) will need to be installed on Windows, not WSL.
 
 When installing the media player on Windows, make sure that it is on the Windows Path. An easy way to ensure this is to download the media player with a package manager (on Windows, not WSL) such as scoop.
 
-## 4. Installing from source
+## 5. Installing from source
 
 First ensure <a href="https://python-poetry.org/docs/#installation">Poetry is installed</a>.
 
@@ -88,7 +97,7 @@ git clone https://github.com/demonkingswarn/flix-cli.git \
 
 <b>Additional information</b>: You <b>must</b> have Python installed <b>and</b> in PATH to use this project properly. Your Python executable may be `py` or `python` or `python3`. <b>Only Python 3.6 and higher versions are supported by the project.</b>
 
-## 5. Android Installation
+## 6. Android Installation
 Install termux <a href="https://termux.com">(Guide)</a>
 ```sh
 pkg up -y
@@ -104,7 +113,7 @@ For it to be able to stream you need to add referrer in mpv by opening mpv <a hr
 referrer="https://flixhq.to"
 ```
 
-## 6. iSH Installation (IOS)
+## 7. iSH Installation (IOS)
 Install iSH <a href="https://apps.apple.com/us/app/ish-shell/id1436902243">(Guide)</a>
 ```sh
 apk update
