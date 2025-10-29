@@ -37,8 +37,8 @@ https://user-images.githubusercontent.com/69480361/193068496-ec0e418d-375b-4a14-
 
 - [Installation](#installation)
     1. [PIP Installation](#1-pip-installs-packages-aka-pip-installation)
-    2. [AUR](#2-aur)
-    3. [WSL](#3-wsl-alternative-windows-installation)
+    2. [AUR (Arch Linux)](#2-aur-arch-linux)
+    3. [WSL (Alternative Window Installation)](#3-wsl-alternative-windows-installation)
     4. [Source Code Download](#4-source-code-download)
     5. [Android Installation](#5-android-installation)
 - [Dependencies](#dependencies)
@@ -58,7 +58,7 @@ This project can be installed on to your device via different mechanisms, these 
 pip install flix-cli
 ```
 
-## 2. AUR
+## 2. AUR (Arch Linux)
 
 ```sh
 paru -S flix-cli
