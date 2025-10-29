@@ -20,6 +20,7 @@
   <img src="https://img.shields.io/badge/os-mac-brightgreen"alt="OS Mac">
   <img src="https://img.shields.io/badge/os-windows-brightgreen" alt="OS Windows">
   <img src="https://img.shields.io/badge/os-android-brightgreen" alt="OS Android">
+  <img src="https://img.shields.io/badge/os-ios-brightgreen" alt="OS IOS">
   <br>
 </div>
 
@@ -41,6 +42,7 @@ https://user-images.githubusercontent.com/69480361/193068496-ec0e418d-375b-4a14-
     3. [WSL (Alternative Window Installation)](#3-wsl-alternative-windows-installation)
     4. [Source Code Download](#4-source-code-download)
     5. [Android Installation](#5-android-installation)
+    6. [iSH Installation (IOS)](#6-ish-installation-ios)
 - [Dependencies](#dependencies)
 - [Usage](#usage)
 - [Support](#support)
@@ -101,9 +103,21 @@ For it to be able to stream you need to add referrer in mpv by opening mpv <a hr
 referrer="https://flixhq.to"
 ```
 
+## 6. iSH Installation (IOS)
+Install iSH <a href="https://apps.apple.com/us/app/ish-shell/id1436902243">(Guide)</a>
+```sh
+apk update
+apk add python3
+apk add py3-pip
+pip install --upgrade flix-cli
+```
+
+**NOTE**: You need VLC on your iPhone/iPad
+
 # Dependencies
 - [`mpv`](https://mpv.io) - Video Player
 - [`iina`](https://iina.io) - Alternate video player for MacOS
+- [`vlc`](https://apps.apple.com/us/app/vlc-media-player/id650377962) - Video Player for iPhone/iPad
 - [`ffmpeg`](https://github.com/FFmpeg/FFmpeg) - Download manager
 - [`fzf`](https://github.com/junegunn/fzf) - for selection menu
 
