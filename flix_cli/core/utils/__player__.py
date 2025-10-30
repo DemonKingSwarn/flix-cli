@@ -11,20 +11,28 @@ def is_ish():
     except Exception:
         return False
 
+if is_android():
+    import os
+    return "TERMUX_VERSION" in os.environ or "ANDROID_ROOT" in os.environ
+
 def play(file, name, referer, subtitles):
     try:
         if(plt.system() == "Linux" or plt.system() == "Windows" or plt.system() == "FreeBSD"):
-            args = [
-                MPV_EXECUTABLE,
-                file,
-                f"--referrer={referer}",
-                f"--force-media-title=Playing {name}",
-            ]
-            args.extend(f"--sub-file={_}" for _ in subtitles)
+            if is_android():
+                subprocess.call(f"mpv {file} {subtitles[0]}")
 
-            mpv_process = subprocess.Popen(args, stdout=subprocess.DEVNULL)
+            else:
+                args = [
+                    MPV_EXECUTABLE,
+                    file,
+                    f"--referrer={referer}",
+                    f"--force-media-title=Playing {name}",
+                ]
+                args.extend(f"--sub-file={_}" for _ in subtitles)
 
-            mpv_process.wait()
+                mpv_process = subprocess.Popen(args, stdout=subprocess.DEVNULL)
+
+                mpv_process.wait()
 
         elif(plt.system() == "Darwin"):
             if is_ish():
