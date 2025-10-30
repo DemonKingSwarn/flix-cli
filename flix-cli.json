@@ -1,11 +1,11 @@
 {
-    "version": "1.7.11.0",
+    "version": "1.7.11.4",
     "description": "A cli to browse and watch movies and TV shows. This tool scrapes the site flixhq",
     "homepage": "https://github.com/DemonKingSwarn/flix-cli",
     "license": "GPL-3.0",
     "depends": ["python", "fzf", "mpv", "ffmpeg"],
-    "url": "https://files.pythonhosted.org/packages/1e/68/bbb0377f5796248524691d6558bc8748fa01de2f0b8a2ae7afd2bec5aa3b/flix_cli-$version-py3-none-any.whl",
-    "hash": "d8abbad74d32c1eb51487512fadd53e005877c61a339a9f52ccedcaf2247d431",
+    "url": "https://files.pythonhosted.org/packages/87/ec/a8d9cfd0424907848c58e9e5c3071b88bf60848b2976a80dde5f119b6d6b/flix_cli-1.7.11.4-py3-none-any.whl",
+    "hash": "43523404c1689294d17376dbef6792fc208759ce012e52984631eae2c48866fc",
     "installer": {
         "script": "python -m pip install flix-cli==$version"
     },
