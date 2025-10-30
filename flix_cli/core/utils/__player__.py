@@ -1,5 +1,6 @@
 import platform as plt
 import subprocess
+import os
 
 MPV_EXECUTABLE = "mpv"
 IINA_EXECUTABLE = "iina"
@@ -12,8 +13,11 @@ def is_ish():
         return False
 
 if is_android():
-    import os
-    return "TERMUX_VERSION" in os.environ or "ANDROID_ROOT" in os.environ
+    uname = subprocess.check_output(['uname', '-o'], text=True).strip()
+    try:
+        return output == 'Android'
+    except Exception:
+        return False
 
 def play(file, name, referer, subtitles):
     try:
