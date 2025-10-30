@@ -28,9 +28,7 @@
 
 ---
 
-https://user-images.githubusercontent.com/69480361/193068496-ec0e418d-375b-4a14-be75-e3ac10d853b4.mp4
-
-
+![](./.assets/output.gif)
 
 ---
 
