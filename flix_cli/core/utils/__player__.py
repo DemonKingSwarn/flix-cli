@@ -12,19 +12,9 @@ def is_ish():
     except Exception:
         return False
 
-def is_android():
-    try:
-        uname = subprocess.check_output(['uname', '-o'], text=True).strip()
-        return uname == 'Android'
-    except Exception:
-        return False
-
 def play(file, name, referer, subtitles):
     try:
-        if is_android():
-            subprocess.call(f"{MPV_EXECUTABLE} {file} {','.join(subtitles)}")
-
-        elif(plt.system() == "Linux" or plt.system() == "Windows" or plt.system() == "FreeBSD"):
+        if(plt.system() == "Linux" or plt.system() == "Windows" or plt.system() == "FreeBSD"):
             args = [
                 MPV_EXECUTABLE,
                 file,
