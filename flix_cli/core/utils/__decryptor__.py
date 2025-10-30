@@ -44,7 +44,6 @@ def decrypt_stream_url(embed_link, quality=None, subs_language="english"):
     payload, signature, nonce = solve_challenge(challenge_response.text)
     
     print(f"Challenge solved - nonce: {nonce}", file=sys.stderr)
-    print(f"Requesting decryption for: {embed_link}", file=sys.stderr)
     
     params = {
         "url": embed_link,
@@ -54,9 +53,6 @@ def decrypt_stream_url(embed_link, quality=None, subs_language="english"):
     }
     
     response = client.get(API_URL, params=params)
-    
-    print(f"Response status: {response.status_code}", file=sys.stderr)
-    print(f"Response text: {response.text[:200]}", file=sys.stderr)
     
     if response.status_code != 200:
         print(f"ERROR: {response.text}", file=sys.stderr)
@@ -86,8 +82,4 @@ def decrypt_stream_url(embed_link, quality=None, subs_language="english"):
                 if regex.search(rf'{subs_language}', track['label'], regex.IGNORECASE):
                     subs_links.append(track['file'])
 
-    print(f"\n✓ Video URL: {video_link}")
-    print(f"✓ Subtitles: {subs_links}")
-    
     return video_link, subs_links
-

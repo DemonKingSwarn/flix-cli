@@ -116,8 +116,6 @@ def get_tv_seasons(media_id: str):
     try:
         seasons_url = f"{FLIXHQ_AJAX_URL}/v2/tv/seasons/{media_id}"
         response = client.get(seasons_url)
-        print(f"Debug: Seasons URL: {seasons_url}")
-        print(f"Debug: Seasons response status: {response.status_code}")
         if response.status_code == 200:
             season_pattern = re.compile(r'href="[^"]*-(\d+)"[^>]*>([^<]*)</a>')
             matches = season_pattern.findall(response.text)
@@ -185,7 +183,6 @@ def get_embed_link(episode_id: str):
             link_match = re.search(r'"link":"([^"]*)"', response.text)
             if link_match:
                 embed_link = link_match.group(1)
-                print(f"Debug: Found embed link: {embed_link}")
                 return embed_link
         return None
     except Exception as e:
@@ -194,7 +191,6 @@ def get_embed_link(episode_id: str):
 
 def get_episode_data(target_episode, season_num, episode_num):
     """Get stream data for a single episode"""
-    print(f"Debug: Processing episode {episode_num}: {target_episode['title']}")
     episode_id = get_episode_servers(target_episode['data_id'], "Vidcloud")
     if not episode_id:
         print(f"Warning: Could not get server ID for episode {episode_num}")
@@ -218,7 +214,6 @@ def movie():
     if not media_id_match:
         raise RuntimeError("Could not extract media ID from URL")
     media_id = media_id_match.group(1)
-    print(f"Debug: Movie media ID: {media_id}")
     try:
         movie_episodes_url = f"{FLIXHQ_AJAX_URL}/movie/episodes/{media_id}"
         response = client.get(movie_episodes_url)
@@ -231,7 +226,6 @@ def movie():
                 episode_match = re.search(r'-(\d+)\.(\d+)$', movie_page_url)
                 if episode_match:
                     episode_id = episode_match.group(2)
-                    print(f"Debug: Movie episode ID: {episode_id}")
                     embed_link = get_embed_link(episode_id)
                     if embed_link:
                         selected_media = [{
@@ -258,12 +252,10 @@ def series():
     episode_numbers = parse_episode_range(episode_input)
     if not episode_numbers:
         raise RuntimeError("Invalid episode input")
-    print(f"Debug: Processing episodes: {episode_numbers}")
     media_id_match = re.search(r'/tv/[^/]*-(\d+)', get_id.selected_url)
     if not media_id_match:
         raise RuntimeError("Could not extract media ID from URL")
     media_id = media_id_match.group(1)
-    print(f"Debug: TV media ID: {media_id}")
     seasons = get_tv_seasons(media_id)
     if not seasons:
         raise RuntimeError("Could not get seasons")
@@ -277,7 +269,6 @@ def series():
         target_season_id = seasons[season_num - 1]['id']
     if not target_season_id:
         raise RuntimeError(f"Could not find season {season_num}")
-    print(f"Debug: Target season ID: {target_season_id}")
     episodes = get_season_episodes(target_season_id)
     if not episodes:
         raise RuntimeError(f"Could not get episodes for season {season_num}")
@@ -370,7 +361,7 @@ def dlData(path: str = determine_path()):
                     episode_query = f"{query}_S{episode_data['season']:02d}E{episode_data['episode']:02d}"
                 else:
                     episode_query = f"{query}_Episode_{i}"
-                download(path, episode_query, decoded_url, FLIXHQ_BASE_URL)
+                download(path, episode_query, decoded_url, FLIXHQ_BASE_URL, subs)
                 print(f"Successfully downloaded: {episode_data['label']}")
             except Exception as e:
                 print(f"Failed to download episode {i}: {e}")

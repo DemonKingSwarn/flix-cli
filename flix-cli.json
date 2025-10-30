@@ -1,5 +1,5 @@
 {
-    "version": "1.7.10.8",
+    "version": "1.7.10.9",
     "description": "A cli to browse and watch movies and TV shows. This tool scrapes the site flixhq",
     "homepage": "https://github.com/DemonKingSwarn/flix-cli",
     "license": "GPL-3.0",
@@ -10,7 +10,7 @@
         "script": "python -m pip install flix-cli==$version"
     },
     "uninstaller": {
-        "script": "python -m pip uninstall -y flix-cli==1.7.10.8"
+        "script": "python -m pip uninstall -y flix-cli==$version"
     },
     "bin": "flix-cli",
     "checkver": {

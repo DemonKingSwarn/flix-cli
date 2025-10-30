@@ -28,7 +28,7 @@ def play(file, name, referer, subtitles):
 
         elif(plt.system() == "Darwin"):
             if is_ish():
-                f"\033]8;;vlc-x-callback://x-callback-url/stream?url={file}&sub={','.join(subtitles)}\a~ Tap to open VLC ~\033]8;;\a"
+                print(f"\033]8;;vlc-x-callback://x-callback-url/stream?url={file}&sub={','.join(subtitles)}\a~ Tap to open VLC ~\033]8;;\a")
 
             else:
 
