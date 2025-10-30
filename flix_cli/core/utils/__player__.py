@@ -12,10 +12,10 @@ def is_ish():
     except Exception:
         return False
 
-if is_android():
-    uname = subprocess.check_output(['uname', '-o'], text=True).strip()
+def is_android():
     try:
-        return output == 'Android'
+        uname = subprocess.check_output(['uname', '-o'], text=True).strip()
+        return uname == 'Android'
     except Exception:
         return False
 
