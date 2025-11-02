@@ -71,8 +71,8 @@ Make sure [scoop package manager](https://scoop.sh) is installed in your system.
 
 ```ps
 scoop bucket add extras
-scoop bucket add flix-cli https://github.com/DemonKingSwarn/flix-cli
-scoop install flix-cli/flix-cli
+scoop bucket add flix-cli https://github.com/DemonKingSwarn/flix-cli-bucket
+scoop install flix-cli
 ```
 
 ## 4. WSL (Alternative Windows Installation)
