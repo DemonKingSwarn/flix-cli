@@ -44,6 +44,7 @@
     7. [iSH Installation (IOS)](#7-ish-installation-ios)
 - [Dependencies](#dependencies)
 - [Usage](#usage)
+- [Configuration](#configuration)
 - [Support](#support)
 - [Provider](#provider)
 - [Project Disclaimer](#project-disclaimer)
@@ -141,6 +142,17 @@ Usage: flix-cli [ARGS]...
 Options:
     download    Download your favourite movie by query.
     play        Stream your favourite movie by query.
+```
+
+# Configuration
+
+- **Windows**: `%APPDATA%/flix-cli/flix-cli.conf`
+- **Linux/MacOS/FreeBSD**: `$HOME/.config/flix-cli/flix-cli.conf`
+
+example config file:
+
+```conf
+dl_dir="/home/swarn/dl"
 ```
 
 # Support
