@@ -71,7 +71,7 @@ Make sure [scoop package manager](https://scoop.sh) is installed in your system.
 
 ```ps
 scoop bucket add extras
-scoop bucket add flix-cli https://github.com/DemonKingSwarn/flix-cli-bucket
+scoop bucket add flix-cli https://github.com/DemonKingSwarn/flix-cli-bucket.git
 scoop install flix-cli
 ```
 
