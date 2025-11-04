@@ -28,6 +28,8 @@ def get_config() -> str:
     CONFIG_FILE = f"{CONFIG_DIR}/flix-cli.conf"
     
     config = {}
+    player = ""
+    downloads_dir = ""
     
     if os.path.exists(CONFIG_FILE):
         with open(CONFIG_FILE, "r") as f:
@@ -37,7 +39,11 @@ def get_config() -> str:
                     key, value = line.split('=', 1)
                     config[key.strip()] = value.strip().strip('"')
     
-    player = config.get("player")
-    downloads_dir = config.get("dl_dir")
+        player = config.get("player")
+        downloads_dir = config.get("dl_dir")
+
+    else:
+        player = "mpv"
+        downloads_dir = f"C:/Users/{getpass.getuser()}/Downloads" if plt.system() == "Windows" else f"{os.path.expanduser("~")}/Downloads"
 
     return player, downloads_dir

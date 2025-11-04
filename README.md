@@ -131,7 +131,6 @@ pip install --upgrade flix-cli
 - [`iina`](https://iina.io) - Alternate video player for MacOS
 - [`vlc`](https://apps.apple.com/us/app/vlc-media-player/id650377962) - Video Player for iPhone/iPad
 - [`ffmpeg`](https://github.com/FFmpeg/FFmpeg) - Download manager
-- [`yt-dlp`](https://github.com/yt-dlp/yt-dlp) - Frontend for ffmpeg
 - [`fzf`](https://github.com/junegunn/fzf) - for selection menu
 
 # Usage

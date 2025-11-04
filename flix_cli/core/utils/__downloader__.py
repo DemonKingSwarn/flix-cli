@@ -18,21 +18,22 @@ def download(path, name, file, referer, subs):
     name = name.replace(" ", "-")
     name = name.replace("\"", "")
     url = file
-    if not os.path.exists(f"{path}/{FLIX_CLI_DOWNLOADS}"):
-        os.makedirs(f"{path}/{FLIX_CLI_DOWNLOADS}")
     
     if os.path.exists(dl_path):
-        path = dl_path
-        
+        path = dl_path 
+
+    if not os.path.exists(f"{path}/{FLIX_CLI_DOWNLOADS}"):
+        os.makedirs(f"{path}/{FLIX_CLI_DOWNLOADS}")
+       
     path = f"{path}/{FLIX_CLI_DOWNLOADS}"
     
     args = [
         YT_DLP_EXECUTABLE,
-        url,
-        "--downloader",
-        "ffmpeg",
-        "-o",
-        f"{path}/{name}.mp4"
+        f"{url}",
+        "--no-skip-unavailable-fragments",
+        "--fragment-retries", "infinite",
+        "-N", "16",
+        "-o", f"{path}/{name}.mp4"
     ]
 
     yt_dl_process = subprocess.Popen(args)

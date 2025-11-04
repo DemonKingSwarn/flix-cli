@@ -8,7 +8,7 @@ from .__config__ import get_config, get_temp
 
 MPV_EXECUTABLE = "mpv"
 IINA_EXECUTABLE = "iina"
-VLC_EXECUTABLE = "vlc"
+#VLC_EXECUTABLE = "vlc"
 
 client = httpx.Client(timeout=None)
 
