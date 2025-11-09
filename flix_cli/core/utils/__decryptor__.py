@@ -35,6 +35,7 @@ def solve_challenge(challenge_response):
 
 def decrypt_stream_url(embed_link, quality=None, subs_language="english"):
     # Get challenge
+    """
     challenge_response = client.get(f"{API_URL}/challenge")
     
     if not challenge_response.text:
@@ -44,12 +45,13 @@ def decrypt_stream_url(embed_link, quality=None, subs_language="english"):
     payload, signature, nonce = solve_challenge(challenge_response.text)
     
     print(f"Challenge solved - nonce: {nonce}", file=sys.stderr)
-    
+    """
+
     params = {
         "url": embed_link,
-        "payload": payload,
-        "signature": signature,
-        "nonce": nonce
+        #"payload": payload,
+        #"signature": signature,
+        #"nonce": nonce
     }
     
     response = client.get(API_URL, params=params)
