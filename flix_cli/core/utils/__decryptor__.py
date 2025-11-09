@@ -13,45 +13,9 @@ client = httpx.Client(headers=headers, follow_redirects=True, timeout=None)
 
 API_URL = "https://dec.eatmynerds.live"
 
-def solve_challenge(challenge_response):
-    """Solve the POW challenge"""
-    payload = regex.search(r'"payload":"([^"]*)"', challenge_response).group(1)
-    signature = regex.search(r'"signature":"([^"]*)"', challenge_response).group(1)
-    difficulty = int(regex.search(r'"difficulty":([0-9]*)', challenge_response).group(1))
-    
-    challenge = payload.split('.')[0]
-    prefix = '0' * difficulty
-    
-    nonce = 0
-    while True:
-        text_to_hash = f"{challenge}{nonce}"
-        hash_val = hashlib.sha256(text_to_hash.encode()).hexdigest()
-        
-        if hash_val.startswith(prefix):
-            break
-        nonce += 1
-    
-    return payload, signature, nonce
-
 def decrypt_stream_url(embed_link, quality=None, subs_language="english"):
-    # Get challenge
-    """
-    challenge_response = client.get(f"{API_URL}/challenge")
-    
-    if not challenge_response.text:
-        print("ERROR: Failed to get challenge response", file=sys.stderr)
-        return None, None
-    
-    payload, signature, nonce = solve_challenge(challenge_response.text)
-    
-    print(f"Challenge solved - nonce: {nonce}", file=sys.stderr)
-    """
-
     params = {
-        "url": embed_link,
-        #"payload": payload,
-        #"signature": signature,
-        #"nonce": nonce
+        "url": embed_link
     }
     
     response = client.get(API_URL, params=params)
