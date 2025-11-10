@@ -178,6 +178,17 @@ If you run into issues or want to request a new feature, you are encouraged to m
 # Project Disclaimer
 The disclaimer of the project  can be found <a href="https://github.com/demonkingswarn/flix-cli/blob/master/disclaimer.org">here</a>.
 
+
+## Star Graph 
+[![Star Graph Chart](https://api.star-history.com/svg?repos=demonkingswarn/flix-clii&type=Date)](https://star-history.com/#demonkingswarn/flix-cli&Date)
+
+## Contributing 
+Pull requests are welcome and *appreciated*. For major changes, please open an issue first to discuss what you would like to change.
+
+<a href = "https://github.com/demonkingswarn/flix-cli/graphs/contributors">
+  <img src = "https://contrib.rocks/image?repo=demonkingswarn/flix-cli"/>
+</a>
+
 # Honourable Mentions
 
 - [`animdl`](https://github.com/justfoolingaround/animdl): Ridiculously efficient, fast and light-weight (supports most sources: animixplay, 9anime...) (Python)
