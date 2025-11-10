@@ -84,19 +84,28 @@ When installing the media player on Windows, make sure that it is on the Windows
 
 ## 5. Installing from source
 
-First ensure <a href="https://python-poetry.org/docs/#installation">Poetry is installed</a>.
+First ensure <a href="https://docs.astral.sh/uv/getting-started/installation/">UV is installed</a> (blazingly fast Python package manager written in Rust).
 
 Then run the following command:
 
 ```sh
 git clone https://github.com/demonkingswarn/flix-cli.git \
-&& cd flix-cli \ 
-&& poetry build \ 
-&& pip install -e . \ 
+&& cd flix-cli \
+&& uv sync \
+&& uv pip install -e . \
 && cd ..
 ```
 
-<b>Additional information</b>: You <b>must</b> have Python installed <b>and</b> in PATH to use this project properly. Your Python executable may be `py` or `python` or `python3`. <b>Only Python 3.6 and higher versions are supported by the project.</b>
+**Alternative with Poetry** (legacy):
+```sh
+git clone https://github.com/demonkingswarn/flix-cli.git \
+&& cd flix-cli \
+&& poetry build \
+&& pip install -e . \
+&& cd ..
+```
+
+<b>Additional information</b>: You <b>must</b> have Python installed <b>and</b> in PATH to use this project properly. Your Python executable may be `py` or `python` or `python3`. <b>Only Python 3.11 and higher versions are supported by the project.</b>
 
 ## 6. Android Installation
 Install termux <a href="https://termux.com">(Guide)</a>
