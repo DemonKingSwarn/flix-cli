@@ -48,6 +48,8 @@
 - [Support](#support)
 - [Provider](#provider)
 - [Project Disclaimer](#project-disclaimer)
+- [Star History](#star-history)
+- [Contributing](#contributing)]
 - [Honourable Mentions](#honourable-mentions)
 
 # Installation
@@ -179,8 +181,9 @@ If you run into issues or want to request a new feature, you are encouraged to m
 The disclaimer of the project  can be found <a href="https://github.com/demonkingswarn/flix-cli/blob/master/disclaimer.org">here</a>.
 
 
-## Star Graph 
-[![Star Graph Chart](https://api.star-history.com/svg?repos=demonkingswarn/flix-clii&type=Date)](https://star-history.com/#demonkingswarn/flix-cli&Date)
+## Star History 
+
+[![Star History Chart](https://api.star-history.com/svg?repos=demonkingswarn/flix-cli&type=date&legend=top-left)](https://www.star-history.com/#demonkingswarn/flix-cli&type=date&legend=top-left)
 
 ## Contributing 
 Pull requests are welcome and *appreciated*. For major changes, please open an issue first to discuss what you would like to change.
