@@ -79,6 +79,7 @@ brew tap gamedevCloudy/tools
 brew install --cask iina
 brew install flix-cli
 brew update-python-resources flix-cli
+brew reinstall --build-from-source /opt/homebrew/Library/Taps/gamedevCloudy/homebrew-tools/Formula/flix-cli.rb
 ```
 
 ## 4. Scoop (Windows)
