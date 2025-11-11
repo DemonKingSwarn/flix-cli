@@ -3,7 +3,7 @@
 </h1>
 
 <div align="center>
-[![latest packaged version(s)](https://repology.org/badge/latest-versions/flix-cli.svg)](https://repology.org/project/flix-cli/versions)
+<a href="https://repology.org/project/flix-cli/versions"><img src="https://repology.org/badge/latest-versions/flix-cli.svg" /></a>
 </div>
 
 <br>
