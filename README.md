@@ -75,6 +75,7 @@ Make sure [Homebrew](https://brew.sh/) is installed in your system.
 
 ```sh
 brew tap gamedevCloudy/tools
+brew install --cask iina
 brew install flix-cli
 ```
 
