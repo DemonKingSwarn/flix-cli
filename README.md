@@ -37,11 +37,12 @@
 - [Installation](#installation)
     1. [PIP Installation](#1-pip-installs-packages-aka-pip-installation)
     2. [AUR (Arch Linux)](#2-aur-arch-linux)
-    3. [Scoop (Windows)](#3-scoop-windows)
-    4. [WSL (Alternative Window Installation)](#4-wsl-alternative-windows-installation)
-    5. [Source Code Download](#5-source-code-download)
-    6. [Android Installation](#6-android-installation)
-    7. [iSH Installation (IOS)](#7-ish-installation-ios)
+    3. [Homebrew (MacOS)](#3-homebrew-macos)
+    4. [Scoop (Windows)](#4-scoop-windows)
+    5. [WSL (Alternative Window Installation)](#5-wsl-alternative-windows-installation)
+    6. [Source Code Download](#6-source-code-download)
+    7. [Android Installation](#7-android-installation)
+    8. [iSH Installation (IOS)](#8-ish-installation-ios)
 - [Dependencies](#dependencies)
 - [Usage](#usage)
 - [Configuration](#configuration)
@@ -49,7 +50,7 @@
 - [Provider](#provider)
 - [Project Disclaimer](#project-disclaimer)
 - [Star History](#star-history)
-- [Contributing](#contributing)]
+- [Contributing](#contributing)
 - [Honourable Mentions](#honourable-mentions)
 
 # Installation
@@ -68,7 +69,16 @@ pip install flix-cli
 paru -S flix-cli
 ```
 
-## 3. Scoop (Windows)
+## 3. Homebrew (MacOS)
+
+Make sure [Homebrew](https://brew.sh/) is installed in your system.
+
+```sh
+brew tap gamedevCloudy/tools
+brew install flix-cli
+```
+
+## 4. Scoop (Windows)
 
 Make sure [scoop package manager](https://scoop.sh) is installed in your system.
 
@@ -78,13 +88,13 @@ scoop bucket add flix-cli https://github.com/DemonKingSwarn/flix-cli-bucket.git
 scoop install flix-cli
 ```
 
-## 4. WSL (Alternative Windows Installation)
+## 5. WSL (Alternative Windows Installation)
 
 Note that the media player (mpv) will need to be installed on Windows, not WSL.
 
 When installing the media player on Windows, make sure that it is on the Windows Path. An easy way to ensure this is to download the media player with a package manager (on Windows, not WSL) such as scoop.
 
-## 5. Installing from source
+## 6. Installing from source
 
 First ensure <a href="https://docs.astral.sh/uv/getting-started/installation/">UV is installed</a> (blazingly fast Python package manager written in Rust).
 
@@ -109,7 +119,7 @@ git clone https://github.com/demonkingswarn/flix-cli.git \
 
 <b>Additional information</b>: You <b>must</b> have Python installed <b>and</b> in PATH to use this project properly. Your Python executable may be `py` or `python` or `python3`. <b>Only Python 3.11 and higher versions are supported by the project.</b>
 
-## 6. Android Installation
+## 7. Android Installation
 Install termux <a href="https://termux.com">(Guide)</a>
 ```sh
 pkg up -y
@@ -125,7 +135,7 @@ For it to be able to stream you need to add referrer in mpv by opening mpv <a hr
 referrer="https://flixhq.to"
 ```
 
-## 7. iSH Installation (IOS)
+## 8. iSH Installation (IOS)
 Install iSH <a href="https://apps.apple.com/us/app/ish-shell/id1436902243">(Guide)</a>
 ```sh
 apk update
