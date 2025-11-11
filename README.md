@@ -56,7 +56,7 @@
 
 # Installation
 [![AUR version](https://img.shields.io/aur/version/flix-cli?logo=archlinux&label=AUR)](https://aur.archlinux.org/packages/flix-cli)
-[![Scoop bucket](https://img.shields.io/badge/Scoop-flix--cli-blue?logo=windows11)](https://github.com/DemonKingSwarn/flix-cli-bucket/blob/main/flix-cli.json)
+[![Scoop bucket](https://img.shields.io/badge/Scoop-flix--cli-blue?logo=windows11)](https://github.com/DemonKingSwarn/flix-cli-bucket/blob/master/bucket/flix-cli.json)
 [![Homebrew tap](https://img.shields.io/badge/Homebrew-gamedevCloudy%2Ftools-FBB040?logo=homebrew)](https://github.com/gamedevCloudy/homebrew-tools)
 
 
