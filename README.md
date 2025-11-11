@@ -1,6 +1,11 @@
 <h1 align="center">
   FLIX-CLI
 </h1>
+
+<div align="center>
+[![latest packaged version(s)](https://repology.org/badge/latest-versions/flix-cli.svg)](https://repology.org/project/flix-cli/versions)
+</div>
+
 <br>
 <h3 align="center">
   A high efficient, powerful and fast movie scraper.
