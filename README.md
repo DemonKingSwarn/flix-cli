@@ -78,6 +78,7 @@ Make sure [Homebrew](https://brew.sh/) is installed in your system.
 brew tap gamedevCloudy/tools
 brew install --cask iina
 brew install flix-cli
+brew update-python-resources flix-cli
 ```
 
 ## 4. Scoop (Windows)
