@@ -2,10 +2,6 @@
   FLIX-CLI
 </h1>
 
-<div align="center>
-<a href="https://repology.org/project/flix-cli/versions"><img src="https://repology.org/badge/latest-versions/flix-cli.svg" /></a>
-</div>
-
 <br>
 <h3 align="center">
   A high efficient, powerful and fast movie scraper.
