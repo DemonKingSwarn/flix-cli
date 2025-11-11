@@ -55,6 +55,11 @@
 - [Honourable Mentions](#honourable-mentions)
 
 # Installation
+[![AUR version](https://img.shields.io/aur/version/flix-cli?logo=archlinux&label=AUR)](https://aur.archlinux.org/packages/flix-cli)
+[![Scoop version](https://img.shields.io/github/v/release/DemonKingSwarn/flix-cli?logo=windows11&label=Scoop)](https://github.com/DemonKingSwarn/flix-cli-bucket)
+[![Homebrew tap](https://img.shields.io/badge/Homebrew-gamedevCloudy%2Ftools-FBB040?logo=homebrew)](https://github.com/gamedevCloudy/homebrew-tools)
+
+
 <i>for dependencies <a href="https://github.com/DemonKingSwarn/flix-cli#dependencies">(see below)</a>.</i>
 
 This project can be installed on to your device via different mechanisms, these mechanisms are listed below in the order of ease.
