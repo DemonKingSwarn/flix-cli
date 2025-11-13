@@ -72,15 +72,7 @@ paru -S flix-cli
 
 ## 3. Homebrew (MacOS)
 
-Make sure [Homebrew](https://brew.sh/) is installed in your system.
-
-```sh
-brew tap gamedevCloudy/tools
-brew install --cask iina
-brew install flix-cli
-brew update-python-resources flix-cli
-brew reinstall --build-from-source /opt/homebrew/Library/Taps/gamedevCloudy/homebrew-tools/Formula/flix-cli.rb
-```
+Homebrew support comming soon
 
 ## 4. Scoop (Windows)
 
