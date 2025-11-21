@@ -1,5 +1,6 @@
 env/
 build/*
 dist/*
+debian/output/*
 flix_cli.egg-info/*
 __pycache__

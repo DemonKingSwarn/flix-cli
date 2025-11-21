@@ -1,5 +1,0 @@
-flix-cli (1.8.0-1) unstable; urgency=medium
-
-  * Initial release with system deps mpv, ffmpeg, fzf.
-
- -- Swarnaditya Singh  Fri, 21 Nov 2025 12:00:00 +0530

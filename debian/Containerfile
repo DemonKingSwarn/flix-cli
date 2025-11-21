@@ -1,0 +1,41 @@
+
+# Use a Debian base image
+FROM debian:stable-slim
+
+# Install dependencies for fpm and python
+RUN apt-get update && \
+    apt-get install -y ruby ruby-dev build-essential git python3 python3-pip python3-venv && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install fpm
+RUN gem install fpm
+
+# Create a virtual environment
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Copy the application source
+COPY . /app
+WORKDIR /app
+
+# Install Python dependencies
+RUN pip install .
+RUN pip install packaging
+
+# Build the .deb package using fpm
+RUN fpm -s python -t deb \
+    -n flix-cli \
+    -v 1.8.0 \
+    --description "A high efficient, powerful and fast movie scraper." \
+    --python-package-name-prefix python3 \
+    --python-bin /opt/venv/bin/python3 \
+    --depends ffmpeg \
+    --depends fzf \
+    --depends mpv \
+    ./
+
+# The package is created in the /app directory
+# To get the package, you can use podman cp or a volume mount.
+# For example:
+# podman build -t flix-cli-builder .
+# podman run --rm -v $(pwd):/packages flix-cli-builder cp /app/*.deb /packages
