@@ -1,0 +1,13 @@
+Source: flix-cli
+Section: utils
+Priority: optional
+Maintainer: Swarnaditya Singh <demonkingswarn@protonmail.com>
+Build-Depends: debhelper (>= 11), dh-virtualenv, python3-all
+Standards-Version: 1.8.0
+Homepage: https://github.com/DemonKingSwarn/flix-cli
+
+Package: flix-cli
+Architecture: all
+Depends: ${misc:Depends}, mpv, ffmpeg, fzf
+Description: Stream movies and tv shows from your terminal
+ Packaged with a Python virtualenv so all dependencies are included.

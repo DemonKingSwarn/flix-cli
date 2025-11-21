@@ -1,0 +1,39 @@
+name: Build DEB Package
+
+on:
+  push:
+    branches:
+      - "*"
+    tags:
+      - "v*"
+
+jobs:
+  build-deb:
+    runs-on: ubuntu-latest
+
+    container:
+      image: debian:stable
+
+    steps:
+      - name: Install build tools
+        run: |
+          apt update
+          apt install -y \
+            git \
+            python3 python3-venv python3-pip python3-all \
+            debhelper dh-virtualenv build-essential
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build DEB package
+        run: |
+          dpkg-buildpackage -us -uc
+
+      - name: Upload DEB as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: flix-cli-deb
+          path: ../*.deb
+          retention-days: 30
+
