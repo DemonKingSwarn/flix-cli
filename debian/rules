@@ -4,5 +4,10 @@
 	dh $@ --with python-virtualenv
 
 override_dh_virtualenv:
-	dh_virtualenv --python=/usr/bin/python3 --build-system=pybuild
+	# Create the virtualenv using dh-virtualenv
+	dh_virtualenv --python=/usr/bin/python3
+
+	# Install the project using pip (PEP 517), NOT setup.py
+	. debian/flix-cli/opt/venvs/flix-cli/bin/activate && \
+	    pip install --no-cache-dir .
 
