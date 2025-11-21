@@ -3,7 +3,7 @@ name: Build DEB Package
 on:
   push:
     branches:
-      - "*"
+      - "main"
     tags:
       - "v*"
 
@@ -17,18 +17,39 @@ jobs:
     steps:
       - name: Install build tools
         run: |
-          apt update
-          apt install -y \
+          apt-get update
+          apt-get install -y --no-install-recommends \
             git \
+            ca-certificates \
             python3 python3-venv python3-pip python3-all \
-            debhelper dh-virtualenv build-essential
+            debhelper dh-virtualenv build-essential devscripts
 
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set version and update changelog
+        run: |
+          if [[ $GITHUB_REF == refs/tags/v* ]]; then
+            # Release version from tag
+            VERSION=${GITHUB_REF_NAME#v}
+            dch --newversion "${VERSION}-1" "New release from git tag ${GITHUB_REF_NAME}."
+          else
+            # Development version for main branch
+            # This creates a version like "1.8.0-2~dev1+g1a2b3c4"
+            git fetch --tags
+            LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+            BASE_VERSION=$(echo $LATEST_TAG | sed 's/^v//')
+            COMMITS_AHEAD=$(git rev-list --count ${LATEST_TAG}..HEAD)
+            GIT_HASH=$(git rev-parse --short HEAD)
+            VERSION="${BASE_VERSION}-$(($(dpkg-parsechangelog -S Version | sed 's/.*-//')+1))~dev${COMMITS_AHEAD}+g${GIT_HASH}"
+            dch --newversion "$VERSION" "New development build from commit ${GIT_HASH}."
+          fi
 
       - name: Build DEB package
         run: |
-          dpkg-buildpackage -us -uc
+          dpkg-buildpackage -us -uc -b
 
       - name: Upload DEB as artifact
         uses: actions/upload-artifact@v4
