@@ -41,7 +41,9 @@ def play(file: str, name: str, referer: str, subtitles: list[str]) -> None:
                 ]
                 args.extend(f"--sub-file={_}" for _ in subtitles)
 
-                mpv_process = subprocess.Popen(args, stdout=subprocess.DEVNULL)
+                mpv_process = subprocess.Popen(
+                    args, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+                )
                 mpv_process.wait()
 
             """
