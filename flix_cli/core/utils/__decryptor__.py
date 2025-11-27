@@ -1,4 +1,3 @@
-import hashlib
 import json
 import sys
 
@@ -11,11 +10,12 @@ client = httpx.Client(headers=headers, follow_redirects=True, timeout=None)
 
 API_URL = "https://dec.eatmynerds.live"
 
-def decrypt_stream_url(embed_link, quality=None, subs_language="english"):
-    params = {
-        "url": embed_link
-    }
-    
+
+def decrypt_stream_url(
+    embed_link, quality=None, subs_language="english"
+) -> tuple[str | None, list[str] | None]:
+    params = {"url": embed_link}
+
     response = client.get(API_URL, params=params)
 
     if response.status_code != 200:

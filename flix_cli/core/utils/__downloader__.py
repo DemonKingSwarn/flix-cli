@@ -1,5 +1,5 @@
-import os
 import subprocess
+from pathlib import Path
 
 import httpx
 
@@ -12,20 +12,21 @@ FLIX_CLI_DOWNLOADS = "flix-cli"
 client = httpx.Client(timeout=None)
 
 
-def download(path: str, name: str, file: str, referer: str, subs: list[str]) -> None:
+def download(path: Path, name: str, file: str, referer: str, subs: list[str]) -> None:
     _, dl_path = get_config()
+    dl_path = Path(dl_path)
 
     name = name.replace(" ", "-")
     name = name.replace('"', "")
     url = file
 
-    if os.path.exists(dl_path):
+    if dl_path.exists():
         path = dl_path
 
-    if not os.path.exists(f"{path}/{FLIX_CLI_DOWNLOADS}"):
-        os.makedirs(f"{path}/{FLIX_CLI_DOWNLOADS}")
+    if not path.exists():
+        path.mkdir(parents=True, exist_ok=True)
 
-    path = f"{path}/{FLIX_CLI_DOWNLOADS}"
+    path /= FLIX_CLI_DOWNLOADS
 
     args = [
         YT_DLP_EXECUTABLE,
