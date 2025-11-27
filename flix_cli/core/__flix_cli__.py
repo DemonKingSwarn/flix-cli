@@ -466,15 +466,15 @@ def provide_data(ctx: Context) -> None:
                 elif ctx.play_type == "cast":
                     cast(decoded_url, subs)
                 if len(episodes_to_play) > 1 and i < len(episodes_to_play):
-                    continue_choice = input("\nContinue to next episode? (y/n): ").lower().strip()
-                    if continue_choice not in ["y", "yes", ""]:
+                    continue_choice = typer.confirm("Continue to next episode?")
+                    if not continue_choice:
                         print("Stopping playback")
                         break
             except Exception as e:
                 print(f"Failed to play episode {i}: {e}")
                 if len(episodes_to_play) > 1:
-                    continue_choice = input("\nSkip to next episode? (y/n): ").lower().strip()
-                    if continue_choice not in ["y", "yes", ""]:
+                    continue_choice = typer.confirm("Continue to next episode?")
+                    if not continue_choice:
                         print("Stopping playback")
                         break
                 else:
