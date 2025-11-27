@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 
-from collections.abc import Iterator, Sequence
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
 
 # ruff: noqa: UP035 - allow using typing.List
-from typing import Annotated, List, Optional, Self, overload
+from typing import Annotated, List, Optional
 from urllib.parse import urljoin
 
 import httpx
@@ -39,50 +38,28 @@ class MediaType(str, Enum):
     SERIES = "series"
 
 
-class EpisodeRange(Sequence[int]):
-    def __init__(self, ep_range: range) -> None:
-        self.range = ep_range
+def episode_range(ep_input: str) -> range:
+    """Parse episode input to handle ranges like '5-7' or single episodes like '5'"""
+    ep_input = ep_input.strip()
 
-    @classmethod
-    def from_str(cls, ep_input: str) -> Self:
-        """Parse episode input to handle ranges like '5-7' or single episodes like '5'"""
-        ep_input = ep_input.strip()
+    try:
+        if "-" in ep_input:
+            start, end = ep_input.split("-", 1)
+            start_ep = int(start.strip())
+            end_ep = int(end.strip())
 
-        try:
-            if "-" in ep_input:
-                start, end = ep_input.split("-", 1)
-                start_ep = int(start.strip())
-                end_ep = int(end.strip())
+            if start_ep > end_ep:
+                start_ep, end_ep = end_ep, start_ep
 
-                if start_ep > end_ep:
-                    start_ep, end_ep = end_ep, start_ep
+            return range(start_ep, end_ep + 1)
+        else:
+            ep = int(ep_input)
+            return range(ep, ep + 1)
 
-                return cls(range(start_ep, end_ep + 1))
-            else:
-                ep = int(ep_input)
-                return cls(range(ep, ep + 1))
-
-        except ValueError:
-            raise typer.BadParameter(
-                "Invalid episode/range, input must be a number or range in the form <num>-<num>"
-            )
-
-    def __iter__(self) -> Iterator[int]:
-        return iter(self.range)
-
-    def __len__(self) -> int:
-        return len(self.range)
-
-    @overload
-    def __getitem__(self, i: int) -> int: ...
-
-    @overload
-    def __getitem__(self, i: slice) -> Self: ...
-
-    def __getitem__(self, i: int | slice) -> int | Self:
-        if isinstance(i, slice):
-            return self.__class__(self.range[i])
-        return self.range[i]
+    except ValueError:
+        raise typer.BadParameter(
+            "Invalid episode/range, input must be a number or range in the form <num>-<num>"
+        )
 
 
 @dataclass
@@ -95,7 +72,7 @@ class Context:
     content_type: MediaType | None = None
 
     season: int | None = None
-    episodes: EpisodeRange | None = None
+    episodes: range | None = None
 
     selected_media: list[dict[str, str | int | None]] | None = None
     selected_subtitles: list[str] = field(default_factory=list)
@@ -313,7 +290,7 @@ def series(ctx: Context):
         ctx.season = typer.prompt("Enter season", type=int)
     if ctx.episodes is None:
         ctx.episodes = typer.prompt(
-            "Enter episode (e.g., '5' or '5-7' for range)", type=EpisodeRange.from_str
+            "Enter episode (e.g., '5' or '5-7' for range)", type=episode_range
         )
 
     assert ctx.season is not None
@@ -503,12 +480,12 @@ def main(
         Optional[int], typer.Option("--season", "-s", help="Specify season number")
     ] = None,
     episodes: Annotated[
-        Optional[EpisodeRange],
+        Optional[range],
         typer.Option(
             "--episodes",
             "-e",
             help="Specify episode/range of episodes to download",
-            parser=EpisodeRange.from_str,
+            parser=episode_range,
         ),
     ] = None,
 ):
