@@ -8,7 +8,7 @@ version = "1.8.1"
 description = "A high efficient, powerful and fast movie scraper."
 authors = [{name = "DemonKingSwarn", email = "rockingswarn@gmail.com"}]
 license = {text = "GPLv3"}
-readme = "readme.txt"
+readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "beautifulsoup4==4.10.0",
