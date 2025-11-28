@@ -11,7 +11,7 @@
   <br>
 
   ![Language](https://img.shields.io/badge/-python-3776AB.svg?style=for-the-badge&logo=python&logoColor=white)
-  
+
   <a href="https://github.com/demonkingswarn/flix-cli"><img src="https://img.shields.io/github/stars/demonkingswarn/flix-cli?color=orange&logo=github&style=flat-square " alt="starcount"></a> <a href="https://pypi.org/project/flix-cli/" ><img src="https://img.shields.io/pypi/dm/flix-cli" alt="pypi downloads" /></a>
 
   <a href="http://makeapullrequest.com"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
@@ -153,11 +153,51 @@ pip install --upgrade flix-cli
 # Usage
 
 ```sh
-Usage: flix-cli [ARGS]...
+Usage: flix-cli [OPTIONS] [QUERY]...
+```
 
-Options:
-    download    Download your favourite movie by query.
-    play        Stream your favourite movie by query.
+`QUERY` is the title you want to search for (e.g., `breaking bad`, `dune`, `oppenheimer`).
+
+### **Options**
+
+| Option | Alias | Description |
+| --- | --- | --- |
+| `--action <play\|download\|cast>` | `-a` | Choose whether to **play**, **download**, or **cast** the selected media. Defaults to `play`. |
+| `--season <number>`  | `-s` | (Series only) Specify a **season** number. |
+| `--episodes <range>` | `-e` | (Series only) Specify a **single episode** (`5`) or a **range** (`3-7`). |
+| `--help` |  | Show help message and exit. |
+
+
+## 🎬 Examples
+
+### **Search & Play a Movie**
+
+```sh
+flix-cli dune
+```
+
+### **Download a Movie**
+
+```sh
+flix-cli dune --action download
+```
+
+### **Play a TV Episode**
+
+```sh
+flix-cli "breaking bad" --season 1 --episodes 1
+```
+
+### **Play a Range of Episodes**
+
+```sh
+flix-cli "the office" -s 3 -e 5-10
+```
+
+### **Chromecast Playback**
+
+```sh
+flix-cli avatar -a cast
 ```
 
 # Configuration
@@ -186,12 +226,11 @@ If you run into issues or want to request a new feature, you are encouraged to m
 # Project Disclaimer
 The disclaimer of the project  can be found <a href="https://github.com/demonkingswarn/flix-cli/blob/master/disclaimer.org">here</a>.
 
-
-## Star History 
+## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=demonkingswarn/flix-cli&type=date&legend=top-left)](https://www.star-history.com/#demonkingswarn/flix-cli&type=date&legend=top-left)
 
-## Contributing 
+## Contributing
 Pull requests are welcome and *appreciated*. For major changes, please open an issue first to discuss what you would like to change.
 
 <a href = "https://github.com/demonkingswarn/flix-cli/graphs/contributors">
@@ -204,4 +243,3 @@ Pull requests are welcome and *appreciated*. For major changes, please open an i
 - [`ani-cli`](https://github.com/pystardust/ani-cli): A cli tool to browse and play anime. (Shell)
 - [`mov-cli`](https://github.com/mov-cli/mov-cli): [WIP] watch movies and webseries from the cli. (Python/Shell)
 - [`kami`](https://github.com/mrfluffy-dev/kami): Read light novels and watch anime in your terminal. (Rust)
- 

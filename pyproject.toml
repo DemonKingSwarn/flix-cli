@@ -4,18 +4,20 @@ build-backend = "hatchling.build"
 
 [project]
 name = "flix-cli"
-version = "1.8.0"
+version = "1.8.1"
 description = "A high efficient, powerful and fast movie scraper."
 authors = [{name = "DemonKingSwarn", email = "rockingswarn@gmail.com"}]
 license = {text = "GPLv3"}
-readme = "readme.txt"
+readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "httpx==0.28.1",
     "beautifulsoup4==4.10.0",
-    "regex==2025.9.1",
-    "krfzf-py==0.0.4",
     "catt==0.13.1",
+    "httpx==0.28.1",
+    "krfzf-py==0.0.4",
+    "platformdirs==4.5.0",
+    "regex==2025.9.1",
+    "typer==0.20.0",
     "yt-dlp>=2025.10.22",
 ]
 
@@ -23,7 +25,7 @@ dependencies = [
 dev = []
 
 [project.scripts]
-flix-cli = "flix_cli.__main__:__flixcli__"
+flix-cli = "flix_cli.core.__flix_cli__:app"
 
 [dependency-groups]
 dev = [
