@@ -48,7 +48,7 @@ def play(file: str, name: str, referer: str, subtitles: list[str]) -> None:
                 "-n", "org.videolan.vlc/org.videolan.vlc.gui.video.VideoPlayerActivity",
                 "-e", "title", f"Playing {name}"
             ]
-            args.extend(f"-e subtitles_location {_}" for _ in subtitles)
+            args.extend(["-e", "subtitles_location", f"{subtitles[0]}"])
             subprocess.run(args, check=True, capture_output=True)
 
             print(f"~ Opened in VLC ~")

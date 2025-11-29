@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "flix-cli"
-version = "1.8.1.7"
+version = "1.8.1.8"
 description = "A high efficient, powerful and fast movie scraper."
 authors = [{name = "DemonKingSwarn", email = "rockingswarn@gmail.com"}]
 license = {text = "GPLv3"}
