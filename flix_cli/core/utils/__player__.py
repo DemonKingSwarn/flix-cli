@@ -11,7 +11,7 @@ IINA_EXECUTABLE = "iina"
 
 client = httpx.Client(timeout=None)
 
-def check_android() -> str:
+def check_android() -> bool:
     try:
         cmd = subprocess.check_output(["uname", "-o"])
         res = cmd.decode("utf-8").strip()
