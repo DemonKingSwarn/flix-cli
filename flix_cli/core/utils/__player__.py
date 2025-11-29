@@ -40,7 +40,7 @@ def play(file: str, name: str, referer: str, subtitles: list[str]) -> None:
                 "am",
                 "start",
                 "--user",
-                "0"
+                "0",
                 "-a",
                 "android.intent.action.VIEW",
                 "-d",
