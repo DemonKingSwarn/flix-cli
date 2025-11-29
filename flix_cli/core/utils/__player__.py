@@ -33,38 +33,34 @@ def play(file: str, name: str, referer: str, subtitles: list[str]) -> None:
         player = "mpv"
 
     try:
-        if system in {"Linux", "Windows", "FreeBSD"}:
-            if check_android():
-                safe_file = urllib.parse.quote(file)
-                safe_subs = urllib.parse.quote(','.join(subtitles))
+        if check_android():
+            safe_file = urllib.parse.quote(file)
+            safe_subs = urllib.parse.quote(','.join(subtitles))
 
-                vlc_url = f"vlc-x-callback://x-callback-url/stream?url={safe_file}&sub={safe_subs}"
+            vlc_url = f"vlc-x-callback://x-callback-url/stream?url={safe_file}&sub={safe_subs}"
 
-                subprocess.run([
-                    "am",
-                    "start",
-                    "-a",
-                    "android.intent.action.VIEW",
-                    "-d",
-                    f"{vlc_url}"
-                ], check=True, capture_output=True)
+            subprocess.run([
+                "am",
+                "start",
+                "-a",
+                "android.intent.action.VIEW",
+                "-d",
+                f"{vlc_url}"
+            ], check=True, capture_output=True)
 
-                print(f"~ Opened in VLC ~")
-            
-            else:
-                if player == "mpv":
-                    args = [
-                        MPV_EXECUTABLE,
-                        file,
-                        f"--referrer={referer}",
-                        f"--force-media-title=Playing {name}",
-                    ]
-                    args.extend(f"--sub-file={_}" for _ in subtitles)
+            print(f"~ Opened in VLC ~")
 
-                    mpv_process = subprocess.Popen(
-                        args, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
-                    )
-                    mpv_process.wait()
+        elif system in {"Linux", "Windows", "FreeBSD"}:
+            args = [
+                MPV_EXECUTABLE,
+                file,
+                f"--referrer={referer}",
+                f"--force-media-title=Playing {name}",
+            ]
+            args.extend(f"--sub-file={_}" for _ in subtitles)
+
+            mpv_process = subprocess.Popen(args, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            mpv_process.wait()
 
         elif system == "Darwin":
             args = [
