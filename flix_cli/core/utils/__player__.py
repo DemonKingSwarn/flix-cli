@@ -34,19 +34,22 @@ def play(file: str, name: str, referer: str, subtitles: list[str]) -> None:
 
     try:
         if check_android():
-            safe_file = urllib.parse.quote(file)
-            safe_subs = urllib.parse.quote(','.join(subtitles))
+            print("~ Android Detected ~")
 
-            vlc_url = f"vlc-x-callback://x-callback-url/stream?url={safe_file}&sub={safe_subs}"
-
-            subprocess.run([
+            args = [
                 "am",
                 "start",
+                "--user",
+                "0"
                 "-a",
                 "android.intent.action.VIEW",
                 "-d",
-                f"{vlc_url}"
-            ], check=True, capture_output=True)
+                f"{file}",
+                "-n", "org.videolan.vlc/org.videolan.vlc.gui.video.VideoPlayerActivity",
+                "-e", "title", f"Playing {name}"
+            ]
+            args.extend(f"-e subtitles_location {_}" for _ in subtitles)
+            subprocess.run(args, check=True, capture_output=True)
 
             print(f"~ Opened in VLC ~")
 
