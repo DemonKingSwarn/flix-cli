@@ -21,7 +21,6 @@
   <img src="https://img.shields.io/badge/os-mac-brightgreen"alt="OS Mac">
   <img src="https://img.shields.io/badge/os-windows-brightgreen" alt="OS Windows">
   <img src="https://img.shields.io/badge/os-android-brightgreen" alt="OS Android">
-  <img src="https://img.shields.io/badge/os-ios-brightgreen" alt="OS IOS">
   <br>
 </div>
 
