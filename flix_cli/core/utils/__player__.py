@@ -1,5 +1,6 @@
 import platform as plt
 import subprocess
+import urllib.parse
 
 import httpx
 
@@ -10,20 +11,15 @@ IINA_EXECUTABLE = "iina"
 
 client = httpx.Client(timeout=None)
 
-
-def is_ish() -> bool:
-    try:
-        output = subprocess.check_output(["uname", "-o"], text=True).strip()
-        return output == "iSH"
-    except Exception:
-        return False
-
-
 def check_android() -> str:
-    cmd = subprocess.check_output(["uname", "-o"])
-    res = cmd.decode("utf-8").strip()
+    try:
+        cmd = subprocess.check_output(["uname", "-o"])
+        res = cmd.decode("utf-8").strip()
 
-    return res == "Android"
+        return res == "Android"
+
+    except (FileNotFoundError, subprocess.SubprocessError):
+        return False
 
 
 def play(file: str, name: str, referer: str, subtitles: list[str]) -> None:
@@ -39,7 +35,10 @@ def play(file: str, name: str, referer: str, subtitles: list[str]) -> None:
     try:
         if system in {"Linux", "Windows", "FreeBSD"}:
             if check_android():
-                vlc_url = f"vlc-x-callback://x-callback-url/stream?url={file}&sub={','.join(subtitles)}"
+                safe_file = urllib.parse.quote(file)
+                safe_subs = urllib.parse.quote(','.join(subtitles))
+
+                vlc_url = f"vlc-x-callback://x-callback-url/stream?url={safe_file}&sub={safe_subs}"
 
                 subprocess.run([
                     "am",
@@ -48,7 +47,9 @@ def play(file: str, name: str, referer: str, subtitles: list[str]) -> None:
                     "android.intent.action.VIEW",
                     "-d",
                     f"{vlc_url}"
-                ], check=True, capture_output=True) 
+                ], check=True, capture_output=True)
+
+                print(f"~ Opened in VLC ~")
             
             else:
                 if player == "mpv":
@@ -66,24 +67,18 @@ def play(file: str, name: str, referer: str, subtitles: list[str]) -> None:
                     mpv_process.wait()
 
         elif system == "Darwin":
-            if is_ish():
-                print(
-                    f"\033]8;;vlc-x-callback://x-callback-url/stream?url={file}&sub={','.join(subtitles)}\a~ Tap to open VLC ~\033]8;;\a"
-                )
+            args = [
+                IINA_EXECUTABLE,
+                "--no-stdin",
+                "--keep-running",
+                f"--mpv-referrer={referer}",
+                file,
+                f"--mpv-force-media-title=Playing {name}",
+            ]
+            args.extend(f"--mpv-sub-files={_}" for _ in subtitles)
 
-            else:
-                args = [
-                    IINA_EXECUTABLE,
-                    "--no-stdin",
-                    "--keep-running",
-                    f"--mpv-referrer={referer}",
-                    file,
-                    f"--mpv-force-media-title=Playing {name}",
-                ]
-                args.extend(f"--mpv-sub-files={_}" for _ in subtitles)
-
-                iina_process = subprocess.Popen(args, stdout=subprocess.DEVNULL)
-                iina_process.wait()
+            iina_process = subprocess.Popen(args, stdout=subprocess.DEVNULL)
+            iina_process.wait()
 
     except Exception:
         print("[!] no supported video player were found.")
