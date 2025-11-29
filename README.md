@@ -43,7 +43,6 @@
     5. [WSL (Alternative Window Installation)](#5-wsl-alternative-windows-installation)
     6. [Source Code Download](#6-source-code-download)
     7. [Android Installation](#7-android-installation)
-    8. [iSH Installation (IOS)](#8-ish-installation-ios)
 - [Dependencies](#dependencies)
 - [Usage](#usage)
 - [Configuration](#configuration)
@@ -117,36 +116,17 @@ git clone https://github.com/demonkingswarn/flix-cli.git \
 
 ## 7. Android Installation
 Install termux <a href="https://termux.com">(Guide)</a>
+
 ```sh
 pkg up -y
 pkg install python fzf
 pip install flix-cli
-echo '#!/data/data/com.termux/files/usr/bin/sh' > $PREFIX/bin/mpv
-echo 'am start --user 0 -a android.intent.action.VIEW -d "$1" -n is.xyz.mpv/.MPVActivity &' >> $PREFIX/bin/mpv
-chmod +x $PREFIX/bin/mpv
 ```
-
-For it to be able to stream you need to add referrer in mpv by opening mpv <a href="https://play.google.com/store/apps/details?id=is.xyz.mpv">(playstore version)</a>, going into Settings -> Android -> Edit mpv.conf and adding
-```sh
-referrer="https://flixhq.to"
-```
-
-## 8. iSH Installation (IOS)
-Install iSH <a href="https://apps.apple.com/us/app/ish-shell/id1436902243">(Guide)</a>
-```sh
-apk update
-apk add python3
-apk add py3-pip
-apk add fzf
-pip install --upgrade flix-cli
-```
-
-**NOTE**: You need VLC on your iPhone/iPad
 
 # Dependencies
 - [`mpv`](https://mpv.io) - Video Player
 - [`iina`](https://iina.io) - Alternate video player for MacOS
-- [`vlc`](https://apps.apple.com/us/app/vlc-media-player/id650377962) - Video Player for iPhone/iPad
+- [`vlc`](https://play.google.com/store/apps/details?id=org.videolan.vlc) - Video Player for Android
 - [`ffmpeg`](https://github.com/FFmpeg/FFmpeg) - Download manager
 - [`fzf`](https://github.com/junegunn/fzf) - for selection menu
 
