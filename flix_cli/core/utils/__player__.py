@@ -7,7 +7,6 @@ from .__config__ import get_config
 
 MPV_EXECUTABLE = "mpv"
 IINA_EXECUTABLE = "iina"
-# VLC_EXECUTABLE = "vlc"
 
 client = httpx.Client(timeout=None)
 
@@ -18,6 +17,13 @@ def is_ish() -> bool:
         return output == "iSH"
     except Exception:
         return False
+
+
+def check_android() -> str:
+    cmd = subprocess.check_output(["uname", "-o"])
+    res = cmd.decode("utf-8").strip()
+
+    return res == "Android"
 
 
 def play(file: str, name: str, referer: str, subtitles: list[str]) -> None:
@@ -32,40 +38,25 @@ def play(file: str, name: str, referer: str, subtitles: list[str]) -> None:
 
     try:
         if system in {"Linux", "Windows", "FreeBSD"}:
-            if player == "mpv":
-                args = [
-                    MPV_EXECUTABLE,
-                    file,
-                    f"--referrer={referer}",
-                    f"--force-media-title=Playing {name}",
-                ]
-                args.extend(f"--sub-file={_}" for _ in subtitles)
-
-                mpv_process = subprocess.Popen(
-                    args, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+            if check_android():
+                print(
+                    f"\033]8;;vlc-x-callback://x-callback-url/stream?url={file}&sub={','.join(subtitles)}\a~ Tap to open VLC ~\033]8;;\a"
                 )
-                mpv_process.wait()
+            
+            else:
+                if player == "mpv":
+                    args = [
+                        MPV_EXECUTABLE,
+                        file,
+                        f"--referrer={referer}",
+                        f"--force-media-title=Playing {name}",
+                    ]
+                    args.extend(f"--sub-file={_}" for _ in subtitles)
 
-            """
-            elif player == "vlc":
-                args = [
-                    VLC_EXECUTABLE,
-                    f"{file}",
-                    f"--http-referrer={referer}",
-                    f"--input-title-format=Playing {name}",
-                ]
-
-                subs_path = get_temp()
-                sub = subtitles[0]
-                resp = client.get(sub)
-                with open(f"{sub_path}/sub.vtt", 'wb') as f:
-                    f.write(resp.content)
-
-                args.extend(f"--sub-file={sub_path}/sub.vtt")
-
-                vlc_process = subprocess.Popen(args, stdout=subprocess.DEVNULL)
-                vlc_process.wait()
-            """
+                    mpv_process = subprocess.Popen(
+                        args, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+                    )
+                    mpv_process.wait()
 
         elif system == "Darwin":
             if is_ish():
