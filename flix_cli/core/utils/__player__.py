@@ -39,9 +39,16 @@ def play(file: str, name: str, referer: str, subtitles: list[str]) -> None:
     try:
         if system in {"Linux", "Windows", "FreeBSD"}:
             if check_android():
-                print(
-                    f"\033]8;;vlc-x-callback://x-callback-url/stream?url={file}&sub={','.join(subtitles)}\a~ Tap to open VLC ~\033]8;;\a"
-                )
+                vlc_url = f"vlc-x-callback://x-callback-url/stream?url={file}&sub={','.join(subtitles)}"
+
+                subprocess.run([
+                    "am",
+                    "start",
+                    "-a",
+                    "android.intent.action.VIEW",
+                    "-d",
+                    f"{vlc_url}"
+                ], check=True, capture_output=True) 
             
             else:
                 if player == "mpv":
