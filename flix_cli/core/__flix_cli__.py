@@ -295,15 +295,6 @@ def movie(ctx: Context):
 
 def series(ctx: Context):
     """Handle series streaming with episode range support"""
-    if ctx.season is None:
-        ctx.season = typer.prompt("Enter season", type=int)
-    if ctx.episodes is None:
-        ctx.episodes = typer.prompt(
-            "Enter episode (e.g., '5' or '5-7' for range)", type=episode_range
-        )
-
-    assert ctx.season is not None
-    assert ctx.episodes is not None
     assert ctx.url is not None
 
     media_id_match = re.search(r"/tv/[^/]*-(\d+)", ctx.url)
@@ -311,24 +302,35 @@ def series(ctx: Context):
         raise RuntimeError("Could not extract media ID from URL")
 
     media_id = media_id_match.group(1)
-    seasons = get_tv_seasons(media_id, ctx.client)
-    if not seasons:
-        raise RuntimeError("Could not get seasons")
 
+    # select a season
     target_season_id = None
-    for season_data in seasons:
-        season_title = season_data["title"].lower()
-        if f"season {ctx.season}" in season_title or f"s{ctx.season}" in season_title:
-            target_season_id = season_data["id"]
-            break
+    if ctx.season is None:
+        seasons = get_tv_seasons(media_id, ctx.client)
+        if not seasons:
+            raise RuntimeError("Could not get seasons")
 
-    if not target_season_id and ctx.season <= len(seasons):
-        target_season_id = seasons[ctx.season - 1]["id"]
+        season_titles = [season["title"] for season in seasons]
+        selected_season = fzf_prompt(season_titles)
+        if not selected_season:
+            print("No selected season, exiting")
+            exit(0)
 
-    if not target_season_id:
-        raise RuntimeError(f"Could not find season {ctx.season}")
+        for season in seasons:
+            if season["title"] == selected_season:
+                target_season_id = season["id"]
+                ctx.season = int(season["title"].split()[-1])  # `Season 1` -> `1`
+    assert ctx.season is not None
 
     episodes = get_season_episodes(target_season_id, ctx.client)
+    if ctx.episodes is None:
+        typer.echo(f"This season has {len(episodes)} episodes")
+        ctx.episodes = typer.prompt(
+            "Enter episode (e.g., '5' or '5-7' for range)", type=episode_range
+        )
+
+    assert ctx.episodes is not None
+
     if not episodes:
         raise RuntimeError(f"Could not get episodes for season {ctx.season}")
 

@@ -17,6 +17,7 @@ def check_android() -> bool:
     except (FileNotFoundError, subprocess.SubprocessError):
         return False
 
+
 def play(file: str, name: str, referer: str, subtitles: list[str]) -> None:
     player, _ = get_config()
     system = plt.system()
@@ -40,15 +41,18 @@ def play(file: str, name: str, referer: str, subtitles: list[str]) -> None:
                 "android.intent.action.VIEW",
                 "-d",
                 f"{file}",
-                "-n", "org.videolan.vlc/org.videolan.vlc.gui.video.VideoPlayerActivity",
-                "-e", "title", f"Playing {name}"
+                "-n",
+                "org.videolan.vlc/org.videolan.vlc.gui.video.VideoPlayerActivity",
+                "-e",
+                "title",
+                f"Playing {name}",
             ]
 
             subs = subtitles[0]
             args.extend(["--es", "subtitles_location", f"{str(subs)}"])
             subprocess.run(args, check=True, capture_output=True)
 
-            print(f"~ Opened in VLC ~")
+            print("~ Opened in VLC ~")
 
         elif system in {"Linux", "Windows", "FreeBSD"}:
             args = [
@@ -59,7 +63,9 @@ def play(file: str, name: str, referer: str, subtitles: list[str]) -> None:
             ]
             args.extend(f"--sub-file={_}" for _ in subtitles)
 
-            mpv_process = subprocess.Popen(args, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            mpv_process = subprocess.Popen(
+                args, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+            )
             mpv_process.wait()
 
         elif system == "Darwin":
