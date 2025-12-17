@@ -48,12 +48,21 @@ def episode_range(ep_input: str) -> range:
             start_ep = int(start.strip())
             end_ep = int(end.strip())
 
+            # prevents the last episode being played if user enters 0
+            if start_ep == 0:
+                start_ep = 1
+            if end_ep == 0:
+                end_ep = 1
+
             if start_ep > end_ep:
                 start_ep, end_ep = end_ep, start_ep
 
             return range(start_ep, end_ep + 1)
         else:
             ep = int(ep_input)
+            # prevents the last episode being played if user enters 0
+            if ep == 0:
+                ep = 1
             return range(ep, ep + 1)
 
     except ValueError:
