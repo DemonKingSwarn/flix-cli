@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> flix-cli has moved to [codeberg](https://codeberg.org/s-warn/flix-cli), no pull requests will be accepted through GitHub anymore.
+
 <h1 align="center">
   FLIX-CLI
 </h1>
@@ -53,7 +56,7 @@
 - [Honourable Mentions](#honourable-mentions)
 
 # Installation
-<i>for dependencies <a href="https://github.com/DemonKingSwarn/flix-cli#dependencies">(see below)</a>.</i>
+<i>for dependencies <a href="https://codeberg.org/s-warn/flix-cli#dependencies">(see below)</a>.</i>
 
 This project can be installed on to your device via different mechanisms, these mechanisms are listed below in the order of ease.
 
@@ -95,7 +98,7 @@ First ensure <a href="https://docs.astral.sh/uv/getting-started/installation/">U
 Then run the following command:
 
 ```sh
-git clone https://github.com/demonkingswarn/flix-cli.git \
+git clone https://codeberg.org/s-warn/flix-cli.git \
 && cd flix-cli \
 && uv sync \
 && uv pip install -e . \
@@ -104,7 +107,7 @@ git clone https://github.com/demonkingswarn/flix-cli.git \
 
 **Alternative with Poetry** (legacy):
 ```sh
-git clone https://github.com/demonkingswarn/flix-cli.git \
+git clone https://codeberg.org/s-warn/flix-cli.git \
 && cd flix-cli \
 && poetry build \
 && pip install -e . \
