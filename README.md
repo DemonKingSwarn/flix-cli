@@ -1,6 +1,3 @@
-> [!IMPORTANT]
-> flix-cli has moved to [codeberg](https://codeberg.org/s-warn/flix-cli), no pull requests will be accepted through GitHub anymore.
-
 <h1 align="center">
   FLIX-CLI
 </h1>
