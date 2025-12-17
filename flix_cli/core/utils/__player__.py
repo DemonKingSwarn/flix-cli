@@ -1,6 +1,6 @@
 import platform as plt
 import subprocess
-import os
+from pathlib import Path
 
 import httpx
 
@@ -21,6 +21,17 @@ def check_android() -> bool:
     except (FileNotFoundError, subprocess.SubprocessError):
         return False
 
+
+def download_sub_as_srt(url: str, out_dir: str) -> Path:
+     out_dir.mkdir(parents=True, exist_ok=True)
+
+     srt_path = out_dir / "sub.srt"
+
+     r = client.get(url)
+
+     srt_path.write_bytes(r.content)
+
+     return srt_path
 
 def play(file: str, name: str, referer: str, subtitles: list[str]) -> None:
     player, _ = get_config()
@@ -48,19 +59,10 @@ def play(file: str, name: str, referer: str, subtitles: list[str]) -> None:
                 "-n", "org.videolan.vlc/org.videolan.vlc.gui.video.VideoPlayerActivity",
                 "-e", "title", f"Playing {name}"
             ]
-            
-            sub = subtitles[0]
-            resp = client.get(sub)
 
-            path = "/data/data/com.termux/files/flix-cli"
-
-            if not path.exists():
-                path.mkdir(parent=True, exists_ok=True)
-
-            with open(f"{path}/{name}.srt", "wb") as f:
-                f.write(resp.content)
-
-            args.extend(["--es", "subtitles_location", f"content://com.termux.fileprovider/root/{path}/{name}.srt"])
+            sub_path = download_sub_as_srt(subtitles[0], Path("/data/data/com.termux/files/flix-cli"))
+            sub_uri = "content://com.termux.fileprovider/root" + str(sub_path)
+            args.extend(["--es", "subtitles_location", f"{sub_uri}"])
             subprocess.run(args, check=True, capture_output=True)
 
             print(f"~ Opened in VLC ~")
