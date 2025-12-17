@@ -6,7 +6,6 @@ from .__config__ import get_config
 MPV_EXECUTABLE = "mpv"
 IINA_EXECUTABLE = "iina"
 
-client = httpx.Client(timeout=None)
 
 def check_android() -> bool:
     try:
