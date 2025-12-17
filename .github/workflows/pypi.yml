@@ -9,7 +9,7 @@ on:
 
 jobs:
   publish:
-    runs-on: codeberg-linux
+    runs-on: codeberg-linux-amd64
 
     steps:
       - name: Checkout
