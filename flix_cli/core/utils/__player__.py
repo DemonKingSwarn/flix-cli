@@ -1,6 +1,6 @@
 import platform as plt
 import subprocess
-import urllib.parse
+import os
 
 import httpx
 
@@ -48,7 +48,19 @@ def play(file: str, name: str, referer: str, subtitles: list[str]) -> None:
                 "-n", "org.videolan.vlc/org.videolan.vlc.gui.video.VideoPlayerActivity",
                 "-e", "title", f"Playing {name}"
             ]
-            args.extend(["--es", "subtitles_location", f"{subtitles[0]}"])
+            
+            sub = subtitles[0]
+            resp = client.get(sub)
+
+            path = "/data/data/com.termux/files/flix-cli"
+
+            if not path.exists():
+                path.mkdir(parent=True, exists_ok=True)
+
+            with open(f"{path}/{name}.srt", "wb") as f:
+                f.write(resp.content)
+
+            args.extend(["--es", "subtitles_location", f"content://com.termux.fileprovider/root/{path}/{name}.srt"])
             subprocess.run(args, check=True, capture_output=True)
 
             print(f"~ Opened in VLC ~")
