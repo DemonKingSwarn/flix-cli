@@ -1,8 +1,5 @@
 import platform as plt
 import subprocess
-from pathlib import Path
-
-import httpx
 
 from .__config__ import get_config
 
@@ -20,18 +17,6 @@ def check_android() -> bool:
 
     except (FileNotFoundError, subprocess.SubprocessError):
         return False
-
-
-def download_sub_as_srt(url: str, out_dir: str) -> Path:
-     out_dir.mkdir(parents=True, exist_ok=True)
-
-     srt_path = out_dir / "sub.srt"
-
-     r = client.get(url)
-
-     srt_path.write_bytes(r.content)
-
-     return srt_path
 
 def play(file: str, name: str, referer: str, subtitles: list[str]) -> None:
     player, _ = get_config()
@@ -60,9 +45,8 @@ def play(file: str, name: str, referer: str, subtitles: list[str]) -> None:
                 "-e", "title", f"Playing {name}"
             ]
 
-            sub_path = download_sub_as_srt(subtitles[0], Path("/data/data/com.termux/files/flix-cli"))
-            sub_uri = "content://com.termux.fileprovider/root" + str(sub_path)
-            args.extend(["--es", "subtitles_location", f"{sub_uri}"])
+            subs = subtitles[0]
+            args.extend(["--es", "subtitles_location", f"{str(subs)}"])
             subprocess.run(args, check=True, capture_output=True)
 
             print(f"~ Opened in VLC ~")
