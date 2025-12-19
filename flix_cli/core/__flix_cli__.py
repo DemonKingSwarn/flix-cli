@@ -305,21 +305,36 @@ def series(ctx: Context):
 
     # select a season
     target_season_id = None
-    if ctx.season is None:
-        seasons = get_tv_seasons(media_id, ctx.client)
-        if not seasons:
-            raise RuntimeError("Could not get seasons")
+    seasons = get_tv_seasons(media_id, ctx.client)
+    season_titles = [season["title"] for season in seasons]
 
-        season_titles = [season["title"] for season in seasons]
+    if not seasons:
+        raise RuntimeError("Could not get seasons")
+
+    if ctx.season is None or ctx.season > len(seasons):
+        # this branch is followed when no season argument is passed or that season doesn't exist
         selected_season = fzf_prompt(season_titles)
         if not selected_season:
             print("No selected season, exiting")
             exit(0)
 
-        for season in seasons:
-            if season["title"] == selected_season:
-                target_season_id = season["id"]
-                ctx.season = int(season["title"].split()[-1])  # `Season 1` -> `1`
+        for season_data in seasons:
+            season_title = season_data["title"]
+            if season_title == selected_season:
+                target_season_id = season_data["id"]
+                possible_separators = [" ", "-", "_"]
+
+                # try to get the season number even if season title looks like ["season_1.0", "season 1"]
+                for sep in possible_separators:
+                    if sep in season_title:
+                        season_no = float(season_title[season_title.find(sep) + 1 :])
+                        ctx.season = int(season_no)
+                        target_season_id = season_data["id"]
+                        break
+    else:
+        season_titles = [season["title"] for season in seasons]
+        target_season_id = seasons[ctx.season - 1]["id"]
+
     assert ctx.season is not None
 
     episodes = get_season_episodes(target_season_id, ctx.client)
