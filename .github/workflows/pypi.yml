@@ -1,44 +1,20 @@
 name: Publish version changes to PyPI
-
 on:
   push:
     paths:
       - "flix_cli/core/__version__.py"
-      - ".github/workflows/pypi.yml"
       - "pyproject.toml"
 
 jobs:
-  publish:
-    runs-on: codeberg-linux-amd64
-
+  build:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: Install build tools
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install build
-
-      - name: Build package
-        run: python -m build
-
-      - name: Check version
-        run: |
-          python - <<'EOF'
-          import flix_cli.core.__version__ as v
-          print("Version:", v.__version__)
-          EOF
-
+      - run: python3 -m pip install --upgrade build && python3 -m build
       - name: Publish package
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
-
