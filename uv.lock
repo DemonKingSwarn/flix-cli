@@ -161,7 +161,7 @@ wheels = [
 
 [[package]]
 name = "flix-cli"
-version = "1.8.1"
+version = "1.8.1.17"
 source = { editable = "." }
 dependencies = [
     { name = "beautifulsoup4" },

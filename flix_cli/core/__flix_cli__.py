@@ -48,12 +48,21 @@ def episode_range(ep_input: str) -> range:
             start_ep = int(start.strip())
             end_ep = int(end.strip())
 
+            # prevents the last episode being played if user enters 0
+            if start_ep == 0:
+                start_ep = 1
+            if end_ep == 0:
+                end_ep = 1
+
             if start_ep > end_ep:
                 start_ep, end_ep = end_ep, start_ep
 
             return range(start_ep, end_ep + 1)
         else:
             ep = int(ep_input)
+            # prevents the last episode being played if user enters 0
+            if ep == 0:
+                ep = 1
             return range(ep, ep + 1)
 
     except ValueError:
@@ -286,15 +295,6 @@ def movie(ctx: Context):
 
 def series(ctx: Context):
     """Handle series streaming with episode range support"""
-    if ctx.season is None:
-        ctx.season = typer.prompt("Enter season", type=int)
-    if ctx.episodes is None:
-        ctx.episodes = typer.prompt(
-            "Enter episode (e.g., '5' or '5-7' for range)", type=episode_range
-        )
-
-    assert ctx.season is not None
-    assert ctx.episodes is not None
     assert ctx.url is not None
 
     media_id_match = re.search(r"/tv/[^/]*-(\d+)", ctx.url)
@@ -302,24 +302,50 @@ def series(ctx: Context):
         raise RuntimeError("Could not extract media ID from URL")
 
     media_id = media_id_match.group(1)
+
+    # select a season
+    target_season_id = None
     seasons = get_tv_seasons(media_id, ctx.client)
+    season_titles = [season["title"] for season in seasons]
+
     if not seasons:
         raise RuntimeError("Could not get seasons")
 
-    target_season_id = None
-    for season_data in seasons:
-        season_title = season_data["title"].lower()
-        if f"season {ctx.season}" in season_title or f"s{ctx.season}" in season_title:
-            target_season_id = season_data["id"]
-            break
+    if ctx.season is None or ctx.season > len(seasons):
+        # this branch is followed when no season argument is passed or that season doesn't exist
+        selected_season = fzf_prompt(season_titles)
+        if not selected_season:
+            print("No selected season, exiting")
+            exit(0)
 
-    if not target_season_id and ctx.season <= len(seasons):
+        for season_data in seasons:
+            season_title = season_data["title"]
+            if season_title == selected_season:
+                target_season_id = season_data["id"]
+                possible_separators = [" ", "-", "_"]
+
+                # try to get the season number even if season title looks like ["season_1.0", "season 1"]
+                for sep in possible_separators:
+                    if sep in season_title:
+                        season_no = float(season_title[season_title.find(sep) + 1 :])
+                        ctx.season = int(season_no)
+                        target_season_id = season_data["id"]
+                        break
+    else:
+        season_titles = [season["title"] for season in seasons]
         target_season_id = seasons[ctx.season - 1]["id"]
 
-    if not target_season_id:
-        raise RuntimeError(f"Could not find season {ctx.season}")
+    assert ctx.season is not None
 
     episodes = get_season_episodes(target_season_id, ctx.client)
+    if ctx.episodes is None:
+        typer.echo(f"This season has {len(episodes)} episodes")
+        ctx.episodes = typer.prompt(
+            "Enter episode (e.g., '5' or '5-7' for range)", type=episode_range
+        )
+
+    assert ctx.episodes is not None
+
     if not episodes:
         raise RuntimeError(f"Could not get episodes for season {ctx.season}")
 
