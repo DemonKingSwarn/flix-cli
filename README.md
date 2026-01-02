@@ -220,5 +220,6 @@ Pull requests are welcome and *appreciated*. For major changes, please open an i
 
 - [`animdl`](https://github.com/justfoolingaround/animdl): Ridiculously efficient, fast and light-weight (supports most sources: animixplay, 9anime...) (Python)
 - [`ani-cli`](https://github.com/pystardust/ani-cli): A cli tool to browse and play anime. (Shell)
-- [`mov-cli`](https://github.com/mov-cli/mov-cli): [WIP] watch movies and webseries from the cli. (Python/Shell)
+- [`mov-cli`](https://github.com/mov-cli/mov-cli): [~~WIP~~ Archived] watch movies and webseries from the cli. (Python/Shell)
 - [`kami`](https://github.com/mrfluffy-dev/kami): Read light novels and watch anime in your terminal. (Rust)
+- [`luffy`](https://github.com/DemonKingSwarn/luffy): Spiritual successor of flix-cli. (Go)
