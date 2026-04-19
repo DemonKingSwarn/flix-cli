@@ -1,3 +1,7 @@
+> [!NOTE]
+>
+> flix-cli has been discontinued in the favour of [luffy](https://github.com/demonkingswarn/luffy)
+
 <h1 align="center">
   FLIX-CLI
 </h1>
